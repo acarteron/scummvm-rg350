@@ -3432,14 +3432,14 @@ if test -n "$_host"; then
 			_sdlpath=$_sysroot/usr/bin
 			append_var DEFINES "-DGCW0"
 			append_var DEFINES "-DREDUCE_MEMORY_USAGE"
-			append_var CXXFLAGS "-mips32"
+			append_var CXXFLAGS "-fsingle-precision-constant -fno-common -march=mips32r2 -mtune=mips32r2"
 			_backend="dingux"
 			_alsa=no
 			_mt32emu=no
 			_seq_midi=no
 			_timidity=no
 			_build_scalers=no
-			_optimization_level=-O3
+			_optimization_level=-Ofast
 			_vkeybd=yes
 			_vorbis=no
 			_port_mk="backends/platform/dingux/dingux.mk"
