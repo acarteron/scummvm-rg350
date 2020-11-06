@@ -2,5 +2,5 @@
 
 export PATH=/opt/gcw0-toolchain/usr/bin:$PATH
 
-# Disable high resolution engines since we have 320x240 hardware
-./configure --host=gcw0 --enable-plugins --default-dynamic --enable-release --disable-engine=glk && make -j6 gcw-opk && ls -l scummvm.opk
+# Enable high resolution engines for 640x480 resolution
+./configure --host=gcw0 --with-mad-prefix=/opt/gcw0-toolchain/mipsel-gcw0-linux-uclibc/sysroot/usr/ --enable-plugins --default-dynamic --enable-release --enable-highres --enable-engine=grim && make -j9 gcw-opk && ls -l scummvm.opk
