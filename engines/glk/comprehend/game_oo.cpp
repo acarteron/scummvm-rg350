@@ -28,18 +28,32 @@
 namespace Glk {
 namespace Comprehend {
 
-#define OO_ROOM_FLAG_DARK 0x02
+enum OOToposRoomFlag {
+	OO_ROOM_FLAG_FUEL = 1,
+	OO_ROOM_FLAG_DARK = 2
+};
 
-#define OO_BRIGHT_ROOM 0x19
+enum OOToposFlag {
+	OO_FLAG_22 = 22,
+	OO_BRIGHT_ROOM = 25,
+	OO_FLAG_WEARING_GOGGLES = 27,
+	OO_FLAG_FLASHLIGHT_ON = 39,
+	OO_FLAG_SUFFICIENT_FUEL = 51,
+	OO_FLAG_READY_TO_DEPART = 60,
+	OO_TRACTOR_BEAM = 71
+};
 
-#define OO_FLAG_WEARING_GOGGLES 0x1b
-#define OO_FLAG_FLASHLIGHT_ON 0x27
+enum OOToposItem {
+	ITEM_SERUM_VIAL = 39
+};
 
 static const GameStrings OO_STRINGS = {
 	EXTRA_STRING_TABLE(154)
 };
 
-OOToposGame::OOToposGame() : ComprehendGameV2(), _restartMode(RESTART_IMMEDIATE) {
+OOToposGame::OOToposGame() : ComprehendGameV2(), _restartMode(RESTART_IMMEDIATE),
+		_wearingGoggles(false), _lightOn(false), _stringVal1(0), _stringVal2(0),
+		_addStringFlag(true), _shipNotWorking(false) {
 	_gameDataFile = "g0";
 
 	// Extra strings are (annoyingly) stored in the game binary
@@ -99,17 +113,15 @@ int OOToposGame::roomIsSpecial(unsigned room_index,
 }
 
 void OOToposGame::beforeTurn() {
-	// FIXME: Probably doesn't work correctly with restored games
-	static bool flashlight_was_on = false, googles_were_worn = false;
 	Room *room = &_rooms[_currentRoom];
 
 	/*
 	 * Check if the room needs to be redrawn because the flashlight
 	 * was switch off or on.
 	 */
-	if (_flags[OO_FLAG_FLASHLIGHT_ON] != flashlight_was_on &&
+	if (_flags[OO_FLAG_FLASHLIGHT_ON] != _lightOn &&
 	        (room->_flags & OO_ROOM_FLAG_DARK)) {
-		flashlight_was_on = _flags[OO_FLAG_FLASHLIGHT_ON];
+		_lightOn = _flags[OO_FLAG_FLASHLIGHT_ON];
 		_updateFlags |= UPDATE_GRAPHICS | UPDATE_ROOM_DESC;
 	}
 
@@ -117,11 +129,20 @@ void OOToposGame::beforeTurn() {
 	 * Check if the room needs to be redrawn because the goggles were
 	 * put on or removed.
 	 */
-	if (_flags[OO_FLAG_WEARING_GOGGLES] != googles_were_worn &&
+	if (_flags[OO_FLAG_WEARING_GOGGLES] != _wearingGoggles &&
 	        _currentRoom == OO_BRIGHT_ROOM) {
-		googles_were_worn = _flags[OO_FLAG_WEARING_GOGGLES];
+		_wearingGoggles = _flags[OO_FLAG_WEARING_GOGGLES];
 		_updateFlags |= UPDATE_GRAPHICS | UPDATE_ROOM_DESC;
 	}
+}
+
+bool OOToposGame::afterTurn() {
+	if (_flags[55])
+		_currentRoom = 55;
+	else if (_flags[56])
+		_currentRoom = 54;
+
+	return true;
 }
 
 void OOToposGame::handleSpecialOpcode(uint8 operand) {
@@ -211,6 +232,97 @@ void OOToposGame::computerResponse() {
 	else
 		console_println(_strings2[152].c_str());
 }
+
+void OOToposGame::checkShipWorking() {
+	_stringVal1 = 164;
+	_stringVal2 = 0;
+
+	// Iterate through the ship's flags
+	for (int idx = 42; idx < 51; ++idx, ++_stringVal1) {
+		if (!_flags[idx]) {
+			if (!_stringVal2) {
+				// The following components are not installed
+				console_cond_println(_strings2[132].c_str());
+				_stringVal2 = 1;
+			}
+
+			// Power Cylinder
+			console_cond_println(_strings[_stringVal1].c_str());
+		}
+	}
+
+	_shipNotWorking = _stringVal2 != 0;
+	if (!_shipNotWorking)
+		// The ship is in working order
+		console_cond_println(_strings2[153].c_str());
+}
+
+void OOToposGame::checkShipFuel() {
+	const byte ITEMS[7] = { 24, 27, 28, 29, 30, 31, 32 };
+	_variables[0x4b] = 0;
+	_stringVal1 = 68;
+	_stringVal2 = 0;
+
+	for (int idx = 168; idx < 175; ++idx, ++_stringVal1, ++_stringVal2) {
+		if (_flags[idx]) {
+			Item *item = get_item(ITEMS[_stringVal2] - 1);
+			if (item->_room == ROOM_INVENTORY || (get_room(item->_room)->_flags & OO_ROOM_FLAG_FUEL) != 0) {
+				Instruction varAdd(0x86, 0x4B, _stringVal1);
+				execute_opcode(&varAdd, nullptr, nullptr);
+			}
+		}
+	}
+
+	// Computer: "Our current evaluation...
+	Instruction strReplace(0xC9, 0x4B);
+	execute_opcode(&strReplace, nullptr, nullptr);
+	console_cond_println(_strings2[146].c_str());
+
+	FunctionState funcState;
+	Instruction test(2, 75, 76);
+	execute_opcode(&test, nullptr, nullptr);
+
+	if (funcState._testResult) {
+		// Computer: "We should now have enough
+		_flags[OO_FLAG_SUFFICIENT_FUEL] = true;
+		console_cond_println(_strings2[151].c_str());
+	} else {
+		_flags[OO_FLAG_SUFFICIENT_FUEL] = false;
+	}
+}
+
+void OOToposGame::shipDepartCheck() {
+	_addStringFlag = false;
+	checkShipWorking();
+	checkShipFuel();
+	_addStringFlag = true;
+
+	if (!_shipNotWorking && _flags[OO_FLAG_SUFFICIENT_FUEL]) {
+		Item *item = get_item(ITEM_SERUM_VIAL - 1);
+		if (item->_room == ROOM_INVENTORY || (get_room(item->_room)->_flags & OO_ROOM_FLAG_FUEL) != 0) {
+			if (!_flags[OO_TRACTOR_BEAM]) {
+				// I detect a tractor beam
+				console_println(_strings2[77].c_str());
+			} else if (!_flags[OO_FLAG_READY_TO_DEPART]) {
+				// All systems check. Ready to depart
+				_flags[OO_FLAG_22] = true;
+				console_println(_strings2[79].c_str());
+			} else {
+				// Please close the airlock
+				console_println(_strings2[76].c_str());
+			}
+		} else {
+			// The serum vial is not aboard the ship
+			console_println(_strings2[78].c_str());
+		}
+	}
+}
+
+void OOToposGame::console_cond_println(const char *str) {
+	if (_addStringFlag)
+		console_println(str);
+}
+
 
 } // namespace Comprehend
 } // namespace Glk
