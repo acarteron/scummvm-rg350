@@ -106,7 +106,7 @@ int32 Movements::getAngleAndSetTargetActorDistance(int32 x1, int32 z1, int32 x2,
 		flag = 0;
 	}
 
-	targetActorDistance = (int32)sqrt((int64)(newX + newZ));
+	targetActorDistance = (int32)sqrt((int64)newX + (int64)newZ);
 
 	if (!targetActorDistance) {
 		return 0;
@@ -191,11 +191,11 @@ void Movements::rotateActor(int32 x, int32 z, int32 angle) {
 }
 
 int32 Movements::getDistance2D(int32 x1, int32 z1, int32 x2, int32 z2) {
-	return (int32)sqrt((int64)((x2 - x1) * (x2 - x1) + (z2 - z1) * (z2 - z1)));
+	return (int32)sqrt(((int64)(x2 - x1) * (int64)(x2 - x1) + (int64)(z2 - z1) * (int64)(z2 - z1)));
 }
 
 int32 Movements::getDistance3D(int32 x1, int32 y1, int32 z1, int32 x2, int32 y2, int32 z2) {
-	return (int32)sqrt((int64)((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) + (z2 - z1) * (z2 - z1)));
+	return (int32)sqrt(((int64)(x2 - x1) * (int64)(x2 - x1) + (int64)(y2 - y1) * (int64)(y2 - y1) + (int64)(z2 - z1) * (int64)(z2 - z1)));
 }
 
 void Movements::moveActor(int32 angleFrom, int32 angleTo, int32 speed, ActorMoveStruct *movePtr) { // ManualRealAngle
@@ -231,8 +231,7 @@ void Movements::update() {
 
 void Movements::processManualAction(int actorIdx) {
 	ActorStruct *actor = _engine->_scene->getActor(actorIdx);
-	// take this out when we want to give manual movements to other characters than Hero
-	if (actor == _engine->_scene->sceneHero) {
+	if (IS_HERO(actorIdx)) {
 		heroAction = false;
 
 		// If press W for action
@@ -254,7 +253,7 @@ void Movements::processManualAction(int actorIdx) {
 					heroMoved = true;
 					actor->angle = getRealAngle(&actor->move);
 					// TODO: previousLoopActionKey must be handled properly
-					if (!previousLoopActionKey || !actor->anim) {
+					if (!previousLoopActionKey || actor->anim == kAnimNone) {
 						const int32 aggresiveMode = _engine->getRandomNumber(3);
 
 						switch (aggresiveMode) {
@@ -291,7 +290,7 @@ void Movements::processManualAction(int actorIdx) {
 	}
 
 	if (_engine->_input->isActionActive(TwinEActionType::ThrowMagicBall) && !_engine->_gameState->gameFlags[GAMEFLAG_INVENTORY_DISABLED]) {
-		if (_engine->_gameState->usingSabre == 0) { // Use Magic Ball
+		if (!_engine->_gameState->usingSabre) { // Use Magic Ball
 			if (_engine->_gameState->gameFlags[InventoryItems::kiMagicBall]) {
 				if (_engine->_gameState->magicBallIdx == -1) {
 					_engine->_animations->initAnim(kThrowBall, 1, 0, actorIdx);
@@ -449,6 +448,12 @@ void Movements::processActorMovements(int32 actorIdx) {
 	}
 
 	switch (actor->controlMode) {
+	/**
+	 * The Actor's Track Script is stopped. Track Script execution may be started with Life Script of
+	 * the Actor or other Actors (with SET_TRACK(_OBJ) command). This mode does not mean the Actor
+	 * will literally not move, but rather that it's Track Script (also called Move Script) is
+	 * initially stopped. The Actor may move if it is assigned a moving animation.
+	 */
 	case kNoMove:
 	case kFollow2:     // unused
 	case kTrackAttack: // unused

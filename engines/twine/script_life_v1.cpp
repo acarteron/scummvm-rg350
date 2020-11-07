@@ -1292,13 +1292,13 @@ static int32 lEXPLODE_OBJ(TwinEEngine *engine, LifeScriptContext &ctx) {
 
 /*0x59*/
 static int32 lBUBBLE_ON(TwinEEngine *engine, LifeScriptContext &ctx) {
-	engine->_text->showDialogueBubble = 1;
+	engine->_text->showDialogueBubble = true;
 	return 0;
 }
 
 /*0x5A*/
 static int32 lBUBBLE_OFF(TwinEEngine *engine, LifeScriptContext &ctx) {
-	engine->_text->showDialogueBubble = 1;
+	engine->_text->showDialogueBubble = true; // TODO: this looks wrong - why true and not false?
 	return 0;
 }
 
@@ -1378,9 +1378,10 @@ static int32 lANIM_SET(TwinEEngine *engine, LifeScriptContext &ctx) {
 	return 0;
 }
 
+/** Displays holomap travel animation */
 /*0x60*/
 static int32 lHOLOMAP_TRAJ(TwinEEngine *engine, LifeScriptContext &ctx) {
-	ctx.stream.skip(1);
+	ctx.stream.skip(1); // index of the holomap trajectory
 	return -1;
 }
 

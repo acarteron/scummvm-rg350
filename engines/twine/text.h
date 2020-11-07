@@ -146,6 +146,7 @@ private:
 	/** Dialogue text pointer */
 	char *dialTextPtr = nullptr; // bufText
 	/** Dialogue entry order pointer */
+	int32 dialOrderSize = 0;
 	char *dialOrderPtr = nullptr; // bufOrder
 	/** Number of dialogues text entries */
 	int16 numDialTextEntries = 0;
@@ -216,7 +217,7 @@ public:
 	int32 nextDialTextEntry = 0; // ordered entry
 	Common::String currentVoxBankFile;
 
-	int32 showDialogueBubble = 1;
+	bool showDialogueBubble = true;
 
 	/**
 	 * Initialize dialogue

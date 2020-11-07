@@ -86,6 +86,8 @@ namespace TwinE {
 #define SPRITEHQR_CLOVERLEAF 7
 #define SPRITEHQR_CLOVERLEAFBOX 41
 
+#define SPRITEHQR_MAGICBALL_YELLOW 1
+#define SPRITEHQR_MAGICBALL_FIRE 13
 #define SPRITEHQR_MAGICBALL_GREEN 42
 #define SPRITEHQR_MAGICBALL_RED 43
 #define SPRITEHQR_MAGICBALL_YELLOW_TRANS 44
@@ -140,6 +142,7 @@ public:
 	uint32 samplesSizeTable[NUM_SAMPLES]{0};
 
 	/** Font buffer pointer */
+	int32 fontBufSize = 0;
 	uint8 *fontPtr = nullptr;
 
 	uint32 spriteShadowSize = 0;

@@ -21,6 +21,7 @@
  */
 
 #include "twine/extra.h"
+#include "common/memstream.h"
 #include "common/util.h"
 #include "twine/actor.h"
 #include "twine/collision.h"
@@ -354,19 +355,19 @@ void Extra::addExtraThrowMagicball(int32 x, int32 y, int32 z, int32 param1, int3
 	switch (_engine->_gameState->magicLevelIdx) {
 	case 0:
 	case 1:
-		ballSprite = 1;
+		ballSprite = SPRITEHQR_MAGICBALL_YELLOW;
 		ballStrength = 4;
 		break;
 	case 2:
-		ballSprite = 42;
+		ballSprite = SPRITEHQR_MAGICBALL_GREEN;
 		ballStrength = 6;
 		break;
 	case 3:
-		ballSprite = 43;
+		ballSprite = SPRITEHQR_MAGICBALL_RED;
 		ballStrength = 8;
 		break;
 	case 4:
-		ballSprite = 13;
+		ballSprite = SPRITEHQR_MAGICBALL_FIRE;
 		ballStrength = 10;
 		break;
 	}
@@ -840,8 +841,10 @@ void Extra::processExtras() {
 			}
 
 			if (process) {
-				const int16 *spriteBounds = (const int16 *)(_engine->_resources->spriteBoundingBoxPtr + extra->info0 * 16 + 8);
-				extra->y = (_engine->_collision->collisionY << 8) + 0x100 - *(spriteBounds);
+				Common::MemoryReadStream stream(_engine->_resources->spriteBoundingBoxPtr, _engine->_resources->spriteBoundingBoxSize);
+				stream.seek(extra->info0 * 16);
+				stream.skip(8);
+				extra->y = (_engine->_collision->collisionY << 8) + 0x100 - stream.readSint16LE();
 				extra->type &= 0xFFED;
 				continue;
 			}

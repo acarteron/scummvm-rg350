@@ -38,9 +38,9 @@ private:
 	};
 
 	struct pointTab {
-		int16 X = 0;
-		int16 Y = 0;
-		int16 Z = 0;
+		int16 x = 0;
+		int16 y = 0;
+		int16 z = 0;
 	};
 
 	struct elementEntry {
@@ -120,21 +120,17 @@ private:
 
 	int32 renderAnimatedModel(uint8 *bodyPtr);
 	void circleFill(int32 x, int32 y, int32 radius, int8 color);
-	int32 renderModelElements(uint8 *pointer);
+	int32 renderModelElements(int32 numOfPrimitives, uint8 *pointer);
 	void getBaseRotationPosition(int32 x, int32 y, int32 z);
 	void getCameraAnglePositions(int32 x, int32 y, int32 z);
 	void applyRotation(int32 *tempMatrix, const int32 *currentMatrix);
 	void applyPointsRotation(const uint8 *firstPointsPtr, int32 numPoints, pointTab *destPoints, const int32 *rotationMatrix);
-	void processRotatedElement(int32 rotZ, int32 rotY, int32 rotX, const elementEntry *elemPtr);
+	void processRotatedElement(const uint8 *pointsPtr, int32 rotZ, int32 rotY, int32 rotX, const elementEntry *elemPtr);
 	void applyPointsTranslation(const uint8 *firstPointsPtr, int32 numPoints, pointTab *destPoints, const int32 *translationMatrix);
-	void processTranslatedElement(int32 rotX, int32 rotY, int32 rotZ, const elementEntry *elemPtr);
+	void processTranslatedElement(const uint8 *pointsPtr, int32 rotX, int32 rotY, int32 rotZ, const elementEntry *elemPtr);
 	void translateGroup(int16 ax, int16 bx, int16 cx);
 
 	// ---- variables ----
-
-	int32 baseMatrixRotationX = 0;
-	int32 baseMatrixRotationY = 0;
-	int32 baseMatrixRotationZ = 0;
 
 	int32 baseTransPosX = 0; // setSomething2Var1
 	int32 baseTransPosY = 0; // setSomething2Var2
@@ -162,16 +158,6 @@ private:
 
 	int32 baseMatrix[3 * 3] {0};
 
-	int32 numOfPrimitives = 0;
-
-	int32 numOfPoints = 0;
-	int32 numOfElements = 0;
-	const uint8 *pointsPtr = nullptr;
-	uint8 *elementsPtr = nullptr;
-	uint8 *elementsPtr2 = nullptr;
-
-	const uint8 *pri2Ptr2 = nullptr;
-
 	int32 matricesTable[271] {0};
 	uint8 *currentMatrixTableEntry = nullptr;
 
@@ -185,9 +171,7 @@ private:
 	pointTab flattenPoints[800];  // _flattenPointTable
 	int16 shadeTable[500] {0};
 
-	int16 primitiveCounter = 0;
 	renderTabEntry *renderTabEntryPtr = nullptr;
-	const renderTabEntry *renderTabEntryPtr2 = nullptr;
 	renderTabEntry *renderTabSortedPtr = nullptr;
 
 	renderTabEntry renderTab[1000];
@@ -195,10 +179,6 @@ private:
 	uint8 renderTab7[10000] {0};
 
 	uint8 *renderV19 = nullptr; // RECHECK THIS
-
-	// render polygon vars
-	int16 pRenderV3[96] {0};
-	const int16 *pRenderV2 = 0;
 
 	int16 vleft = 0;
 	int16 vtop = 0;
@@ -211,10 +191,9 @@ private:
 
 	int16 polyTab[960] {0};
 	int16 polyTab2[960] {0};
-	int32 renderLoop = 0;
 	// end render polygon vars
 
-	int32 isUsingOrhoProjection = 0;
+	bool isUsingOrhoProjection = false;
 
 public:
 	Renderer(TwinEEngine *engine) : _engine(engine) {}
@@ -236,14 +215,12 @@ public:
 
 	const int16 *shadeAngleTab3 = nullptr; // tab3
 
-	int16 polyRenderType = 0; //FillVertic_AType;
 	int32 numOfVertex = 0;
 	int16 vertexCoordinates[193] {0};
-	int16 *pRenderV1 = nullptr;
 
 	void setLightVector(int32 angleX, int32 angleY, int32 angleZ);
 
-	int32 computePolygons();
+	int32 computePolygons(int16 polyRenderType);
 	void renderPolygons(int32 ecx, int32 edi);
 
 	void prepareIsoModel(uint8 *bodyPtr); // loadGfxSub
@@ -257,7 +234,7 @@ public:
 
 	int32 renderIsoModel(int32 x, int32 y, int32 z, int32 angleX, int32 angleY, int32 angleZ, uint8 *bodyPtr);
 
-	void copyActorInternAnim(uint8 *bodyPtrSrc, uint8 *bodyPtrDest);
+	void copyActorInternAnim(const uint8 *bodyPtrSrc, uint8 *bodyPtrDest);
 
 	void renderBehaviourModel(int32 boxLeft, int32 boxTop, int32 boxRight, int32 boxBottom, int32 Y, int32 angle, uint8 *entityPtr);
 

@@ -186,7 +186,10 @@ int32 Actor::getTextIdForBehaviour() const {
 	return _engine->_actor->heroBehaviour;
 }
 
-int32 Actor::initBody(int32 bodyIdx, int32 actorIdx) {
+int32 Actor::initBody(int32 bodyIdx, int32 actorIdx, ActorBoundingBox &actorBoundingBox) {
+	if (bodyIdx == -1) {
+		return -1;
+	}
 	ActorStruct *actor = _engine->_scene->getActor(actorIdx);
 	Common::MemorySeekableReadWriteStream stream(actor->entityDataPtr, actor->entityDataSize);
 	do {
@@ -220,10 +223,8 @@ int32 Actor::initBody(int32 bodyIdx, int32 actorIdx) {
 					index = bodyIndex & 0x7FFF;
 				}
 
-				bottomLeftX = -32000;
-
-				const bool hasBox = stream.readByte();
-				if (!hasBox) {
+				actorBoundingBox.hasBoundingBox = stream.readByte();
+				if (!actorBoundingBox.hasBoundingBox) {
 					return index;
 				}
 
@@ -231,13 +232,13 @@ int32 Actor::initBody(int32 bodyIdx, int32 actorIdx) {
 					return index;
 				}
 
-				bottomLeftX = stream.readUint16LE();
-				bottomLeftY = stream.readUint16LE();
-				bottomLeftZ = stream.readUint16LE();
+				actorBoundingBox.bottomLeftX = stream.readUint16LE();
+				actorBoundingBox.bottomLeftY = stream.readUint16LE();
+				actorBoundingBox.bottomLeftZ = stream.readUint16LE();
 
-				topRightX = stream.readUint16LE();
-				topRightY = stream.readUint16LE();
-				topRightZ = stream.readUint16LE();
+				actorBoundingBox.topRightX = stream.readUint16LE();
+				actorBoundingBox.topRightY = stream.readUint16LE();
+				actorBoundingBox.topRightZ = stream.readUint16LE();
 
 				return index;
 			}
@@ -252,89 +253,81 @@ void Actor::initModelActor(int32 bodyIdx, int16 actorIdx) {
 		return;
 	}
 
-	if (actorIdx == 0 && heroBehaviour == kProtoPack && localActor->armor != 0 && localActor->armor != 1) { // if hero
+	if (IS_HERO(actorIdx) && heroBehaviour == kProtoPack && localActor->armor != 0 && localActor->armor != 1) {
 		setBehaviour(kNormal);
 	}
 
-	int32 entityIdx;
-	if (bodyIdx != -1) {
-		entityIdx = initBody(bodyIdx, actorIdx);
-	} else {
-		entityIdx = -1;
-	}
+	ActorBoundingBox actorBoundingBox;
+	const int32 entityIdx = initBody(bodyIdx, actorIdx, actorBoundingBox);
+	if (entityIdx == -1) {
+		localActor->body = -1;
+		localActor->entity = -1;
 
-	if (entityIdx != -1) {
-		if (localActor->entity == entityIdx) {
-			return;
-		}
-
-		localActor->entity = entityIdx;
-		localActor->body = bodyIdx;
-		int currentIndex = localActor->entity;
-
-		// -32000 means no bounding box in the entity data
-		if (bottomLeftX == -32000) {
-			uint16 *ptr = (uint16 *)bodyTable[localActor->entity];
-			ptr++;
-
-			int16 var1 = *((int16 *)ptr++);
-			int16 var2 = *((int16 *)ptr++);
-			localActor->boudingBox.y.bottomLeft = *((int16 *)ptr++);
-			localActor->boudingBox.y.topRight = *((int16 *)ptr++);
-			int16 var3 = *((int16 *)ptr++);
-			int16 var4 = *((int16 *)ptr++);
-
-			int32 result = 0;
-			if (localActor->staticFlags.bUseMiniZv) {
-				int32 result1 = var2 - var1; // take smaller for bound
-				int32 result2 = var4 - var3;
-
-				result = MIN(result1, result2);
-
-				result = ABS(result);
-				result >>= 1;
-			} else {
-				int32 result1 = var2 - var1; // take average for bound
-				int32 result2 = var4 - var3;
-
-				result = result2 + result1;
-				result = ABS(result);
-				result >>= 2;
-			}
-
-			localActor->boudingBox.x.bottomLeft = -result;
-			localActor->boudingBox.x.topRight = result;
-			localActor->boudingBox.z.bottomLeft = -result;
-			localActor->boudingBox.z.topRight = result;
-		} else {
-			localActor->boudingBox.x.bottomLeft = bottomLeftX;
-			localActor->boudingBox.x.topRight = topRightX;
-			localActor->boudingBox.y.bottomLeft = bottomLeftY;
-			localActor->boudingBox.y.topRight = topRightY;
-			localActor->boudingBox.z.bottomLeft = bottomLeftZ;
-			localActor->boudingBox.z.topRight = topRightZ;
-		}
-
-		if (currentIndex == -1)
-			return;
-
-		if (localActor->previousAnimIdx == -1)
-			return;
-
-		_engine->_renderer->copyActorInternAnim(bodyTable[currentIndex], bodyTable[localActor->entity]);
-
+		localActor->boudingBox.x.bottomLeft = 0;
+		localActor->boudingBox.x.topRight = 0;
+		localActor->boudingBox.y.bottomLeft = 0;
+		localActor->boudingBox.y.topRight = 0;
+		localActor->boudingBox.z.bottomLeft = 0;
+		localActor->boudingBox.z.topRight = 0;
 		return;
 	}
 
-	localActor->body = -1;
-	localActor->entity = -1;
+	if (localActor->entity == entityIdx) {
+		return;
+	}
 
-	localActor->boudingBox.x.bottomLeft = 0;
-	localActor->boudingBox.x.topRight = 0;
-	localActor->boudingBox.y.bottomLeft = 0;
-	localActor->boudingBox.y.topRight = 0;
-	localActor->boudingBox.z.bottomLeft = 0;
-	localActor->boudingBox.z.topRight = 0;
+	localActor->entity = entityIdx;
+	localActor->body = bodyIdx;
+	int currentIndex = localActor->entity;
+
+	if (actorBoundingBox.hasBoundingBox) {
+		localActor->boudingBox.x.bottomLeft = actorBoundingBox.bottomLeftX;
+		localActor->boudingBox.x.topRight = actorBoundingBox.topRightX;
+		localActor->boudingBox.y.bottomLeft = actorBoundingBox.bottomLeftY;
+		localActor->boudingBox.y.topRight = actorBoundingBox.topRightY;
+		localActor->boudingBox.z.bottomLeft = actorBoundingBox.bottomLeftZ;
+		localActor->boudingBox.z.topRight = actorBoundingBox.topRightZ;
+	} else {
+		Common::MemoryReadStream stream(bodyTable[localActor->entity], bodyTableSize[localActor->entity]);
+		stream.skip(2);
+		int16 var1 = stream.readSint16LE();
+		int16 var2 = stream.readSint16LE();
+		localActor->boudingBox.y.bottomLeft = stream.readSint16LE();
+		localActor->boudingBox.y.topRight = stream.readSint16LE();
+		int16 var3 = stream.readSint16LE();
+		int16 var4 = stream.readSint16LE();
+
+		int32 result = 0;
+		if (localActor->staticFlags.bUseMiniZv) {
+			int32 result1 = var2 - var1; // take smaller for bound
+			int32 result2 = var4 - var3;
+
+			result = MIN(result1, result2);
+
+			result = ABS(result);
+			result >>= 1;
+		} else {
+			int32 result1 = var2 - var1; // take average for bound
+			int32 result2 = var4 - var3;
+
+			result = result2 + result1;
+			result = ABS(result);
+			result >>= 2;
+		}
+
+		localActor->boudingBox.x.bottomLeft = -result;
+		localActor->boudingBox.x.topRight = result;
+		localActor->boudingBox.z.bottomLeft = -result;
+		localActor->boudingBox.z.topRight = result;
+	}
+
+	if (currentIndex == -1)
+		return;
+
+	if (localActor->previousAnimIdx == -1)
+		return;
+
+	_engine->_renderer->copyActorInternAnim(bodyTable[currentIndex], bodyTable[localActor->entity]);
 }
 
 void Actor::initActor(int16 actorIdx) {

@@ -103,7 +103,7 @@ void GameState::initHeroVars() {
 	inventoryNumKeys = 0;
 	inventoryMagicPoints = 0;
 
-	usingSabre = 0;
+	usingSabre = false;
 
 	_engine->_scene->sceneHero->body = 0;
 	_engine->_scene->sceneHero->life = 50;
@@ -139,12 +139,12 @@ void GameState::initEngineVars() {
 	_engine->_actor->cropBottomScreen = 0;
 
 	magicLevelIdx = 0;
-	usingSabre = 0;
+	usingSabre = false;
 
 	gameChapter = 0;
 
 	_engine->_scene->sceneTextBank = TextBankId::Options_and_menus;
-	_engine->_scene->currentlyFollowedActor = 0;
+	_engine->_scene->currentlyFollowedActor = OWN_ACTOR_SCENE_INDEX;
 	_engine->_actor->heroBehaviour = kNormal;
 	_engine->_actor->previousHeroAngle = 0;
 	_engine->_actor->previousHeroBehaviour = kNormal;

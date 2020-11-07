@@ -38,6 +38,15 @@ private:
 	int32 getAnimMode(uint8 **ptr);
 	void applyAnimStep(uint8 **ptr, int32 bp, int32 bx);
 
+	/**
+	 * Verify animation at keyframe
+	 * @param animIdx Animation index
+	 * @param animPtr Animation pointer
+	 * @param bodyPtr Body model poitner
+	 * @param animTimerDataPtr Animation time data
+	 */
+	int32 verifyAnimAtKeyframe(int32 animPos, uint8 *animPtr, uint8 *bodyPtr, AnimTimerDataStruct *animTimerDataPtr);
+
 	uint8 *animBuffer1 = nullptr;
 	uint8 *animBuffer2 = nullptr;
 
@@ -80,13 +89,13 @@ public:
 	 * Get total number of keyframes in animation
 	 * @param animPtr Pointer to animation
 	 */
-	int32 getNumKeyframes(uint8 *animPtr);
+	int32 getNumKeyframes(const uint8 *animPtr);
 
 	/**
 	 * Get first keyframes in animation
 	 * @param animPtr Pointer to animation
 	 */
-	int32 getStartKeyframe(uint8 *animPtr);
+	int32 getStartKeyframe(const uint8 *animPtr);
 
 	/**
 	 * Set new body animation
@@ -110,15 +119,6 @@ public:
 	 * @param animTimerDataPtr Animation time data
 	 */
 	int32 stockAnimation(uint8 *bodyPtr, AnimTimerDataStruct *animTimerDataPtr);
-
-	/**
-	 * Verify animation at keyframe
-	 * @param animIdx Animation index
-	 * @param animPtr Animation pointer
-	 * @param bodyPtr Body model poitner
-	 * @param animTimerDataPtr Animation time data
-	 */
-	int32 verifyAnimAtKeyframe(int32 animPos, uint8 *animPtr, uint8 *bodyPtr, AnimTimerDataStruct *animTimerDataPtr);
 
 	/**
 	 * Initialize animation
