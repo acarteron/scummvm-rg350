@@ -34,11 +34,20 @@ enum OOToposRoomFlag {
 };
 
 enum OOToposFlag {
+	OO_FLAG_9 = 9,
+	OO_FLAG_13 = 13,
 	OO_FLAG_22 = 22,
 	OO_BRIGHT_ROOM = 25,
-	OO_FLAG_WEARING_GOGGLES = 27,
+	OO_FLAG_WEARING_GOGGLES = 27,	// ?
 	OO_FLAG_FLASHLIGHT_ON = 39,
+	OO_FLAG_43 = 43,
+	OO_FLAG_44 = 44,
 	OO_FLAG_SUFFICIENT_FUEL = 51,
+	OO_FLAG_53 = 53,
+	OO_FLAG_55 = 55,
+	OO_FLAG_56 = 56,
+	OO_FLAG_58 = 58,
+	OO_FLAG_59 = 59,
 	OO_FLAG_READY_TO_DEPART = 60,
 	OO_TRACTOR_BEAM = 71
 };
@@ -52,8 +61,8 @@ static const GameStrings OO_STRINGS = {
 };
 
 OOToposGame::OOToposGame() : ComprehendGameV2(), _restartMode(RESTART_IMMEDIATE),
-		_wearingGoggles(false), _lightOn(false), _stringVal1(0), _stringVal2(0),
-		_addStringFlag(true), _shipNotWorking(false) {
+		_noFloodfill(UNSET), _lightOn(UNSET), _stringVal1(0), _stringVal2(0),
+		_printComputerMsg(true), _shipNotWorking(false) {
 	_gameDataFile = "g0";
 
 	// Extra strings are (annoyingly) stored in the game binary
@@ -89,8 +98,7 @@ void OOToposGame::beforeGame() {
 	g_comprehend->glk_window_clear(g_comprehend->_bottomWindow);
 }
 
-int OOToposGame::roomIsSpecial(unsigned room_index,
-                               unsigned *roomDescString) {
+int OOToposGame::roomIsSpecial(unsigned room_index, unsigned *roomDescString) {
 	Room *room = &_rooms[room_index];
 
 	// Is the room dark
@@ -113,6 +121,7 @@ int OOToposGame::roomIsSpecial(unsigned room_index,
 }
 
 void OOToposGame::beforeTurn() {
+#if 0
 	Room *room = &_rooms[_currentRoom];
 
 	/*
@@ -134,15 +143,33 @@ void OOToposGame::beforeTurn() {
 		_wearingGoggles = _flags[OO_FLAG_WEARING_GOGGLES];
 		_updateFlags |= UPDATE_GRAPHICS | UPDATE_ROOM_DESC;
 	}
+#endif
+	ComprehendGameV2::beforeTurn();
+
+	if (_flags[OO_FLAG_55]) {
+		_currentRoom = 55;
+	} else if (_flags[OO_FLAG_56]) {
+		_currentRoom = 54;
+	} else {
+		YesNo nff = _flags[OO_FLAG_53] ? YES : NO;
+
+		if (_noFloodfill != nff) {
+			_noFloodfill = nff;
+			_updateFlags |= UPDATE_GRAPHICS | UPDATE_ROOM_DESC;
+
+			if (_noFloodfill == YES)
+				g_comprehend->_drawFlags |= IMAGEF_NO_FLOODFILL;
+			else
+				g_comprehend->_drawFlags &= ~IMAGEF_NO_FLOODFILL;
+		}
+	}
+
+	// Handle the computer console if in front of it
+	computerConsole();
 }
 
-bool OOToposGame::afterTurn() {
-	if (_flags[55])
-		_currentRoom = 55;
-	else if (_flags[56])
-		_currentRoom = 54;
-
-	return true;
+void OOToposGame::afterTurn() {
+	ComprehendGameV2::afterTurn();
 }
 
 void OOToposGame::handleSpecialOpcode(uint8 operand) {
@@ -189,10 +216,15 @@ void OOToposGame::handleSpecialOpcode(uint8 operand) {
 		break;
 
 	case 9:
-		error("TODO: Special 9");
+		// Checks the ship fuel
+		checkShipFuel();
+		randomizeGuardLocation();
+		break;
 
 	case 10:
-		error("TODO: Special 10");
+		// Checks whether the ship is working
+		checkShipWorking();
+		break;
 
 	default:
 		break;
@@ -217,17 +249,53 @@ bool OOToposGame::handle_restart() {
 	return true;
 }
 
+void OOToposGame::synchronizeSave(Common::Serializer &s) {
+	ComprehendGameV2::synchronizeSave(s);
+
+	if (s.isLoading()) {
+		_noFloodfill = UNSET;
+	}
+}
+
 void OOToposGame::randomizeGuardLocation() {
 	Item *item = get_item(22);
-	if (_flags[13] && item->_room != _currentRoom) {
+	if (_flags[OO_FLAG_13] && item->_room != _currentRoom) {
 		if (getRandomNumber(255) > 128 && (_currentRoom == 3 || _currentRoom == 6))
 			item->_room = _currentRoom;
 	}
 }
 
+void OOToposGame::computerConsole() {
+	if (_currentRoom == 57) {
+		if (!_flags[OO_FLAG_9]) {
+			// Mission Code:
+			console_println(_strings2[129].c_str());
+		} else if (!_flags[OO_FLAG_58]) {
+			// Welcome back! I was wondering if you would be returning
+			console_println(_strings2[131].c_str());
+			_flags[OO_FLAG_58] = true;
+			_printComputerMsg = true;
+			checkShipWorking();
+		} else if (_flags[OO_FLAG_59]) {
+			checkShipDepart();
+		} else if (_flags[OO_FLAG_43]) {
+			// We can reach Mealy Sukas with the fuel we have left
+			console_println(_strings2[142].c_str());
+			_flags[OO_FLAG_59] = true;
+
+			if (_flags[OO_FLAG_44])
+				// The currency on Mealy Sukas is the 'frod'
+				console_println(_strings2[144].c_str());
+			else
+				// Without evaluation data as to the current fuel prices
+				console_println(_strings2[143].c_str());
+		}
+	}
+}
+
 void OOToposGame::computerResponse() {
 	console_println(_strings2[145].c_str());
-	if (_flags[43])
+	if (_flags[OO_FLAG_43])
 		console_println(_strings2[144].c_str());
 	else
 		console_println(_strings2[152].c_str());
@@ -242,19 +310,19 @@ void OOToposGame::checkShipWorking() {
 		if (!_flags[idx]) {
 			if (!_stringVal2) {
 				// The following components are not installed
-				console_cond_println(_strings2[132].c_str());
+				printComputerMsg(_strings2[132].c_str());
 				_stringVal2 = 1;
 			}
 
 			// Power Cylinder
-			console_cond_println(_strings[_stringVal1].c_str());
+			printComputerMsg(_strings[_stringVal1].c_str());
 		}
 	}
 
 	_shipNotWorking = _stringVal2 != 0;
 	if (!_shipNotWorking)
 		// The ship is in working order
-		console_cond_println(_strings2[153].c_str());
+		printComputerMsg(_strings2[153].c_str());
 }
 
 void OOToposGame::checkShipFuel() {
@@ -276,7 +344,7 @@ void OOToposGame::checkShipFuel() {
 	// Computer: "Our current evaluation...
 	Instruction strReplace(0xC9, 0x4B);
 	execute_opcode(&strReplace, nullptr, nullptr);
-	console_cond_println(_strings2[146].c_str());
+	printComputerMsg(_strings2[146].c_str());
 
 	FunctionState funcState;
 	Instruction test(2, 75, 76);
@@ -285,17 +353,17 @@ void OOToposGame::checkShipFuel() {
 	if (funcState._testResult) {
 		// Computer: "We should now have enough
 		_flags[OO_FLAG_SUFFICIENT_FUEL] = true;
-		console_cond_println(_strings2[151].c_str());
+		printComputerMsg(_strings2[151].c_str());
 	} else {
 		_flags[OO_FLAG_SUFFICIENT_FUEL] = false;
 	}
 }
 
-void OOToposGame::shipDepartCheck() {
-	_addStringFlag = false;
+void OOToposGame::checkShipDepart() {
+	_printComputerMsg = false;
 	checkShipWorking();
 	checkShipFuel();
-	_addStringFlag = true;
+	_printComputerMsg = true;
 
 	if (!_shipNotWorking && _flags[OO_FLAG_SUFFICIENT_FUEL]) {
 		Item *item = get_item(ITEM_SERUM_VIAL - 1);
@@ -318,11 +386,10 @@ void OOToposGame::shipDepartCheck() {
 	}
 }
 
-void OOToposGame::console_cond_println(const char *str) {
-	if (_addStringFlag)
+void OOToposGame::printComputerMsg(const char *str) {
+	if (_printComputerMsg)
 		console_println(str);
 }
-
 
 } // namespace Comprehend
 } // namespace Glk

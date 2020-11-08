@@ -30,14 +30,28 @@ namespace Comprehend {
 
 enum RestartMode { RESTART_IMMEDIATE, RESTART_WITH_MSG, RESTART_WITHOUT_MSG };
 
+enum YesNo { NO, YES, UNSET };
+
 class OOToposGame : public ComprehendGameV2 {
 private:
 	RestartMode _restartMode;
-	bool _wearingGoggles, _lightOn;
+	YesNo _noFloodfill, _lightOn;
 	int _stringVal1, _stringVal2;
-	bool _addStringFlag, _shipNotWorking;
+	bool _printComputerMsg, _shipNotWorking;
 
+	/**
+	 * Randomizes a guard to different locations
+	 */
 	void randomizeGuardLocation();
+
+	/**
+	 * Handles the computer console
+	 */
+	void computerConsole();
+
+	/**
+	 * Handles displaying a computer response
+	 */
 	void computerResponse();
 
 	/**
@@ -53,23 +67,24 @@ private:
 	/**
 	 * Checks whether the ship can depart, printing out the computer's response
 	 */
-	void shipDepartCheck();
+	void checkShipDepart();
 
 	/**
 	 * A wrapped version of console_println that only prints the passed string
 	 * if the _addStringFlag is set
 	 */
-	void console_cond_println(const char *str);
+	void printComputerMsg(const char *str);
 public:
 	OOToposGame();
 	~OOToposGame() override {}
 
 	void beforeGame() override;
 	void beforeTurn() override;
-	bool afterTurn() override;
+	void afterTurn() override;
 	int roomIsSpecial(unsigned room_index, unsigned *room_desc_string) override;
 	void handleSpecialOpcode(uint8 operand) override;
 	bool handle_restart() override;
+	void synchronizeSave(Common::Serializer &s) override;
 };
 
 } // namespace Comprehend
