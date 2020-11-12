@@ -1412,6 +1412,8 @@ int ScummEngine::convertVerbMessage(byte *dst, int dstSize, int var) {
 		for (k = 1; k < _numVerbs; k++) {
 			// Fix ZAK FM-TOWNS bug #1013617 by emulating exact (inconsistant?) behavior of the original code
 			if (num == _verbs[k].verbid && !_verbs[k].type && (!_verbs[k].saveid || (_game.version == 3 && _game.platform == Common::kPlatformFMTowns))) {
+				// Process variation of Korean postpositions
+				// Used by Korean fan translated games (monkey1, monkey2)
 				if (isKorVerbGlue) {
 					static const byte code0380[4] = {0xFF, 0x07, 0x03, 0x80};                                 // "eul/reul"
 					static const byte code0480[4] = {0xFF, 0x07, 0x04, 0x80};                                 // "wa/gwa"
@@ -1484,6 +1486,8 @@ int ScummEngine::convertNameMessage(byte *dst, int dstSize, int var) {
 		const byte *ptr = getObjOrActorName(num);
 		if (ptr) {
 			int increment = convertMessageToString(ptr, dst, dstSize);
+			// Save the final consonant (jongsung) of the last Korean character
+			// Used by Korean fan translated games (monkey1, monkey2)
 			if (isScummvmKorTarget() && _useCJKMode) {
 				_krStrPost = 0;
 				int len = resStrLen(ptr);
@@ -1491,7 +1495,7 @@ int ScummEngine::convertNameMessage(byte *dst, int dstSize, int var) {
 					for (int i = len; i > 1; i--) {
 						byte k1 = ptr[i - 2];
 						byte k2 = ptr[i - 1];
-						if (checkHangul(k1, k2)) {
+						if (checkKSCode(k1, k2)) {
 							int jongsung = checkJongsung(k1, k2);
 							if (jongsung)
 								_krStrPost |= 1;
@@ -1527,6 +1531,8 @@ int ScummEngine::convertStringMessage(byte *dst, int dstSize, int var) {
 	if (_game.version == 3 || (_game.version >= 6 && _game.heversion < 72))
 		var = readVar(var);
 
+	// Process variation of Korean postpositions
+	// Used by Korean fan translated games (monkey1, monkey2)
 	if (isScummvmKorTarget() && _useCJKMode && (var & (1 << 15))) {
 		int idx;
 		static const byte codeIdx[] = {0x00, 0x00, 0xC0, 0xB8, 0x00, 0x00, 0xC0, 0xCC, 0xB0, 0xA1, 0xC0, 0xCC, 0xB8, 0xA6, 0xC0, 0xBB, 0xBF, 0xCD, 0xB0, 0xFA, 0xB4, 0xC2, 0xC0, 0xBA};
@@ -1547,12 +1553,14 @@ int ScummEngine::convertStringMessage(byte *dst, int dstSize, int var) {
 		ptr = getStringAddress(var);
 		if (ptr) {
 			int increment = convertMessageToString(ptr, dst, dstSize);
+			// Save the final consonant (jongsung) of the last Korean character
+			// Used by Korean fan translated games (monkey1, monkey2)
 			if (isScummvmKorTarget() && _useCJKMode) {
 				_krStrPost = 0;
 				for (int i = resStrLen(ptr); i > 1; i--) {
 					byte k1 = ptr[i - 2];
 					byte k2 = ptr[i - 1];
-					if (checkHangul(k1, k2)) {
+					if (checkKSCode(k1, k2)) {
 						int jongsung = checkJongsung(k1, k2);
 						if (jongsung)
 							_krStrPost |= 1;
