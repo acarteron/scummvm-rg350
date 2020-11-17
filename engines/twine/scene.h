@@ -80,17 +80,7 @@ struct ZoneStruct {
 		} DisplayText;
 		struct {
 			int16 info0;
-			/**
-			 * Bonus type flags - a bitfield value, of which the bits mean:
-			 * bit 8: clover leaf,
-			 * bit 7: small key,
-			 * bit 6: magic,
-			 * bit 5: life,
-			 * bit 4: money,
-			 * If more than one type of bonus is selected, the actual type of bonus
-			 * will be chosen randomly each time player uses Action.
-			 */
-			int16 typesFlag;
+			BonusParameter typesFlag;
 			int16 amount;
 			/**
 			 * Already used
@@ -252,7 +242,8 @@ private:
 
 	/** Process zone extra bonus */
 	void processZoneExtraBonus(ZoneStruct *zone);
-	void setActorStaticFlags(int32 actorIdx, uint16 staticFlags);
+	void setActorStaticFlags(ActorStruct* act, uint16 staticFlags);
+	void setBonusParameterFlags(ActorStruct* act, uint16 bonusFlags);
 	bool loadSceneLBA1();
 	/** Initialize new scene */
 	bool initScene(int32 index);
@@ -264,28 +255,29 @@ private:
 	int32 _currentSceneSize = 0;
 
 	/** Timer for the next sample ambience in scene */
-	int32 sampleAmbienceTime = 0;
-	int16 sampleAmbiance[4] {0};
-	int16 sampleRepeat[4] {0};
-	int16 sampleRound[4] {0};
-	int16 sampleMinDelay = 0;
-	int16 sampleMinDelayRnd = 0;
+	int32 _sampleAmbienceTime = 0;
+	int16 _sampleAmbiance[4] {0};
+	int16 _sampleRepeat[4] {0};
+	int16 _sampleRound[4] {0};
+	int16 _sampleMinDelay = 0;
+	int16 _sampleMinDelayRnd = 0;
 
-	int16 samplePlayed = 0;
+	int16 _samplePlayed = 0;
 
-	int16 sceneMusic = 0;
+	int16 _sceneMusic = 0;
 
-	int16 sceneHeroX = 0; // newTwinsenXByScene
-	int16 sceneHeroY = 0; // newTwinsenYByScene
-	int16 sceneHeroZ = 0; // newTwinsenZByScene
+	int16 _sceneHeroX = 0; // newTwinsenXByScene
+	int16 _sceneHeroY = 0; // newTwinsenYByScene
+	int16 _sceneHeroZ = 0; // newTwinsenZByScene
 
-	int16 zoneHeroX = 0; // newTwinsenXByZone
-	int16 zoneHeroY = 0; // newTwinsenYByZone
-	int16 zoneHeroZ = 0; // newTwinsenZByZone
-	int32 currentGameOverScene = 0;
+	int16 _zoneHeroX = 0; // newTwinsenXByZone
+	int16 _zoneHeroY = 0; // newTwinsenYByZone
+	int16 _zoneHeroZ = 0; // newTwinsenZByZone
+	int32 _currentGameOverScene = 0;
 
 public:
 	Scene(TwinEEngine *engine) : _engine(engine) {}
+	~Scene();
 
 	uint8 *currentScene = nullptr;
 
@@ -345,12 +337,19 @@ public:
 	void processEnvironmentSound();
 	void initSceneVars();
 
+	bool isGameRunning() const;
+	void stopRunningGame();
+
 	/**
 	 * Process actor zones
 	 * @param actorIdx Process actor index
 	 */
 	void processActorZones(int32 actorIdx);
 };
+
+inline bool Scene::isGameRunning() const {
+	return currentScene != nullptr;
+}
 
 } // namespace TwinE
 

@@ -36,7 +36,9 @@
 #define POLYGONTYPE_DITHER 8
 
 namespace TwinE {
+
 class TwinEEngine;
+
 class Renderer {
 private:
 	TwinEEngine *_engine;
@@ -109,12 +111,12 @@ private:
 
 	struct bodyHeaderStruct {
 		int16 bodyFlag = 0;
-		int16 unk0 = 0;
-		int16 unk1 = 0;
-		int16 unk2 = 0;
-		int16 unk3 = 0;
-		int16 unk4 = 0;
-		int16 unk5 = 0;
+		int16 minsx = 0;
+		int16 maxsx = 0;
+		int16 minsy = 0;
+		int16 maxsy = 0;
+		int16 minsz = 0;
+		int16 maxsz = 0;
 		int16 offsetToData = 0;
 		int8 *ptrToKeyFrame = nullptr;
 		int32 keyFrameTime = 0;

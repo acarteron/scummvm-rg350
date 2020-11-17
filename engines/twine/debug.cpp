@@ -35,9 +35,9 @@
 
 namespace TwinE {
 
-void Debug::debugFillButton(int32 X, int32 Y, int32 width, int32 height, int8 color) {
-	uint8 *ptr = (uint8*)_engine->frontVideoBuffer.getPixels() + _engine->screenLookupTable[Y] + X;
-	int32 offset = 640 - width;
+void Debug::debugFillButton(int32 x, int32 y, int32 width, int32 height, int8 color) {
+	uint8 *ptr = (uint8*)_engine->frontVideoBuffer.getBasePtr(x, y);
+	int32 offset = SCREEN_WIDTH - width;
 
 	for (int32 i = 0; i < height; i++) {
 		for (int32 j = 0; j < width; j++) {
@@ -73,8 +73,9 @@ void Debug::debugDrawWindowButtons(int32 w) {
 		int32 textTop = debugWindows[w].debugButtons[b].textTop;
 		int32 isActive = debugWindows[w].debugButtons[b].isActive;
 		int8 color = debugWindows[w].debugButtons[b].color;
-		if (isActive > 0)
+		if (isActive > 0) {
 			color = debugWindows[w].debugButtons[b].activeColor;
+		}
 
 		debugDrawButton(left, top, right, bottom, text, textLeft, textTop, isActive, color);
 	}
@@ -90,9 +91,7 @@ void Debug::debugDrawWindow(int32 w) {
 	debugDrawWindowBox(left, top, right, bottom, alpha);
 
 	if (debugWindows[w].numLines > 0) {
-		int32 l;
-
-		for (l = 0; l < debugWindows[w].numLines; l++) {
+		for (int32 l = 0; l < debugWindows[w].numLines; l++) {
 			_engine->drawText(left + 10, top + l * 20 + 5, debugWindows[w].text[l], 0);
 		}
 	}
@@ -103,15 +102,14 @@ void Debug::debugDrawWindow(int32 w) {
 }
 
 int32 Debug::debugTypeUseMenu(int32 type) {
-	int32 w, b;
-
-	for (w = 0; w < numDebugWindows; w++) {
+	for (int32 w = 0; w < numDebugWindows; w++) {
 		if (debugWindows[w].isActive > 0) {
-			for (b = 0; b < debugWindows[w].numButtons; b++) {
+			for (int32 b = 0; b < debugWindows[w].numButtons; b++) {
 				if (debugWindows[w].debugButtons[b].type == type) {
 					int submenu = debugWindows[w].debugButtons[b].submenu;
-					if (submenu > 0)
+					if (submenu > 0) {
 						debugWindows[submenu].isActive = !debugWindows[submenu].isActive;
+					}
 					return submenu;
 				}
 			}
@@ -121,10 +119,9 @@ int32 Debug::debugTypeUseMenu(int32 type) {
 }
 
 void Debug::debugResetButtonsState() {
-	int w, b;
-	for (w = 0; w < numDebugWindows; w++) {
+	for (int32  w = 0; w < numDebugWindows; w++) {
 		if (debugWindows[w].isActive > 0) {
-			for (b = 0; b < debugWindows[w].numButtons; b++) {
+			for (int32  b = 0; b < debugWindows[w].numButtons; b++) {
 				if (debugWindows[w].debugButtons[b].type <= -1)
 					debugWindows[w].debugButtons[b].isActive = 0;
 			}
@@ -133,11 +130,9 @@ void Debug::debugResetButtonsState() {
 }
 
 void Debug::debugRefreshButtons(int32 type) {
-	int32 w, b;
-
-	for (w = 0; w < numDebugWindows; w++) {
+	for (int32 w = 0; w < numDebugWindows; w++) {
 		if (debugWindows[w].isActive > 0) {
-			for (b = 0; b < debugWindows[w].numButtons; b++) {
+			for (int32 b = 0; b < debugWindows[w].numButtons; b++) {
 				if (debugWindows[w].debugButtons[b].type == type) {
 					int32 left = debugWindows[w].debugButtons[b].left;
 					int32 top = debugWindows[w].debugButtons[b].top;
@@ -163,9 +158,7 @@ void Debug::debugRefreshButtons(int32 type) {
 }
 
 void Debug::debugDrawWindows() {
-	int32 w;
-
-	for (w = 0; w < numDebugWindows; w++) {
+	for (int32 w = 0; w < numDebugWindows; w++) {
 		if (debugWindows[w].isActive > 0) {
 			debugDrawWindow(w);
 		}
@@ -173,11 +166,9 @@ void Debug::debugDrawWindows() {
 }
 
 void Debug::debugResetButton(int32 type) {
-	int32 w, b;
-
-	for (w = 0; w < numDebugWindows; w++) {
+	for (int32 w = 0; w < numDebugWindows; w++) {
 		if (debugWindows[w].isActive > 0) {
-			for (b = 0; b < debugWindows[w].numButtons; b++) {
+			for (int32 b = 0; b < debugWindows[w].numButtons; b++) {
 				if (debugWindows[w].debugButtons[b].type == type) {
 					int submenu = debugWindows[w].debugButtons[b].submenu;
 					debugWindows[w].debugButtons[b].isActive = 0;
@@ -417,15 +408,10 @@ void Debug::debugPlasmaWindow(const char *text, int32 color) {
 }
 
 void Debug::debugProcessWindow() {
-	if (_engine->_input->rightMouse) {
-		int32 quit = 0;
+	if (_engine->_input->toggleActionIfActive(TwinEActionType::DebugMenu)) {
 		const char *text = "Game Debug Window";
-		int32 color = 64;
 		int32 colorIdx = 4;
 		int32 count = 0;
-		MouseStatusStruct mouseData;
-		_engine->_input->rightMouse = 0;
-		_engine->_input->leftMouse = 0;
 
 		_engine->_screens->copyScreen(_engine->frontVideoBuffer, _engine->workVideoBuffer);
 
@@ -435,14 +421,15 @@ void Debug::debugProcessWindow() {
 		}
 		debugDrawWindows();
 
-		do {
+		for (;;) {
 			_engine->readKeys();
 			if (_engine->shouldQuit()) {
-				quit = 1;
+				break;
 			}
+			MouseStatusStruct mouseData;
 			_engine->_input->getMousePositions(&mouseData);
 
-			if (mouseData.left) {
+			if (_engine->_input->toggleActionIfActive(TwinEActionType::DebugMenuActivate)) {
 				int type = 0;
 				if ((type = debugProcessButton(mouseData.x, mouseData.y)) != NO_ACTION) { // process menu item
 					if (debugTypeUseMenu(type)) {
@@ -453,7 +440,6 @@ void Debug::debugProcessWindow() {
 					debugRefreshButtons(type);
 					debugSetActions(type);
 				}
-				mouseData.left = 0;
 			}
 
 			// draw window plasma effect
@@ -461,7 +447,7 @@ void Debug::debugProcessWindow() {
 				colorIdx++;
 				count = 0;
 			}
-			color = colorIdx * 16;
+			int32 color = colorIdx * 16;
 			if (color >= 240) {
 				color = 64;
 				colorIdx = 4;
@@ -469,14 +455,14 @@ void Debug::debugProcessWindow() {
 			debugPlasmaWindow(text, color);
 
 			// quit
-			if (mouseData.right) {
-				quit = 1;
+			if (_engine->_input->toggleActionIfActive(TwinEActionType::DebugMenu)) {
+				break;
 			}
 
 			_engine->_system->delayMillis(1000 / 25); // rest
 
 			count++;
-		} while (!quit);
+		}
 		_engine->_redraw->reqBgRedraw = true;
 	}
 }

@@ -24,6 +24,7 @@
 #define TWINE_ACTOR_H
 
 #include "common/scummsys.h"
+#include "twine/shared.h"
 
 namespace TwinE {
 
@@ -32,26 +33,6 @@ namespace TwinE {
 
 /** Total number of bodies allowed in the game */
 #define NUM_BODIES 200
-
-/** Hero behaviour
- * <li> NORMAL: Talk / Read / Search / Use
- * <li> ATHLETIC: Jump
- * <li> AGGRESSIVE:
- * Auto mode   : Fight
- * Manual mode : While holding the spacebar down
- * 			UP / RIGHT / LEFT will manually select
- * 			different punch/kick options
- * <li> DISCREET: Kneel down to hide
- *
- * @note The values must match the @c TextId indices
- */
-enum HeroBehaviourType {
-	kNormal = 0,
-	kAthletic = 1,
-	kAggressive = 2,
-	kDiscrete = 3,
-	kProtoPack = 4
-};
 
 /** Actors move structure */
 struct ActorMoveStruct {
@@ -80,35 +61,6 @@ struct AnimTimerDataStruct {
 	int32 time = 0;
 };
 
-enum AnimationTypes {
-	kAnimNone = -1,
-	kStanding = 0,
-	kForward = 1,
-	kBackward = 2,
-	kTurnLeft = 3,
-	kTurnRight = 4,
-	kHit = 5,
-	kBigHit = 6,
-	kFall = 7,
-	kLanding = 8,
-	kLandingHit = 9,
-	kLandDeath = 10,
-	kAction = 11,
-	kClimbLadder = 12,
-	kTopLadder = 13,
-	kJump = 14,
-	kThrowBall = 15,
-	kHide = 16,
-	kKick = 17,
-	kRightPunch = 18,
-	kLeftPunch = 19,
-	kFoundItem = 20,
-	kDrawn = 21,
-	kHit2 = 22,
-	kSabreAttack = 23,
-	kSabreUnknown = 24,
-};
-
 /** Actors static flags structure */
 struct StaticFlagsStruct {
 	uint16 bComputeCollisionWithObj : 1;    // 0x0001
@@ -118,7 +70,7 @@ struct StaticFlagsStruct {
 	uint16 bCanBePushed : 1;                // 0x0010
 	uint16 bComputeLowCollision : 1;        // 0x0020
 	uint16 bCanDrown : 1;                   // 0x0040
-	uint16 bUnk80 : 1;                      // 0x0080
+	uint16 bComputeCollisionWithFloor : 1;  // 0x0080
 	uint16 bUnk0100 : 1;                    // 0x0100
 	uint16 bIsHidden : 1;                   // 0x0200
 	uint16 bIsSpriteActor : 1;              // 0x0400
@@ -126,6 +78,7 @@ struct StaticFlagsStruct {
 	uint16 bDoesntCastShadow : 1;           // 0x1000
 	uint16 bIsBackgrounded : 1;             // 0x2000
 	uint16 bIsCarrierActor : 1;             // 0x4000
+	// take smaller value for bound, or if not set take average for bound
 	uint16 bUseMiniZv : 1;                  // 0x8000
 };
 
@@ -149,28 +102,50 @@ struct DynamicFlagsStruct {
 	uint16 bUnk8000 : 1;          // 0x8000 unused
 };
 
-/** Control mode types */
-enum ControlMode {
-	kNoMove = 0,
-	kManual = 1,
-	kFollow = 2,
-	kTrack = 3,
-	kFollow2 = 4,
-	kTrackAttack = 5,
-	kSameXZ = 6,
-	kRandom = 7
+/**
+ * Bonus type flags - a bitfield value, of which the bits mean:
+ * bit 8: clover leaf,
+ * bit 7: small key,
+ * bit 6: magic,
+ * bit 5: life,
+ * bit 4: money,
+ * If more than one type of bonus is selected, the actual type of bonus
+ * will be chosen randomly each time player uses Action.
+ */
+struct BonusParameter {
+	uint16 unk1 : 1;
+	uint16 unk2 : 1;
+	uint16 unk3 : 1;
+	uint16 unk4 : 1;
+	uint16 kashes : 1;
+	uint16 lifepoints : 1;
+	uint16 magicpoints : 1;
+	uint16 key : 1;
+	uint16 cloverleaf : 1;
+	uint16 unused : 7;
 };
 
 /** Actors structure */
-struct ActorStruct {
+class ActorStruct {
+private:
+	ShapeType _brickShape = ShapeType::kNone; // field_3
+	bool _brickCausesDamage = false;
+public:
+	~ActorStruct();
+
 	StaticFlagsStruct staticFlags;
 	DynamicFlagsStruct dynamicFlags;
 
+	inline ShapeType brickShape() const { return _brickShape; }
+	inline void setBrickShape(ShapeType shapeType) { _brickShape = shapeType; _brickCausesDamage = false; }
+	inline void setBrickCausesDamage() { _brickCausesDamage = true; }
+	inline bool brickCausesDamage() { return _brickCausesDamage; }
+	void loadModel(int32 modelIndex);
+
 	int32 entity = 0; // costumeIndex
 	int32 body = 0;
-	AnimationTypes anim = kAnimNone;
-	int32 animExtra = 0;  //field_2
-	int32 brickShape = 0; // field_3
+	AnimationTypes anim = AnimationTypes::kAnimNone;
+	AnimationTypes animExtra = AnimationTypes::kStanding;  //field_2
 	const uint8 *animExtraPtr = nullptr;
 	int32 sprite = 0; // field_8
 	uint8 *entityDataPtr = nullptr;
@@ -181,14 +156,15 @@ struct ActorStruct {
 	int32 z = 0;
 	int32 strengthOfHit = 0; // field_66
 	int32 hitBy = 0;
-	int32 bonusParameter = 0; // field_10
+	BonusParameter bonusParameter; // field_10
 	int32 angle = 0;
 	int32 speed = 0;
 	ControlMode controlMode = ControlMode::kNoMove;
-	int32 info0 = 0;         // cropLeft
-	int32 info1 = 0;         // cropTop
-	int32 info2 = 0;         // cropRight
-	int32 info3 = 0;         // cropBottom
+	int32 delayInMillis = 0;
+	int32 cropLeft = 0;
+	int32 cropTop = 0;
+	int32 cropRight = 0;
+	int32 cropBottom = 0;
 	int32 followedActor = 0; // same as info3
 	int32 bonusAmount = 0;   // field_12
 	int32 talkColor = 0;
@@ -292,13 +268,13 @@ public:
 	/** Actor shadow Z coordinate */
 	int32 shadowZ = 0;
 	/** Actor shadow collition type - brick shape */
-	int8 shadowCollisionType = 0; // shadowVar
+	ShapeType shadowCollisionType = ShapeType::kNone; // shadowVar
 
-	HeroBehaviourType heroBehaviour = kNormal;
+	HeroBehaviourType heroBehaviour = HeroBehaviourType::kNormal;
 	/** Hero auto agressive mode */
 	bool autoAgressive = true;
 	/** Previous Hero behaviour */
-	HeroBehaviourType previousHeroBehaviour = kNormal;
+	HeroBehaviourType previousHeroBehaviour = HeroBehaviourType::kNormal;
 	/** Previous Hero angle */
 	int16 previousHeroAngle = 0;
 
@@ -337,7 +313,7 @@ public:
 	 * Set hero behaviour
 	 * @param behaviour behaviour value to set
 	 */
-	void setBehaviour(int32 behaviour);
+	void setBehaviour(HeroBehaviourType behaviour);
 
 	/** Preload all sprites */
 	void preloadSprites();

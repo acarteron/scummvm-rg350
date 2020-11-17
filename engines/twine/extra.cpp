@@ -105,13 +105,13 @@ static const int16 explodeCloudShapeTable[] = {
 
 Extra::Extra(TwinEEngine *engine) : _engine(engine) {}
 
-int32 Extra::addExtra(int32 actorIdx, int32 x, int32 y, int32 z, int32 info0, int32 targetActor, int32 maxSpeed, int32 strengthOfHit) {
+int32 Extra::addExtra(int32 actorIdx, int32 x, int32 y, int32 z, int32 spriteIdx, int32 targetActor, int32 maxSpeed, int32 strengthOfHit) {
 	for (int32 i = 0; i < EXTRA_MAX_ENTRIES; i++) {
 		ExtraListStruct *extra = &extraList[i];
 		if (extra->info0 != -1) {
 			continue;
 		}
-		extra->info0 = info0;
+		extra->info0 = spriteIdx;
 		extra->type = 0x80;
 		extra->info1 = 0;
 		extra->x = x;
@@ -136,7 +136,7 @@ int32 Extra::addExtraExplode(int32 x, int32 y, int32 z) {
 		if (extra->info0 != -1) {
 			continue;
 		}
-		extra->info0 = 0x61;
+		extra->info0 = SPRITEHQR_EXPLOSION_FIRST_FRAME;
 		extra->type = 0x1001;
 		extra->info1 = 0;
 		extra->x = x;
@@ -179,7 +179,7 @@ void Extra::throwExtra(ExtraListStruct *extra, int32 var1, int32 var2, int32 var
 }
 
 void Extra::addExtraSpecial(int32 x, int32 y, int32 z, ExtraSpecialType type) { // InitSpecial
-	const int16 flag = 0x8000 + type;
+	const int16 flag = 0x8000 + (int16)type;
 
 	for (int32 i = 0; i < EXTRA_MAX_ENTRIES; i++) {
 		ExtraListStruct *extra = &extraList[i];
@@ -189,7 +189,7 @@ void Extra::addExtraSpecial(int32 x, int32 y, int32 z, ExtraSpecialType type) { 
 		extra->info0 = flag;
 		extra->info1 = 0;
 
-		if (type == kHitStars) {
+		if (type == ExtraSpecialType::kHitStars) {
 			extra->type = 9;
 
 			extra->x = x;
@@ -203,7 +203,7 @@ void Extra::addExtraSpecial(int32 x, int32 y, int32 z, ExtraSpecialType type) { 
 			extra->lifeTime = _engine->lbaTime;
 			extra->actorIdx = 100;
 		}
-		if (type == kExplodeCloud) {
+		if (type == ExtraSpecialType::kExplodeCloud) {
 			extra->type = 1;
 
 			extra->x = x;
@@ -218,10 +218,43 @@ void Extra::addExtraSpecial(int32 x, int32 y, int32 z, ExtraSpecialType type) { 
 	}
 }
 
-int32 Extra::addExtraBonus(int32 x, int32 y, int32 z, int32 param, int32 angle, int32 type, int32 bonusAmount) { // ExtraBonus
-	int32 i;
+int Extra::getBonusSprite(BonusParameter bonusParameter) const {
+	int numBonus = 0;
+	int8 bonusSprites[5];
+	if (bonusParameter.kashes) {
+		bonusSprites[numBonus++] = SPRITEHQR_KASHES;
+	}
+	if (bonusParameter.lifepoints) {
+		bonusSprites[numBonus++] = SPRITEHQR_LIFEPOINTS;
+	}
+	if (bonusParameter.magicpoints) {
+		bonusSprites[numBonus++] = SPRITEHQR_MAGICPOINTS;
+	}
+	if (bonusParameter.key) {
+		bonusSprites[numBonus++] = SPRITEHQR_KEY;
+	}
+	if (bonusParameter.cloverleaf) {
+		bonusSprites[numBonus++] = SPRITEHQR_CLOVERLEAF;
+	}
 
-	for (i = 0; i < EXTRA_MAX_ENTRIES; i++) {
+	if (numBonus == 0) {
+		return -1;
+	}
+
+	const int bonusIndex = _engine->getRandomNumber(numBonus);
+	assert(bonusIndex >= 0);
+	assert(bonusIndex < numBonus);
+	int8 bonusSprite = bonusSprites[bonusIndex];
+	// if bonus is magic an no magic level yet, then give life points
+	if (!_engine->_gameState->magicLevelIdx && bonusSprite == SPRITEHQR_MAGICPOINTS) {
+		bonusSprite = SPRITEHQR_KASHES;
+	}
+
+	return bonusSprite;
+}
+
+int32 Extra::addExtraBonus(int32 x, int32 y, int32 z, int32 param, int32 angle, int32 type, int32 bonusAmount) { // ExtraBonus
+	for (int32 i = 0; i < EXTRA_MAX_ENTRIES; i++) {
 		ExtraListStruct *extra = &extraList[i];
 		if (extra->info0 != -1) {
 			continue;
@@ -250,15 +283,13 @@ int32 Extra::addExtraBonus(int32 x, int32 y, int32 z, int32 param, int32 angle, 
 	return -1;
 }
 
-int32 Extra::addExtraThrow(int32 actorIdx, int32 x, int32 y, int32 z, int32 sprite, int32 var2, int32 var3, int32 var4, int32 var5, int32 strengthOfHit) { // ThrowExtra
-	int32 i;
-
-	for (i = 0; i < EXTRA_MAX_ENTRIES; i++) {
+int32 Extra::addExtraThrow(int32 actorIdx, int32 x, int32 y, int32 z, int32 spriteIdx, int32 var2, int32 var3, int32 var4, int32 var5, int32 strengthOfHit) { // ThrowExtra
+	for (int32 i = 0; i < EXTRA_MAX_ENTRIES; i++) {
 		ExtraListStruct *extra = &extraList[i];
 		if (extra->info0 != -1) {
 			continue;
 		}
-		extra->info0 = sprite;
+		extra->info0 = spriteIdx;
 		extra->type = 0x210C;
 		extra->x = x;
 		extra->y = y;
@@ -279,9 +310,7 @@ int32 Extra::addExtraThrow(int32 actorIdx, int32 x, int32 y, int32 z, int32 spri
 }
 
 int32 Extra::addExtraAiming(int32 actorIdx, int32 x, int32 y, int32 z, int32 spriteIdx, int32 targetActorIdx, int32 maxSpeed, int32 strengthOfHit) { // ExtraSearch
-	int32 i;
-
-	for (i = 0; i < EXTRA_MAX_ENTRIES; i++) {
+	for (int32 i = 0; i < EXTRA_MAX_ENTRIES; i++) {
 		ExtraListStruct *extra = &extraList[i];
 		if (extra->info0 != -1) {
 			continue;
@@ -308,9 +337,7 @@ int32 Extra::addExtraAiming(int32 actorIdx, int32 x, int32 y, int32 z, int32 spr
 
 // cseg01:00018168
 int32 Extra::findExtraKey() {
-	int32 i;
-
-	for (i = 0; i < EXTRA_MAX_ENTRIES; i++) {
+	for (int32 i = 0; i < EXTRA_MAX_ENTRIES; i++) {
 		ExtraListStruct *extra = &extraList[i];
 		if (extra->info0 == SPRITEHQR_KEY) {
 			return i;
@@ -322,9 +349,7 @@ int32 Extra::findExtraKey() {
 
 // cseg01:00018250
 int32 Extra::addExtraAimingAtKey(int32 actorIdx, int32 x, int32 y, int32 z, int32 spriteIdx, int32 extraIdx) { // addMagicBallAimingAtKey
-	int32 i;
-
-	for (i = 0; i < EXTRA_MAX_ENTRIES; i++) {
+	for (int32 i = 0; i < EXTRA_MAX_ENTRIES; i++) {
 		ExtraListStruct *extra = &extraList[i];
 		if (extra->info0 != -1) {
 			continue;
@@ -493,16 +518,14 @@ void Extra::drawSpecialShape(const int16 *shapeTable, int32 x, int32 y, int32 co
 }
 
 void Extra::drawExtraSpecial(int32 extraIdx, int32 x, int32 y) {
-	int32 specialType;
 	ExtraListStruct *extra = &extraList[extraIdx];
-
-	specialType = extra->info0 & 0x7FFF;
+	ExtraSpecialType specialType = (ExtraSpecialType)(extra->info0 & 0x7FFF);
 
 	switch (specialType) {
-	case kHitStars:
+	case ExtraSpecialType::kHitStars:
 		drawSpecialShape(hitStarsShapeTable, x, y, 15, (_engine->lbaTime << 5) & 0x300, 4);
 		break;
-	case kExplodeCloud: {
+	case ExtraSpecialType::kExplodeCloud: {
 		int32 cloudTime = 1 + _engine->lbaTime - extra->lifeTime;
 
 		if (cloudTime > 32) {
@@ -516,13 +539,13 @@ void Extra::drawExtraSpecial(int32 extraIdx, int32 x, int32 y) {
 }
 
 void Extra::processMagicballBounce(ExtraListStruct *extra, int32 x, int32 y, int32 z) {
-	if (_engine->_grid->getBrickShape(x, extra->y, z)) {
+	if (_engine->_grid->getBrickShape(x, extra->y, z) != ShapeType::kNone) {
 		extra->destY = -extra->destY;
 	}
-	if (_engine->_grid->getBrickShape(extra->x, y, z)) {
+	if (_engine->_grid->getBrickShape(extra->x, y, z) != ShapeType::kNone) {
 		extra->destX = -extra->destX;
 	}
-	if (_engine->_grid->getBrickShape(x, y, extra->z)) {
+	if (_engine->_grid->getBrickShape(x, y, extra->z) != ShapeType::kNone) {
 		extra->destZ = -extra->destZ;
 	}
 
@@ -775,7 +798,7 @@ void Extra::processExtras() {
 			if (process) {
 				// show explode cloud
 				if (extra->type & 0x100) {
-					addExtraSpecial(currentExtraX, currentExtraY, currentExtraZ, kExplodeCloud);
+					addExtraSpecial(currentExtraX, currentExtraY, currentExtraZ, ExtraSpecialType::kExplodeCloud);
 				}
 				// if extra is magic ball
 				if (i == _engine->_gameState->magicBallIdx) {

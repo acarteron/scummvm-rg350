@@ -64,7 +64,7 @@ void GameState::initEngineProjections() {
 	_engine->_renderer->setLightVector(_engine->_scene->alphaLight, _engine->_scene->betaLight, 0);
 }
 
-void GameState::initSceneVars() {
+void GameState::initGameStateVars() {
 	_engine->_extra->resetExtras();
 
 	for (int32 i = 0; i < OVERLAY_MAX_ENTRIES; i++) {
@@ -116,7 +116,7 @@ void GameState::initEngineVars() {
 	_engine->_scene->alphaLight = 896;
 	_engine->_scene->betaLight = 950;
 	initEngineProjections();
-	initSceneVars();
+	initGameStateVars();
 	initHeroVars();
 
 	_engine->_scene->newHeroX = 0x2000;
@@ -145,9 +145,9 @@ void GameState::initEngineVars() {
 
 	_engine->_scene->sceneTextBank = TextBankId::Options_and_menus;
 	_engine->_scene->currentlyFollowedActor = OWN_ACTOR_SCENE_INDEX;
-	_engine->_actor->heroBehaviour = kNormal;
+	_engine->_actor->heroBehaviour = HeroBehaviourType::kNormal;
 	_engine->_actor->previousHeroAngle = 0;
-	_engine->_actor->previousHeroBehaviour = kNormal;
+	_engine->_actor->previousHeroBehaviour = HeroBehaviourType::kNormal;
 }
 
 bool GameState::loadGame(Common::SeekableReadStream *file) {
@@ -231,7 +231,7 @@ bool GameState::saveGame(Common::WriteStream *file) {
 	file->write(gameFlags, NUM_GAME_FLAGS);
 	file->writeByte(_engine->_scene->currentSceneIdx);
 	file->writeByte(gameChapter);
-	file->writeByte(_engine->_actor->heroBehaviour);
+	file->writeByte((byte)_engine->_actor->heroBehaviour);
 	file->writeByte(_engine->_scene->sceneHero->life);
 	file->writeSint16LE(inventoryNumKashes);
 	file->writeByte(magicLevelIdx);
@@ -280,7 +280,7 @@ void GameState::processFoundItem(int32 item) {
 
 	const int32 itemX = (_engine->_scene->sceneHero->x + 0x100) >> 9;
 	int32 itemY = _engine->_scene->sceneHero->y >> 8;
-	if (_engine->_scene->sceneHero->brickShape & 0x7F) {
+	if (_engine->_scene->sceneHero->brickShape() != ShapeType::kNone) {
 		itemY++;
 	}
 	const int32 itemZ = (_engine->_scene->sceneHero->z + 0x100) >> 9;
@@ -459,7 +459,7 @@ void GameState::processGameoverAnimation() {
 		const int32 avg = _engine->_collision->getAverageValue(40000, 3200, 500, _engine->lbaTime - startLbaTime);
 		const int32 cdot = _engine->_screens->crossDot(1, 1024, 100, (_engine->lbaTime - startLbaTime) % 100);
 
-		_engine->_interface->blitBox(left, top, right, bottom, (int8 *)_engine->workVideoBuffer.getPixels(), 120, 120, (int8 *)_engine->frontVideoBuffer.getPixels());
+		_engine->_interface->blitBox(left, top, right, bottom, _engine->workVideoBuffer, 120, 120, _engine->frontVideoBuffer);
 		_engine->_renderer->setCameraAngle(0, 0, 0, 0, -cdot, 0, avg);
 		_engine->_renderer->renderIsoModel(0, 0, 0, 0, 0, 0, gameOverPtr);
 		_engine->copyBlockPhys(left, top, right, bottom);
@@ -469,7 +469,7 @@ void GameState::processGameoverAnimation() {
 	}
 
 	_engine->_sound->playSample(Samples::Explode, _engine->getRandomNumber(2000) + 3096);
-	_engine->_interface->blitBox(left, top, right, bottom, (int8 *)_engine->workVideoBuffer.getPixels(), 120, 120, (int8 *)_engine->frontVideoBuffer.getPixels());
+	_engine->_interface->blitBox(left, top, right, bottom, _engine->workVideoBuffer, 120, 120, _engine->frontVideoBuffer);
 	_engine->_renderer->setCameraAngle(0, 0, 0, 0, 0, 0, 3200);
 	_engine->_renderer->renderIsoModel(0, 0, 0, 0, 0, 0, gameOverPtr);
 	_engine->copyBlockPhys(left, top, right, bottom);
@@ -483,6 +483,12 @@ void GameState::processGameoverAnimation() {
 	initEngineProjections();
 
 	_engine->lbaTime = tmpLbaTime;
+}
+
+void GameState::giveUp() {
+	_engine->_sound->stopSamples();
+	initGameStateVars();
+	_engine->_scene->stopRunningGame();
 }
 
 } // namespace TwinE

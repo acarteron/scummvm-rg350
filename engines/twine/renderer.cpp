@@ -83,10 +83,10 @@ void Renderer::setBaseTranslation(int32 x, int32 y, int32 z) {
 	baseTransPosZ = z;
 }
 
-void Renderer::setOrthoProjection(int32 X, int32 Y, int32 Z) {
-	orthoProjX = X;
-	orthoProjY = Y;
-	orthoProjZ = Z;
+void Renderer::setOrthoProjection(int32 x, int32 y, int32 z) {
+	orthoProjX = x;
+	orthoProjY = y;
+	orthoProjZ = z;
 
 	isUsingOrhoProjection = true;
 }
@@ -314,9 +314,10 @@ void Renderer::processTranslatedElement(int32 *targetMatrix, const uint8 *points
 			dest[i] = baseMatrix[i];
 		}
 	} else { // dependent
-		destX = computedPoints[(elemPtr->basePoint) / 6].x;
-		destY = computedPoints[(elemPtr->basePoint) / 6].y;
-		destZ = computedPoints[(elemPtr->basePoint) / 6].z;
+		const int pointsIdx = elemPtr->basePoint / 6;
+		destX = computedPoints[pointsIdx].x;
+		destY = computedPoints[pointsIdx].y;
+		destZ = computedPoints[pointsIdx].z;
 
 		const int32 *source = &matricesTable[elemPtr->baseElement / sizeof(int32)];
 		int32 *dest = targetMatrix;
