@@ -25,10 +25,12 @@
 #include "common/util.h"
 #include "twine/actor.h"
 #include "twine/animations.h"
+#include "twine/flamovies.h"
 #include "twine/movements.h"
 #include "twine/redraw.h"
 #include "twine/renderer.h"
 #include "twine/scene.h"
+#include "twine/screens.h"
 #include "common/memstream.h"
 #include "twine/sound.h"
 #include "twine/twine.h"
@@ -133,7 +135,7 @@ static int32 mWAIT_ANIM(TwinEEngine *engine, MoveScriptContext &ctx) {
 
 /*0x06*/
 static int32 mLOOP(TwinEEngine *engine, MoveScriptContext &ctx) {
-	// TODO
+	// TODO no params
 	return -1;
 }
 
@@ -184,7 +186,12 @@ static int32 mLABEL(TwinEEngine *engine, MoveScriptContext &ctx) {
 
 /*0x0A*/
 static int32 mGOTO(TwinEEngine *engine, MoveScriptContext &ctx) {
-	ctx.stream.seek(ctx.stream.readSint16LE());
+	const int16 pos = ctx.stream.readSint16LE();
+	if (pos == -1) {
+		ctx.actor->positionInMoveScript = -1;
+		return 1;
+	}
+	ctx.stream.seek(pos);
 	return 0;
 }
 
@@ -243,7 +250,7 @@ static int32 mWAIT_NUM_ANIM(TwinEEngine *engine, MoveScriptContext &ctx) {
 		ctx.undo(2);
 	}
 
-	return abortMove;
+	return abortMove ? 1 : 0;
 }
 
 /*0x0E*/
@@ -454,8 +461,24 @@ static int32 mSAMPLE_STOP(TwinEEngine *engine, MoveScriptContext &ctx) {
 
 /*0x1E*/
 static int32 mPLAY_FLA(TwinEEngine *engine, MoveScriptContext &ctx) {
-	// TODO
-	return -1;
+	int strIdx = 0;
+	char movie[64];
+	do {
+		const byte c = ctx.stream.readByte();
+		movie[strIdx++] = c;
+		if (c == '\0') {
+			break;
+		}
+		if (strIdx >= ARRAYSIZE(movie)) {
+			error("Max string size exceeded for fla name");
+		}
+	} while (true);
+
+	engine->_flaMovies->playFlaMovie(movie);
+	engine->setPalette(engine->_screens->paletteRGBA);
+	engine->_screens->clearScreen();
+	engine->flip();
+	return 0;
 }
 
 /*0x1F*/
@@ -523,7 +546,7 @@ static int32 mANGLE_RND(TwinEEngine *engine, MoveScriptContext &ctx) {
 	}
 
 	if (ctx.actor->angle != engine->_scene->currentScriptValue) {
-		ctx.stream.rewind(4);
+		ctx.undo(4);
 		return 1;
 	}
 	engine->_movements->clearRealAngle(ctx.actor);
@@ -591,10 +614,10 @@ void ScriptMove::processMoveScript(int32 actorIdx) {
 		if (end < 0) {
 			warning("Actor %d Life script [%s] not implemented", actorIdx, function_map[scriptOpcode].name);
 		}
+		if (ctx.actor->positionInMoveScript != -1) {
+			actor->positionInMoveScript = ctx.stream.pos();
+		}
 	} while (end != 1);
-	if (ctx.actor->positionInMoveScript != -1) {
-		actor->positionInMoveScript = ctx.stream.pos();
-	}
 }
 
 } // namespace TwinE

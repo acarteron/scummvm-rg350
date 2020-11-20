@@ -237,9 +237,9 @@ bool GameState::saveGame(Common::WriteStream *file) {
 	file->writeByte(magicLevelIdx);
 	file->writeByte(inventoryMagicPoints);
 	file->writeByte(inventoryNumLeafsBox);
-	file->writeSint16LE(_engine->_scene->newHeroX);
-	file->writeSint16LE(_engine->_scene->newHeroY);
-	file->writeSint16LE(_engine->_scene->newHeroZ);
+	file->writeSint16LE(_engine->_scene->sceneHero->x);
+	file->writeSint16LE(_engine->_scene->sceneHero->y);
+	file->writeSint16LE(_engine->_scene->sceneHero->z);
 	file->writeSint16LE(_engine->_scene->sceneHero->angle);
 	file->writeByte(_engine->_scene->sceneHero->body);
 
@@ -446,13 +446,14 @@ void GameState::processGameoverAnimation() {
 	_engine->_renderer->prepareIsoModel(gameOverPtr);
 	_engine->_sound->stopSamples();
 	_engine->_music->stopMidiMusic(); // stop fade music
-	_engine->_renderer->setCameraPosition(320, 240, 128, 200, 200);
+	_engine->_renderer->setCameraPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 128, 200, 200);
 	int32 startLbaTime = _engine->lbaTime;
 	_engine->_interface->setClip(left, top, right, bottom);
 
 	while (!_engine->_input->toggleAbortAction() && (_engine->lbaTime - startLbaTime) <= 500) {
 		_engine->readKeys();
 		if (_engine->shouldQuit()) {
+			free(gameOverPtr);
 			return;
 		}
 

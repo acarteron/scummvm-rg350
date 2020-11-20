@@ -268,12 +268,11 @@ void Grid::getSpriteSize(int32 offset, int32 *width, int32 *height, const uint8 
 	*height = *(spritePtr + 1);
 }
 
-int32 Grid::loadGridBricks(int32 gridSize) {
+void Grid::loadGridBricks(int32 gridSize) {
 	uint32 firstBrick = 60000;
 	uint32 lastBrick = 0;
 	uint32 currentBllEntryIdx = 0;
 
-	memset(brickTable, 0, sizeof(brickTable));
 	memset(brickSizeTable, 0, sizeof(brickSizeTable));
 	memset(brickUsageTable, 0, sizeof(brickUsageTable));
 
@@ -303,11 +302,13 @@ int32 Grid::loadGridBricks(int32 gridSize) {
 				if (brickIdx) {
 					brickIdx--;
 
-					if (brickIdx <= firstBrick)
+					if (brickIdx <= firstBrick) {
 						firstBrick = brickIdx;
+					}
 
-					if (brickIdx > lastBrick)
+					if (brickIdx > lastBrick) {
 						lastBrick = brickIdx;
+					}
 
 					brickUsageTable[brickIdx] = 1;
 				}
@@ -319,6 +320,8 @@ int32 Grid::loadGridBricks(int32 gridSize) {
 
 	for (uint32 i = firstBrick; i <= lastBrick; i++) {
 		if (!brickUsageTable[i]) {
+			free(brickTable[i]);
+			brickTable[i] = nullptr;
 			continue;
 		}
 		brickSizeTable[i] = HQR::getAllocEntry(&brickTable[i], Resources::HQR_LBA_BRK_FILE, i);
@@ -326,8 +329,6 @@ int32 Grid::loadGridBricks(int32 gridSize) {
 			warning("Failed to load isometric brick index %i", i);
 		}
 	}
-
-	return 1;
 }
 
 void Grid::createGridColumn(const uint8 *gridEntry, uint32 gridEntrySize, uint8 *dest, uint32 destSize) {

@@ -69,7 +69,7 @@ void Sound::playFlaSample(int32 index, int32 frequency, int32 repeat, int32 x, i
 		return;
 	}
 
-	uint8 *sampPtr;
+	uint8 *sampPtr = nullptr;
 	const int32 sampSize = HQR::getAllocEntry(&sampPtr, Resources::HQR_FLASAMP_FILE, index);
 	if (sampSize == 0) {
 		warning("Failed to load %s", Resources::HQR_FLASAMP_FILE);
@@ -137,7 +137,10 @@ bool Sound::playSample(int channelIdx, int index, uint8 *sampPtr, int32 sampSize
 		delete stream;
 		return false;
 	}
-	_engine->_system->getMixer()->playStream(soundType, &samplesPlaying[channelIdx], audioStream, index);
+	if (loop == -1) {
+		loop = 0;
+	}
+	_engine->_system->getMixer()->playStream(soundType, &samplesPlaying[channelIdx], Audio::makeLoopingAudioStream(audioStream, loop), index);
 	return true;
 }
 

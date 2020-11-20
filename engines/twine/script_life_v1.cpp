@@ -228,7 +228,7 @@ static int32 processLifeConditions(TwinEEngine *engine, LifeScriptContext &ctx) 
 				engine->_movements->targetActorDistance = MAX_TARGET_ACTOR_DISTANCE;
 			}
 
-			if (!targetActorIdx) {
+			if (IS_HERO(targetActorIdx)) {
 				int32 heroAngle = ctx.actor->angle + 0x480 - newAngle + 0x400;
 				heroAngle &= 0x3FF;
 
@@ -470,7 +470,7 @@ static int32 lNO_IF(TwinEEngine *engine, LifeScriptContext &ctx) {
 
 /*0x0A*/
 static int32 lLABEL(TwinEEngine *engine, LifeScriptContext &ctx) {
-	ctx.stream.skip(1);
+	ctx.stream.skip(1); // label id
 	return 0;
 }
 
@@ -608,7 +608,7 @@ static int32 lSET_DIRMODE(TwinEEngine *engine, LifeScriptContext &ctx) {
 	const int32 controlMode = ctx.stream.readByte();
 
 	ctx.actor->controlMode = (ControlMode)controlMode;
-	if (ctx.actor->controlMode == ControlMode::kFollow) {
+	if (ctx.actor->controlMode == ControlMode::kFollow || ctx.actor->controlMode == ControlMode::kFollow2) {
 		ctx.actor->followedActor = ctx.stream.readByte();
 	}
 
@@ -622,7 +622,7 @@ static int32 lSET_DIRMODE_OBJ(TwinEEngine *engine, LifeScriptContext &ctx) {
 
 	ActorStruct *otherActor = engine->_scene->getActor(otherActorIdx);
 	otherActor->controlMode = (ControlMode)controlMode;
-	if (otherActor->controlMode == ControlMode::kFollow) {
+	if (otherActor->controlMode == ControlMode::kFollow || ctx.actor->controlMode == ControlMode::kFollow2) {
 		otherActor->followedActor = ctx.stream.readByte();
 	}
 
@@ -1007,10 +1007,11 @@ static int32 lSUB_LIFE_POINT_OBJ(TwinEEngine *engine, LifeScriptContext &ctx) {
 	int32 otherActorIdx = ctx.stream.readByte();
 	static int32 lifeValue = ctx.stream.readByte();
 
-	engine->_scene->getActor(otherActorIdx)->life -= lifeValue;
+	ActorStruct *otherActor = engine->_scene->getActor(otherActorIdx);
+	otherActor->life -= lifeValue;
 
-	if (engine->_scene->getActor(otherActorIdx)->life < 0) {
-		engine->_scene->getActor(otherActorIdx)->life = 0;
+	if (otherActor->life < 0) {
+		otherActor->life = 0;
 	}
 
 	return 0;
@@ -1431,7 +1432,7 @@ static int32 lPROJ_3D(TwinEEngine *engine, LifeScriptContext &ctx) {
 	engine->flip();
 	engine->_scene->changeRoomVar10 = 0;
 
-	engine->_renderer->setCameraPosition(320, 240, 128, 1024, 1024);
+	engine->_renderer->setCameraPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 128, 1024, 1024);
 	engine->_renderer->setCameraAngle(0, 1500, 0, 25, -128, 0, 13000);
 	engine->_renderer->setLightVector(896, 950, 0);
 

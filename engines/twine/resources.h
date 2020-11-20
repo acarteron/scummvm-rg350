@@ -173,6 +173,17 @@ public:
 	uint32 spriteBoundingBoxSize = 0;
 	uint8 *spriteBoundingBoxPtr = nullptr;
 
+	uint32 holomapSurfaceSize = 0;
+	uint8 *holomapSurfacePtr = nullptr;
+	uint32 holomapImageSize = 0;
+	uint8 *holomapImagePtr = nullptr;
+	uint32 holomapTwinsenModelSize = 0;
+	uint8 *holomapTwinsenModelPtr = nullptr;
+	uint32 holomapTwinsenArrowSize = 0;
+	uint8 *holomapTwinsenArrowPtr = nullptr;
+	uint32 holomapArrowSize = 0;
+	uint8 *holomapArrowPtr = nullptr;
+
 	/** Initialize resource pointers */
 	void initResources();
 
@@ -194,6 +205,7 @@ public:
 	 * isometric bricks, which are some kind of tiles, that are used for building the terrains in LBA 1 isometric scenes.
 	 * One brick is the tiniest piece of a grid, which has 64 x 64 x 25 cells. Bricks cannot be used directly on a grid,
 	 * but instead they are grouped into blocks by block libraries, which are then referenced by grids
+	 * Bricks are images or sprites in a special format.
 	 */
 	static constexpr const char *HQR_LBA_BRK_FILE = "lba_brk.hqr";
 	// scenes (active area content (actors, scripts, etc.))
