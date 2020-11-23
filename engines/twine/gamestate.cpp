@@ -41,6 +41,7 @@
 #include "twine/resources.h"
 #include "twine/scene.h"
 #include "twine/screens.h"
+#include "twine/shared.h"
 #include "twine/sound.h"
 #include "twine/text.h"
 #include "twine/twine.h"
@@ -150,14 +151,17 @@ void GameState::initEngineVars() {
 	_engine->_actor->previousHeroBehaviour = HeroBehaviourType::kNormal;
 }
 
+// http://lbafileinfo.kazekr.net/index.php?title=LBA1:Savegame
 bool GameState::loadGame(Common::SeekableReadStream *file) {
 	if (file == nullptr) {
 		return false;
 	}
 
-	initEngineVars();
+	if (file->readByte() != 0x03) {
+		return false;
+	}
 
-	file->skip(1); // skip save game id
+	initEngineVars();
 
 	int playerNameIdx = 0;
 	do {
@@ -191,7 +195,7 @@ bool GameState::loadGame(Common::SeekableReadStream *file) {
 	_engine->_scene->newHeroX = file->readSint16LE();
 	_engine->_scene->newHeroY = file->readSint16LE();
 	_engine->_scene->newHeroZ = file->readSint16LE();
-	_engine->_scene->sceneHero->angle = file->readSint16LE();
+	_engine->_scene->sceneHero->angle = ToAngle(file->readSint16LE());
 	_engine->_actor->previousHeroAngle = _engine->_scene->sceneHero->angle;
 	_engine->_scene->sceneHero->body = file->readByte();
 
@@ -237,10 +241,12 @@ bool GameState::saveGame(Common::WriteStream *file) {
 	file->writeByte(magicLevelIdx);
 	file->writeByte(inventoryMagicPoints);
 	file->writeByte(inventoryNumLeafsBox);
-	file->writeSint16LE(_engine->_scene->sceneHero->x);
-	file->writeSint16LE(_engine->_scene->sceneHero->y);
-	file->writeSint16LE(_engine->_scene->sceneHero->z);
-	file->writeSint16LE(_engine->_scene->sceneHero->angle);
+	// we don't save the whole scene state - so we have to make sure that the hero is
+	// respawned at the start of the scene - and not at its current position
+	file->writeSint16LE(_engine->_scene->newHeroX);
+	file->writeSint16LE(_engine->_scene->newHeroY);
+	file->writeSint16LE(_engine->_scene->newHeroZ);
+	file->writeSint16LE(FromAngle(_engine->_scene->sceneHero->angle));
 	file->writeByte(_engine->_scene->sceneHero->body);
 
 	// number of holomap locations
@@ -254,7 +260,8 @@ bool GameState::saveGame(Common::WriteStream *file) {
 	file->write(inventoryFlags, NUM_INVENTORY_ITEMS);
 
 	file->writeByte(inventoryNumLeafs);
-	file->writeByte(usingSabre);
+	file->writeByte(usingSabre ? 1 : 0);
+	file->writeByte(0);
 
 	return true;
 }
@@ -347,14 +354,14 @@ void GameState::processFoundItem(int32 item) {
 			}
 		}
 
-		_engine->_renderer->renderIsoModel(_engine->_scene->sceneHero->x - itemCameraX, _engine->_scene->sceneHero->y - itemCameraY, _engine->_scene->sceneHero->z - itemCameraZ, 0, 0x80, 0, _engine->_actor->bodyTable[_engine->_scene->sceneHero->entity]);
+		_engine->_renderer->renderIsoModel(_engine->_scene->sceneHero->x - itemCameraX, _engine->_scene->sceneHero->y - itemCameraY, _engine->_scene->sceneHero->z - itemCameraZ, ANGLE_0, ANGLE_45, ANGLE_0, _engine->_actor->bodyTable[_engine->_scene->sceneHero->entity]);
 		_engine->_interface->setClip(_engine->_redraw->renderLeft, _engine->_redraw->renderTop, _engine->_redraw->renderRight, _engine->_redraw->renderBottom);
 		_engine->_grid->drawOverModelActor(itemX, itemY, itemZ);
 		_engine->_redraw->addRedrawArea(_engine->_redraw->renderLeft, _engine->_redraw->renderTop, _engine->_redraw->renderRight, _engine->_redraw->renderBottom);
 
 		if (textState) {
 			_engine->_interface->resetClip();
-			textState = _engine->_text->printText10();
+			textState = _engine->_text->updateProgressiveText();
 		}
 
 		if (textState == 0 || textState == 2) {

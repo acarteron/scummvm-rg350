@@ -735,15 +735,17 @@ int32 Menu::giveupMenu() {
 		}
 		_engine->_text->initTextBank(_engine->_scene->sceneTextBank + 3);
 		_engine->_system->delayMillis(1000 / _engine->cfgfile.Fps);
-	} while (menuId != TextId::kGiveUp && menuId != TextId::kContinue);
+	} while (menuId != TextId::kGiveUp && menuId != TextId::kContinue && menuId != TextId::kCreateSaveGame);
 
 	return 0;
 }
 
 void Menu::drawInfoMenu(int16 left, int16 top) {
 	_engine->_interface->resetClip();
-	drawBox(left, top, left + 450, top + 80);
-	_engine->_interface->drawSplittedBox(left + 1, top + 1, left + 449, top + 79, 0);
+	const int32 width = 450;
+	const int32 height = 80;
+	drawBox(left, top, left + width, top + height);
+	_engine->_interface->drawSplittedBox(left + 1, top + 1, left + width - 1, top + height - 1, 0);
 
 	int32 newBoxLeft2 = left + 9;
 
@@ -758,7 +760,7 @@ void Menu::drawInfoMenu(int16 left, int16 top) {
 	_engine->_interface->drawSplittedBox(newBoxLeft, boxTop, boxLeft, boxBottom, 91);
 	drawBox(left + 25, top + 10, left + 324, top + 10 + 14);
 
-	if (!_engine->_gameState->gameFlags[GAMEFLAG_INVENTORY_DISABLED] && _engine->_gameState->gameFlags[InventoryItems::kiTunic]) {
+	if (!_engine->_gameState->inventoryDisabled() && _engine->_gameState->hasItem(InventoryItems::kiTunic)) {
 		_engine->_grid->drawSprite(0, newBoxLeft2, top + 36, _engine->_resources->spriteTable[SPRITEHQR_MAGICPOINTS]);
 		if (_engine->_gameState->magicLevelIdx > 0) {
 			_engine->_interface->drawSplittedBox(newBoxLeft, top + 35, _engine->_screens->crossDot(newBoxLeft, boxRight, 80, _engine->_gameState->inventoryMagicPoints), top + 50, 75);
@@ -800,10 +802,22 @@ void Menu::drawInfoMenu(int16 left, int16 top) {
 
 // TODO: convert cantDrawBox to bool
 void Menu::drawBehaviour(HeroBehaviourType behaviour, int32 angle, int16 cantDrawBox) {
-	int32 boxLeft = (int32)behaviour * 110 + 110;
-	int32 boxRight = boxLeft + 99;
-	int32 boxTop = 110;
-	int32 boxBottom = 229;
+	const int border = 110;
+	const int32 padding = 11;
+	const int32 width = 99;
+	const int height = 119;
+
+	const int32 boxLeft = (int32)behaviour * (width + padding) + border;
+	const int32 boxRight = boxLeft + width;
+	const int32 boxTop = border;
+	const int32 boxBottom = boxTop + height;
+
+	const int titleOffset = 10;
+	const int titleHeight = 40;
+	const int32 titleBoxLeft = border;
+	const int32 titleBoxRight = 540;
+	const int32 titleBoxTop = boxBottom + titleOffset;
+	const int32 titleBoxBottom = titleBoxTop + titleHeight;
 
 	uint8 *currentAnim = _engine->_resources->animTable[_engine->_actor->heroAnimIdx[(byte)behaviour]];
 	int16 currentAnimState = behaviourAnimState[(byte)behaviour];
@@ -829,21 +843,21 @@ void Menu::drawBehaviour(HeroBehaviourType behaviour, int32 angle, int16 cantDra
 		_engine->_interface->drawSplittedBox(boxLeft, boxTop, boxRight, boxBottom, 69);
 
 		// behaviour menu title
-		_engine->_interface->drawSplittedBox(110, 239, 540, 279, 0);
-		drawBox(110, 239, 540, 279);
+		_engine->_interface->drawSplittedBox(titleBoxLeft, titleBoxTop, titleBoxRight, titleBoxBottom, 0);
+		drawBox(titleBoxLeft, titleBoxTop, titleBoxRight, titleBoxBottom);
 
 		_engine->_text->setFontColor(15);
 
 		char dialText[256];
 		_engine->_text->getMenuText(_engine->_actor->getTextIdForBehaviour(), dialText, sizeof(dialText));
 
-		_engine->_text->drawText((650 - _engine->_text->getTextSize(dialText)) / 2, 240, dialText);
+		_engine->_text->drawText((650 - _engine->_text->getTextSize(dialText)) / 2, titleBoxTop + 1, dialText);
 	}
 
 	_engine->_renderer->renderBehaviourModel(boxLeft, boxTop, boxRight, boxBottom, -600, angle, behaviourEntity);
 
 	_engine->copyBlockPhys(boxLeft, boxTop, boxRight, boxBottom);
-	_engine->copyBlockPhys(110, 239, 540, 279);
+	_engine->copyBlockPhys(titleBoxLeft, titleBoxTop, titleBoxRight, titleBoxBottom);
 
 	_engine->_interface->loadClip();
 }
@@ -880,7 +894,7 @@ void Menu::processBehaviourMenu() {
 	_engine->_actor->heroAnimIdx[(byte)HeroBehaviourType::kAggressive] = _engine->_actor->heroAnimIdxAGGRESSIVE;
 	_engine->_actor->heroAnimIdx[(byte)HeroBehaviourType::kDiscrete] = _engine->_actor->heroAnimIdxDISCRETE;
 
-	_engine->_movements->setActorAngleSafe(_engine->_scene->sceneHero->angle, _engine->_scene->sceneHero->angle - 256, 50, &moveMenu);
+	_engine->_movements->setActorAngleSafe(_engine->_scene->sceneHero->angle, _engine->_scene->sceneHero->angle - ANGLE_90, 50, &moveMenu);
 
 	_engine->_screens->copyScreen(_engine->frontVideoBuffer, _engine->workVideoBuffer);
 
@@ -897,13 +911,14 @@ void Menu::processBehaviourMenu() {
 
 	int32 tmpTime = _engine->lbaTime;
 
+	ScopedKeyMap scoped(_engine, uiKeyMapId);
 	while (_engine->_input->isActionActive(TwinEActionType::BehaviourMenu) || _engine->_input->isQuickBehaviourActionActive()) {
 		_engine->readKeys();
 
 		int heroBehaviour = (int)_engine->_actor->heroBehaviour;
-		if (_engine->_input->toggleActionIfActive(TwinEActionType::TurnLeft)) {
+		if (_engine->_input->toggleActionIfActive(TwinEActionType::UILeft)) {
 			heroBehaviour--;
-		} else if (_engine->_input->toggleActionIfActive(TwinEActionType::TurnRight)) {
+		} else if (_engine->_input->toggleActionIfActive(TwinEActionType::UIRight)) {
 			heroBehaviour++;
 		}
 
@@ -918,7 +933,7 @@ void Menu::processBehaviourMenu() {
 		if (tmpHeroBehaviour != _engine->_actor->heroBehaviour) {
 			drawBehaviour(tmpHeroBehaviour, _engine->_scene->sceneHero->angle, 1);
 			tmpHeroBehaviour = _engine->_actor->heroBehaviour;
-			_engine->_movements->setActorAngleSafe(_engine->_scene->sceneHero->angle, _engine->_scene->sceneHero->angle - 256, 50, &moveMenu);
+			_engine->_movements->setActorAngleSafe(_engine->_scene->sceneHero->angle, _engine->_scene->sceneHero->angle - ANGLE_90, 50, &moveMenu);
 			_engine->_animations->setAnimAtKeyframe(behaviourAnimState[(byte)_engine->_actor->heroBehaviour], _engine->_resources->animTable[_engine->_actor->heroAnimIdx[(byte)_engine->_actor->heroBehaviour]], behaviourEntity, &behaviourAnimData[(byte)_engine->_actor->heroBehaviour]);
 		}
 
@@ -956,7 +971,7 @@ void Menu::drawItem(int32 item) {
 	_engine->_interface->drawSplittedBox(left, top, right, bottom,
 	                                     inventorySelectedItem == item ? inventorySelectedColor : 0);
 
-	if (_engine->_gameState->gameFlags[item] && !_engine->_gameState->gameFlags[GAMEFLAG_INVENTORY_DISABLED] && item < NUM_INVENTORY_ITEMS) {
+	if (item < NUM_INVENTORY_ITEMS && _engine->_gameState->hasItem((InventoryItems)item) && !_engine->_gameState->inventoryDisabled()) {
 		_engine->_renderer->prepareIsoModel(_engine->_resources->inventoryTable[item]);
 		itemAngle[item] += 8;
 		_engine->_renderer->renderInventoryItem(itemX, itemY, _engine->_resources->inventoryTable[item], itemAngle[item], 15000);
@@ -994,9 +1009,9 @@ void Menu::processInventoryMenu() {
 	inventorySelectedColor = 68;
 
 	if (_engine->_gameState->inventoryNumLeafs > 0) {
-		_engine->_gameState->gameFlags[InventoryItems::kiCloverLeaf] = 1;
+		_engine->_gameState->giveItem(InventoryItems::kiCloverLeaf);
 	// TODO: shouldn't this get reset? } else {
-	//	_engine->_gameState->gameFlags[InventoryItems::kiCloverLeaf] = 0;
+	//	_engine->_gameState->removeItem(InventoryItems::kiCloverLeaf);
 	}
 
 	drawInventoryItems();
@@ -1058,7 +1073,7 @@ void Menu::processInventoryMenu() {
 		if (bx == 3) {
 			_engine->_text->initInventoryDialogueBox();
 
-			if (inventorySelectedItem < NUM_INVENTORY_ITEMS && _engine->_gameState->gameFlags[inventorySelectedItem] == 1 && !_engine->_gameState->gameFlags[GAMEFLAG_INVENTORY_DISABLED]) {
+			if (inventorySelectedItem < NUM_INVENTORY_ITEMS && _engine->_gameState->hasItem((InventoryItems)inventorySelectedItem) && !_engine->_gameState->inventoryDisabled()) {
 				_engine->_text->initText(inventorySelectedItem + 100);
 			} else {
 				_engine->_text->initText(128);
@@ -1067,7 +1082,7 @@ void Menu::processInventoryMenu() {
 		}
 
 		if (bx != 2) {
-			bx = _engine->_text->printText10();
+			bx = _engine->_text->updateProgressiveText();
 		}
 
 		// TRICKY: 3D model rotation delay - only apply when no text is drawing
@@ -1080,7 +1095,7 @@ void Menu::processInventoryMenu() {
 				_engine->_text->initInventoryDialogueBox();
 				bx = 0;
 			} else {
-				if (inventorySelectedItem < NUM_INVENTORY_ITEMS && _engine->_gameState->gameFlags[inventorySelectedItem] == 1 && !_engine->_gameState->gameFlags[GAMEFLAG_INVENTORY_DISABLED]) {
+				if (inventorySelectedItem < NUM_INVENTORY_ITEMS && _engine->_gameState->hasItem((InventoryItems)inventorySelectedItem) && !_engine->_gameState->inventoryDisabled()) {
 					_engine->_text->initInventoryDialogueBox();
 					_engine->_text->initText(inventorySelectedItem + 100);
 				}
@@ -1089,7 +1104,7 @@ void Menu::processInventoryMenu() {
 
 		drawItem(inventorySelectedItem);
 
-		if (inventorySelectedItem < NUM_INVENTORY_ITEMS && _engine->_input->toggleActionIfActive(TwinEActionType::UIEnter) && _engine->_gameState->gameFlags[inventorySelectedItem] == 1 && !_engine->_gameState->gameFlags[GAMEFLAG_INVENTORY_DISABLED]) {
+		if (inventorySelectedItem < NUM_INVENTORY_ITEMS && _engine->_input->toggleActionIfActive(TwinEActionType::UIEnter) && _engine->_gameState->hasItem((InventoryItems)inventorySelectedItem) && !_engine->_gameState->inventoryDisabled()) {
 			_engine->loopInventoryItem = inventorySelectedItem;
 			inventorySelectedColor = 91;
 			drawItem(inventorySelectedItem);
@@ -1101,7 +1116,7 @@ void Menu::processInventoryMenu() {
 
 	keymapper->getKeymap(uiKeyMapId)->setEnabled(false);
 
-	_engine->_text->printTextVar13 = 0;
+	_engine->_text->_hasValidTextHandle = false;
 
 	_engine->_scene->alphaLight = tmpAlphaLight;
 	_engine->_scene->betaLight = tmpBetaLight;
