@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 2.3.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2020-11-23 16:13+0000\n"
-"PO-Revision-Date: 2020-11-12 19:44+0000\n"
-"Last-Translator: Matthew Duggan <mgithub@guarana.org>\n"
+"POT-Creation-Date: 2020-11-29 20:25+0000\n"
+"PO-Revision-Date: 2020-11-29 14:33+0000\n"
+"Last-Translator: VAN-Gluon <masuda20100701@gmail.com>\n"
 "Language-Team: Japanese <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/ja/>\n"
 "Language: ja\n"
@@ -284,7 +284,7 @@ msgstr "全般の画像設定を上書きする"
 #: gui/editgamedialog.cpp:210
 msgctxt "lowres"
 msgid "Override global graphic settings"
-msgstr "全般の画像設定を上書きする"
+msgstr "共通設定に優先して適用する"
 
 #: gui/editgamedialog.cpp:220 gui/options.cpp:1792
 msgid "Shader"
@@ -591,7 +591,7 @@ msgstr "閉じる"
 #: backends/platform/symbian/src/SymbianActions.cpp:40
 #: engines/dragons/metaengine.cpp:165 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:98 engines/grim/grim.cpp:451
-#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:345
+#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:375
 #: engines/wintermute/keymapper_tables.h:1011
 #: engines/wintermute/keymapper_tables.h:1100
 #: engines/wintermute/keymapper_tables.h:1474
@@ -603,7 +603,7 @@ msgstr "上"
 #: backends/platform/symbian/src/SymbianActions.cpp:41
 #: engines/dragons/metaengine.cpp:171 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:104 engines/grim/grim.cpp:456
-#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:351
+#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:381
 #: engines/wintermute/keymapper_tables.h:1017
 #: engines/wintermute/keymapper_tables.h:1107
 #: engines/wintermute/keymapper_tables.h:1480
@@ -615,7 +615,7 @@ msgstr "下"
 #: backends/platform/symbian/src/SymbianActions.cpp:42
 #: engines/dragons/metaengine.cpp:177 engines/griffon/metaengine.cpp:110
 #: engines/grim/grim.cpp:461 engines/grim/grim.cpp:538
-#: engines/twine/metaengine.cpp:363 engines/wintermute/keymapper_tables.h:1023
+#: engines/twine/metaengine.cpp:394 engines/wintermute/keymapper_tables.h:1023
 #: engines/wintermute/keymapper_tables.h:1462
 #: engines/wintermute/keymapper_tables.h:1570
 #: engines/wintermute/keymapper_tables.h:1692
@@ -626,7 +626,7 @@ msgstr "左"
 #: backends/platform/symbian/src/SymbianActions.cpp:43
 #: engines/dragons/metaengine.cpp:183 engines/griffon/metaengine.cpp:116
 #: engines/grim/grim.cpp:466 engines/grim/grim.cpp:543
-#: engines/twine/metaengine.cpp:357 engines/wintermute/keymapper_tables.h:1029
+#: engines/twine/metaengine.cpp:387 engines/wintermute/keymapper_tables.h:1029
 #: engines/wintermute/keymapper_tables.h:1468
 #: engines/wintermute/keymapper_tables.h:1578
 #: engines/wintermute/keymapper_tables.h:1698
@@ -1555,7 +1555,7 @@ msgstr ""
 #: gui/options.cpp:2251
 msgctxt "lowres"
 msgid "Closing options dialog will stop the server."
-msgstr "設定ウインドーを閉じるとさばーが停止されます。"
+msgstr "設定ウィンドウを閉じると、サーバーは停止されます。"
 
 #: gui/options.cpp:2253
 msgid "Run server to manage files with browser (in the same network)."
@@ -1563,11 +1563,11 @@ msgstr ""
 
 #: gui/options.cpp:2254
 msgid "Closing options dialog will stop the server."
-msgstr "設定ウインドーを閉じるとさばーが停止されます。"
+msgstr "設定ウィンドウを閉じると、サーバーは停止されます。"
 
 #: gui/options.cpp:2266
 msgid "Use Text to speech"
-msgstr "音声合成を使用する"
+msgstr "テキストの読み上げ機能を使用する"
 
 #: gui/options.cpp:2266
 msgid "Will read text in gui on mouse over."
@@ -1579,7 +1579,7 @@ msgstr "なし"
 
 #: gui/options.cpp:2354
 msgid "Failed to change cloud storage!"
-msgstr "クラウドストーレジを変えることを失敗しました！"
+msgstr "クラウドストレージの変更に失敗しました!"
 
 #: gui/options.cpp:2357
 msgid "Another cloud storage is already active."
@@ -1587,7 +1587,7 @@ msgstr "他のクラウドストーレジは既に使用中です。"
 
 #: gui/options.cpp:2432
 msgid "Theme does not support selected language!"
-msgstr "テーマは選択された言語を対応できません！"
+msgstr "テーマは選択された言語をサポートしていません!"
 
 #: gui/options.cpp:2435
 msgid "Theme cannot be loaded!"
@@ -1617,11 +1617,11 @@ msgstr "追加ファイルのフォルダーを選択してください"
 
 #: gui/options.cpp:2533
 msgid "Select directory for plugins"
-msgstr "拡張のフォルダーを選択してください"
+msgstr "プラグインのフォルダーを選択してください"
 
 #: gui/options.cpp:2546
 msgid "Select directory for Files Manager /root/"
-msgstr ""
+msgstr "ルートディレクトリーとして使用するフォルダーを選択してください"
 
 #: gui/options.cpp:2658
 msgid ""
@@ -1631,11 +1631,11 @@ msgstr ""
 
 #: gui/options.cpp:2683
 msgid "Another Storage is working now. Do you want to interrupt it?"
-msgstr ""
+msgstr "すでに別のストレージが使用されています。切断してもよろしいですか?"
 
 #: gui/options.cpp:2692 gui/options.cpp:2730
 msgid "Wait until current Storage finishes up and try again."
-msgstr ""
+msgstr "ストレージへのアップロード完了後に再実施してください。"
 
 #: gui/options.cpp:2705
 msgid "Connecting..."
@@ -1643,7 +1643,7 @@ msgstr "接続中..."
 
 #: gui/options.cpp:2721
 msgid "This Storage is working now. Do you want to interrupt it?"
-msgstr "ストーレジは使用中。切断してもよろしいですか？"
+msgstr "ストレージを使用中です。切断してもよろしいですか?"
 
 #: gui/options.cpp:2919 backends/cloud/cloudmanager.cpp:157
 msgid "<right now>"
@@ -1651,7 +1651,7 @@ msgstr "＜只今＞"
 
 #: gui/options.cpp:3028
 msgid "Stop server"
-msgstr "サバーを停止"
+msgstr "サーバーを停止"
 
 #: gui/options.cpp:3029
 msgid "Stop local webserver"
@@ -1663,17 +1663,19 @@ msgstr "ストーレジ接続済み。"
 
 #: gui/options.cpp:3083
 msgid "Failed to connect storage."
-msgstr "ストーレジの接続を失敗しました。"
+msgstr "ストレージの接続に失敗しました。"
 
 #: gui/options.cpp:3085
 msgid "Failed to connect storage: "
-msgstr "ストーレジの接続を失敗しました： "
+msgstr "ストレージの接続に失敗しました： "
 
 #: gui/options.cpp:3105
 msgid ""
 "Request failed.\n"
 "Check your Internet connection."
 msgstr ""
+"リクエストが完了しませんでした。\n"
+"インターネットへの接続状態を確認してください。"
 
 #. I18N: You must leave "#" as is, only word 'next' is translatable
 #: gui/predictivedialog.cpp:106
@@ -1909,12 +1911,13 @@ msgid "Error running game:"
 msgstr "ゲームを実行のエラー："
 
 #: base/main.cpp:667
+#, fuzzy
 msgid "Could not find any engine capable of running the selected game"
-msgstr ""
+msgstr "選択されたゲームを実行できるエンジンは見つかりませんでした！"
 
 #: common/achievements.cpp:93
 msgid "Achievement unlocked!"
-msgstr ""
+msgstr "実績がアンロックされました!"
 
 #: common/error.cpp:38
 msgid "No error"
@@ -1922,7 +1925,7 @@ msgstr "エラーなし"
 
 #: common/error.cpp:40
 msgid "Game data not found"
-msgstr "ゲームデータを見つかりませんでした"
+msgstr "ゲームデータが見つかりません"
 
 #: common/error.cpp:42
 msgid "Game id not supported"
@@ -1973,8 +1976,9 @@ msgid "Could not find suitable engine plugin"
 msgstr ""
 
 #: common/error.cpp:70
+#, fuzzy
 msgid "Engine plugin does not support saved games"
-msgstr ""
+msgstr "テーマは選択された言語をサポートしていません!"
 
 #: common/error.cpp:73
 msgid "User canceled"
@@ -2148,8 +2152,9 @@ msgid "Could not switch to stretch mode '%s'."
 msgstr ""
 
 #: engines/engine.cpp:352
+#, fuzzy
 msgid "Could not apply aspect ratio setting."
-msgstr ""
+msgstr "縦横比修正適用"
 
 #: engines/engine.cpp:357
 msgid "Could not apply fullscreen setting."
@@ -2160,10 +2165,8 @@ msgid "Could not apply filtering setting."
 msgstr ""
 
 #: engines/engine.cpp:420
-#, fuzzy
-#| msgid "No error"
 msgid "Error"
-msgstr "エラーなし"
+msgstr "エラー"
 
 #: engines/engine.cpp:507
 msgid ""
@@ -2273,7 +2276,7 @@ msgstr "右クリック"
 #: backends/platform/symbian/src/SymbianActions.cpp:52
 #: engines/hdb/metaengine.cpp:238 engines/mohawk/myst.cpp:593
 #: engines/mohawk/riven.cpp:863 engines/sky/metaengine.cpp:113
-#: engines/twine/metaengine.cpp:161 engines/wintermute/keymapper_tables.h:1255
+#: engines/twine/metaengine.cpp:169 engines/wintermute/keymapper_tables.h:1255
 msgid "Pause"
 msgstr "一時停止"
 
@@ -2308,16 +2311,18 @@ msgid "Confirm"
 msgstr "確認"
 
 #: graphics/renderer.cpp:31 backends/graphics/opengl/opengl-graphics.cpp:165
+#, fuzzy
 msgid "OpenGL"
-msgstr ""
+msgstr "開く"
 
 #: graphics/renderer.cpp:34
 msgid "OpenGL with shaders"
 msgstr ""
 
 #: audio/adlib.cpp:2293
+#, fuzzy
 msgid "AdLib emulator"
-msgstr ""
+msgstr "AdLibエミュレーター："
 
 #: audio/fmopl.cpp:72
 msgid "MAME OPL emulator"
@@ -2343,46 +2348,47 @@ msgstr ""
 msgid "OPL3LPT"
 msgstr ""
 
-#: audio/mididrv.cpp:259
+#: audio/mididrv.cpp:220
 #, c-format
 msgid ""
 "The selected audio device '%s' was not found (e.g. might be turned off or "
 "disconnected)."
 msgstr ""
 
-#: audio/mididrv.cpp:260 audio/mididrv.cpp:274 audio/mididrv.cpp:312
-#: audio/mididrv.cpp:329
+#: audio/mididrv.cpp:221 audio/mididrv.cpp:235 audio/mididrv.cpp:273
+#: audio/mididrv.cpp:290
 msgid "Attempting to fall back to the next available device..."
 msgstr ""
 
-#: audio/mididrv.cpp:273
+#: audio/mididrv.cpp:234
 #, c-format
 msgid ""
 "The selected audio device '%s' cannot be used. See log file for more "
 "information."
 msgstr ""
 
-#: audio/mididrv.cpp:311
+#: audio/mididrv.cpp:272
 #, c-format
 msgid ""
 "The preferred audio device '%s' was not found (e.g. might be turned off or "
 "disconnected)."
 msgstr ""
 
-#: audio/mididrv.cpp:328
+#: audio/mididrv.cpp:289
 #, c-format
 msgid ""
 "The preferred audio device '%s' cannot be used. See log file for more "
 "information."
 msgstr ""
 
-#: audio/mididrv.cpp:725
+#: audio/mididrv.cpp:454
 msgid "Starting MIDI dump"
 msgstr ""
 
 #: audio/mods/paula.cpp:303
+#, fuzzy
 msgid "Amiga Audio emulator"
-msgstr ""
+msgstr "C64音声エミュレーター"
 
 #: audio/null.h:44
 msgid "No music"
@@ -2550,12 +2556,14 @@ msgid "Decreasing Volume"
 msgstr "音量を小さく"
 
 #: backends/events/maemosdl/maemosdl-events.cpp:101
+#, fuzzy
 msgid "Clicking Enabled"
-msgstr ""
+msgstr "フィルター適用"
 
 #: backends/events/maemosdl/maemosdl-events.cpp:101
+#, fuzzy
 msgid "Clicking Disabled"
-msgstr ""
+msgstr "フィルター無効"
 
 #: backends/events/openpandora/op-events.cpp:163
 msgid "Touchscreen 'Tap Mode' - Hover (DPad Clicks)"
@@ -2567,7 +2575,7 @@ msgstr "終了してもよろしいですか？"
 
 #: backends/graphics/opengl/opengl-graphics.cpp:244
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:83
-#: engines/twine/metaengine.cpp:259
+#: engines/twine/metaengine.cpp:287
 msgid "Center"
 msgstr ""
 
@@ -2583,8 +2591,9 @@ msgstr ""
 
 #: backends/graphics/opengl/opengl-graphics.cpp:247
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:86
+#, fuzzy
 msgid "Stretch to window"
-msgstr ""
+msgstr "拡大モード："
 
 #: backends/graphics/opengl/opengl-graphics.cpp:248
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:87
@@ -2618,8 +2627,9 @@ msgstr "フィルター無効"
 
 #: backends/graphics/openglsdl/openglsdl-graphics.cpp:666
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:2553
+#, fuzzy
 msgid "Stretch mode"
-msgstr ""
+msgstr "拡大モード："
 
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:62
 msgid "Normal (no scaling)"
@@ -2646,8 +2656,9 @@ msgstr "全面モードの切替"
 #: backends/graphics/sdl/sdl-graphics.cpp:385
 #: backends/graphics3d/sdl/sdl-graphics3d.cpp:143 engines/scumm/help.cpp:99
 #: engines/wintermute/keymapper_tables.h:710
+#, fuzzy
 msgid "Toggle mouse capture"
-msgstr ""
+msgstr "消音の切替"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:390
 #: backends/graphics3d/sdl/sdl-graphics3d.cpp:148
@@ -2668,8 +2679,9 @@ msgid "Toggle aspect ratio correction"
 msgstr "縦横比修正の切替"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:403
+#, fuzzy
 msgid "Toggle linear filtered scaling"
-msgstr ""
+msgstr "線形フィルターによる画像を拡大する"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:410
 msgid "Cycle through stretch modes"
@@ -2736,12 +2748,14 @@ msgid "Mouse Wheel Down"
 msgstr ""
 
 #: backends/keymapper/hardware-input.cpp:250
+#, fuzzy
 msgid "X1 Mouse Button"
-msgstr ""
+msgstr "マウスの左ボタン"
 
 #: backends/keymapper/hardware-input.cpp:251
+#, fuzzy
 msgid "X2 Mouse Button"
-msgstr ""
+msgstr "マウスの左ボタン"
 
 #: backends/keymapper/hardware-input.cpp:256
 msgid "Joy A"
@@ -2760,8 +2774,9 @@ msgid "Joy Y"
 msgstr "ジョイ縦"
 
 #: backends/keymapper/hardware-input.cpp:260
+#, fuzzy
 msgid "Joy Back"
-msgstr ""
+msgstr "ジョイB"
 
 #: backends/keymapper/hardware-input.cpp:261
 msgid "Joy Guide"
@@ -2812,8 +2827,9 @@ msgstr ""
 #: backends/platform/3ds/osystem-events.cpp:61
 #: backends/platform/sdl/ps3/ps3.cpp:55 backends/platform/sdl/psp2/psp2.cpp:56
 #: backends/platform/sdl/switch/switch.cpp:52
+#, fuzzy
 msgid "D-pad Right"
-msgstr ""
+msgstr "右"
 
 #: backends/keymapper/hardware-input.cpp:275
 msgid "Left Trigger"
@@ -2881,8 +2897,9 @@ msgid "Windows MIDI"
 msgstr "ウインドーズMIDI"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:60
+#, fuzzy
 msgid "Can't create directory here!"
-msgstr ""
+msgstr "フォルダーではありません"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:66
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:73
@@ -2900,8 +2917,9 @@ msgid "Invalid path!"
 msgstr ""
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:84
+#, fuzzy
 msgid "Parent directory doesn't exists!"
-msgstr ""
+msgstr "フォルダーは存在しません"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:88
 msgid "Can't create a directory within a file!"
@@ -2913,8 +2931,9 @@ msgid "There is a file with that name in the parent directory!"
 msgstr ""
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:104
+#, fuzzy
 msgid "Failed to create the directory!"
-msgstr ""
+msgstr "選択されたフォルダーを開ませんでした！"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:111
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:120
@@ -2923,20 +2942,24 @@ msgstr ""
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:122
 #: backends/networking/sdl_net/uploadfileclienthandler.cpp:204
+#, fuzzy
 msgid "Back to parent directory"
-msgstr ""
+msgstr "フォルダーではありません"
 
 #: backends/networking/sdl_net/handlers/downloadfilehandler.cpp:67
+#, fuzzy
 msgid "The file doesn't exist!"
-msgstr ""
+msgstr "フォルダーは存在しません"
 
 #: backends/networking/sdl_net/handlers/downloadfilehandler.cpp:71
+#, fuzzy
 msgid "Can't download a directory!"
-msgstr ""
+msgstr "フォルダーではありません"
 
 #: backends/networking/sdl_net/handlers/downloadfilehandler.cpp:76
+#, fuzzy
 msgid "Failed to read the file!"
-msgstr ""
+msgstr "音声合成で文章を読み上げる"
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:59
 msgid ""
@@ -2948,15 +2971,17 @@ msgstr ""
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:68
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:223
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:224
+#, fuzzy
 msgid "Create directory"
-msgstr ""
+msgstr "フォルダーではありません"
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:69
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:70
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:227
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:228
+#, fuzzy
 msgid "Upload files"
-msgstr ""
+msgstr "ゲームデータをダウンロードする"
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:71
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:229
@@ -2970,8 +2995,9 @@ msgstr ""
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:73
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:231
+#, fuzzy
 msgid "Or select a directory (works in Chrome only):"
-msgstr ""
+msgstr "GUIテーマのフォルダーを選択してください"
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:74
 msgid "Index of "
@@ -2988,17 +3014,20 @@ msgstr ""
 
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:82
 #: backends/networking/sdl_net/handlers/listajaxhandler.cpp:46
+#, fuzzy
 msgid "Saved games"
-msgstr ""
+msgstr "ゲームをセーブ："
 
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:119
 #: backends/networking/sdl_net/handlers/listajaxhandler.cpp:84
+#, fuzzy
 msgid "Parent directory"
-msgstr ""
+msgstr "フォルダーではありません"
 
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:218
+#, fuzzy
 msgid "ScummVM couldn't list the directory you specified."
-msgstr ""
+msgstr "選択されたフォルダーを開ませんでした！"
 
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:232
 msgid "Index of"
@@ -3009,16 +3038,18 @@ msgid "This is a local webserver index page."
 msgstr ""
 
 #: backends/networking/sdl_net/handlers/indexpagehandler.cpp:43
+#, fuzzy
 msgid "Open Files manager"
-msgstr ""
+msgstr "ダウンロード管理のダイアログを開く"
 
 #: backends/networking/sdl_net/handlers/uploadfilehandler.cpp:67
 msgid "The parent directory doesn't exist!"
 msgstr ""
 
 #: backends/networking/sdl_net/handlers/uploadfilehandler.cpp:71
+#, fuzzy
 msgid "Can't upload into a file!"
-msgstr ""
+msgstr "ファイルではありません"
 
 #: backends/networking/sdl_net/handlerutils.cpp:198
 msgid "Back to the files manager"
@@ -3036,8 +3067,9 @@ msgid "Invalid request: headers are too long!"
 msgstr ""
 
 #: backends/networking/sdl_net/uploadfileclienthandler.cpp:155
+#, fuzzy
 msgid "Failed to upload the file!"
-msgstr ""
+msgstr "オートセーブに失敗しました"
 
 #: backends/networking/sdl_net/uploadfileclienthandler.cpp:184
 msgid "No file was passed!"
@@ -3064,8 +3096,9 @@ msgid "Snap to edges"
 msgstr ""
 
 #: backends/platform/3ds/options-dialog.cpp:54
+#, fuzzy
 msgid "Stretch to fit"
-msgstr ""
+msgstr "拡大モード："
 
 #: backends/platform/3ds/options-dialog.cpp:57
 msgid "Use Screen:"
@@ -3110,8 +3143,9 @@ msgstr ""
 #: backends/platform/ds/arm9/source/scummhelp.cpp:47
 #: backends/platform/ds/arm9/source/scummhelp.cpp:64
 #: backends/platform/sdl/ps3/ps3.cpp:45 backends/platform/sdl/psp2/psp2.cpp:49
+#, fuzzy
 msgid "Select"
-msgstr ""
+msgstr "テーマを選ぶ"
 
 #: backends/platform/3ds/osystem-events.cpp:53
 #: backends/platform/ds/arm9/source/scummhelp.cpp:46
@@ -3155,16 +3189,19 @@ msgid "Touch"
 msgstr ""
 
 #: backends/platform/3ds/osystem-events.cpp:312
+#, fuzzy
 msgid "Toggle Drag Mode"
-msgstr ""
+msgstr "高速モードの切り替え"
 
 #: backends/platform/3ds/osystem-events.cpp:317
+#, fuzzy
 msgid "Toggle Magnify Mode"
-msgstr ""
+msgstr "高速モードの切り替え"
 
 #: backends/platform/3ds/osystem-events.cpp:322
+#, fuzzy
 msgid "Open 3DS Settings"
-msgstr ""
+msgstr "設定"
 
 #: backends/platform/3ds/osystem-events.cpp:360
 msgid ""
@@ -3219,16 +3256,19 @@ msgid "Magnify Mode Off"
 msgstr ""
 
 #: backends/platform/ds/arm9/source/dsoptions.cpp:57
+#, fuzzy
 msgid "ScummVM Main Menu"
-msgstr ""
+msgstr "メインメニュー"
 
 #: backends/platform/ds/arm9/source/dsoptions.cpp:61
+#, fuzzy
 msgid "Controls"
-msgstr ""
+msgstr "操作"
 
 #: backends/platform/ds/arm9/source/dsoptions.cpp:63
+#, fuzzy
 msgid "~L~eft handed mode"
-msgstr ""
+msgstr "レンダー："
 
 #: backends/platform/ds/arm9/source/dsoptions.cpp:64
 msgid "~I~ndy fight controls"
@@ -3297,8 +3337,9 @@ msgstr ""
 #: backends/platform/ds/arm9/source/scummhelp.cpp:42
 #: backends/platform/ds/arm9/source/scummhelp.cpp:67
 #: backends/platform/ds/arm9/source/scummhelp.cpp:76
+#, fuzzy
 msgid "Pad Left"
-msgstr ""
+msgstr "左"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:42
 #: backends/platform/ds/arm9/source/scummhelp.cpp:59
@@ -3308,8 +3349,9 @@ msgstr "マウスの左ボタン"
 #: backends/platform/ds/arm9/source/scummhelp.cpp:43
 #: backends/platform/ds/arm9/source/scummhelp.cpp:68
 #: backends/platform/ds/arm9/source/scummhelp.cpp:77
+#, fuzzy
 msgid "Pad Right"
-msgstr ""
+msgstr "右"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:43
 #: backends/platform/ds/arm9/source/scummhelp.cpp:60
@@ -3330,8 +3372,9 @@ msgstr ""
 #: backends/platform/ds/arm9/source/scummhelp.cpp:45
 #: backends/platform/ds/arm9/source/scummhelp.cpp:65
 #: backends/platform/ds/arm9/source/scummhelp.cpp:79
+#, fuzzy
 msgid "Pad Down"
-msgstr ""
+msgstr "下"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:45
 #: backends/platform/ds/arm9/source/scummhelp.cpp:62
@@ -3340,13 +3383,15 @@ msgstr ""
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:46
 #: backends/platform/ds/arm9/source/scummhelp.cpp:63
+#, fuzzy
 msgid "Pause/Game menu"
-msgstr ""
+msgstr "ゲームメニュー"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:47
 #: backends/platform/ds/arm9/source/scummhelp.cpp:64
+#, fuzzy
 msgid "DS Options menu"
-msgstr ""
+msgstr "設定"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:48
 #: backends/platform/ds/arm9/source/scummhelp.cpp:65
@@ -3354,13 +3399,15 @@ msgid "Skip cutscenes"
 msgstr ""
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:49
+#, fuzzy
 msgid "Switch screens"
-msgstr ""
+msgstr "スクショを保存する"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:50
 #: backends/platform/ds/arm9/source/scummhelp.cpp:67
+#, fuzzy
 msgid "Show/hide debug console"
-msgstr ""
+msgstr "隠しファイルを表示する"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:51
 #: backends/platform/ds/arm9/source/scummhelp.cpp:66
@@ -3374,16 +3421,18 @@ msgstr ""
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:53
 #: backends/platform/ds/arm9/source/scummhelp.cpp:70
+#, fuzzy
 msgid "Zoom in/out"
-msgstr ""
+msgstr "ズームアウト"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:58
 msgid "DS Controls (left handed):"
 msgstr ""
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:68
+#, fuzzy
 msgid "Swap screens"
-msgstr ""
+msgstr "スクショを保存する"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:75
 msgid "Indiana Jones Fight controls:"
@@ -3438,30 +3487,35 @@ msgstr ""
 #: backends/platform/ios7/ios7_osys_events.cpp:340
 #: backends/platform/ios7/ios7_osys_events.cpp:476
 #: backends/platform/iphone/osys_events.cpp:313
+#, fuzzy
 msgid "Touchpad mode enabled."
-msgstr ""
+msgstr "タッチパッドマウスモード"
 
 #: backends/platform/ios7/ios7_osys_events.cpp:342
 #: backends/platform/ios7/ios7_osys_events.cpp:478
 #: backends/platform/iphone/osys_events.cpp:315
+#, fuzzy
 msgid "Touchpad mode disabled."
-msgstr ""
+msgstr "タッチパッドマウスモード"
 
 #: backends/platform/maemo/maemo.cpp:158
+#, fuzzy
 msgid "Click Mode"
-msgstr ""
+msgstr "色覚特性モード"
 
 #: backends/platform/sdl/macosx/appmenu_osx.mm:211
+#, fuzzy
 msgid "Hide ScummVM"
-msgstr ""
+msgstr "ScummVMを終了(~Q~)"
 
 #: backends/platform/sdl/macosx/appmenu_osx.mm:212
 msgid "Hide Others"
 msgstr ""
 
 #: backends/platform/sdl/macosx/appmenu_osx.mm:213
+#, fuzzy
 msgid "Show All"
-msgstr ""
+msgstr "地図を表示"
 
 #: backends/platform/sdl/macosx/appmenu_osx.mm:218
 msgid "Window"
@@ -3477,8 +3531,9 @@ msgid "Help"
 msgstr "ヘルプ"
 
 #: backends/platform/sdl/macosx/appmenu_osx.mm:228
+#, fuzzy
 msgid "User Manual"
-msgstr ""
+msgstr "キャンセルされました"
 
 #: backends/platform/sdl/macosx/appmenu_osx.mm:230
 msgid "General Information"
@@ -3583,20 +3638,24 @@ msgid "Skip text"
 msgstr ""
 
 #: backends/platform/symbian/src/SymbianActions.cpp:53
+#, fuzzy
 msgid "Fast mode"
-msgstr ""
+msgstr "高速モードの切り替え"
 
 #: backends/platform/symbian/src/SymbianActions.cpp:55
+#, fuzzy
 msgid "Debugger"
-msgstr ""
+msgstr "デバッガーを開く"
 
 #: backends/platform/symbian/src/SymbianActions.cpp:56
+#, fuzzy
 msgid "Global menu"
-msgstr ""
+msgstr "メインメニュー"
 
 #: backends/platform/symbian/src/SymbianActions.cpp:57
+#, fuzzy
 msgid "Virtual keyboard"
-msgstr ""
+msgstr "キーボードの表示"
 
 #: backends/platform/symbian/src/SymbianActions.cpp:58
 msgid "Key mapper"
@@ -3607,8 +3666,9 @@ msgid "Video"
 msgstr "ビデオ"
 
 #: backends/platform/wii/options.cpp:54
+#, fuzzy
 msgid "Current video mode:"
-msgstr ""
+msgstr "レンダー："
 
 #: backends/platform/wii/options.cpp:56
 msgid "Double-strike"
@@ -3643,8 +3703,9 @@ msgid "Status:"
 msgstr ""
 
 #: backends/platform/wii/options.cpp:90 backends/platform/wii/options.cpp:102
+#, fuzzy
 msgid "Unknown"
-msgstr ""
+msgstr "不明なエラー"
 
 #: backends/platform/wii/options.cpp:93
 msgid "Mount DVD"
@@ -3711,12 +3772,14 @@ msgid ", share not mounted"
 msgstr ""
 
 #: backends/platform/wii/options.cpp:174
+#, fuzzy
 msgid "Network down"
-msgstr ""
+msgstr "下を見る"
 
 #: backends/platform/wii/options.cpp:178
+#, fuzzy
 msgid "Initializing network"
-msgstr ""
+msgstr "MT-32エミュレーター起動中"
 
 #: backends/platform/wii/options.cpp:182
 msgid "Timeout while initializing network"
@@ -3759,16 +3822,18 @@ msgid ""
 msgstr ""
 
 #: engines/adl/detection.cpp:48
+#, fuzzy
 msgid "TV emulation"
-msgstr ""
+msgstr "MT-32エミュレーター"
 
 #: engines/adl/detection.cpp:49
 msgid "Emulate composite output to an NTSC TV"
 msgstr ""
 
 #: engines/adl/detection.cpp:58 engines/adl/detection.cpp:68
+#, fuzzy
 msgid "Color graphics"
-msgstr ""
+msgstr "画像フィルター"
 
 #: engines/adl/detection.cpp:59 engines/adl/detection.cpp:69
 msgid "Use color graphics instead of monochrome"
@@ -3826,8 +3891,9 @@ msgid ""
 msgstr ""
 
 #: engines/agi/detection.cpp:102
+#, fuzzy
 msgid "Use Hercules hires font"
-msgstr ""
+msgstr "Herculesの緑"
 
 #: engines/agi/detection.cpp:103
 msgid "Uses Hercules hires font, when font file is available."
@@ -3871,8 +3937,9 @@ msgstr ""
 #: engines/sherlock/tattoo/widget_files.cpp:94 engines/startrek/saveload.cpp:68
 #: engines/toltecs/menu.cpp:267 engines/toon/toon.cpp:3456
 #: engines/zvision/file/save_manager.cpp:62
+#, fuzzy
 msgid "Restore game:"
-msgstr ""
+msgstr "ゲームを報告する"
 
 #: engines/agi/saveload.cpp:772 engines/avalanche/parser.cpp:1907
 #: engines/cine/various.cpp:361 engines/dm/dm.cpp:276
@@ -3888,8 +3955,9 @@ msgstr ""
 #: engines/sherlock/tattoo/widget_files.cpp:94 engines/startrek/saveload.cpp:68
 #: engines/toltecs/menu.cpp:267 engines/toon/toon.cpp:3456
 #: engines/zvision/file/save_manager.cpp:62 engines/zvision/metaengine.cpp:199
+#, fuzzy
 msgid "Restore"
-msgstr ""
+msgstr "休む"
 
 #: engines/agos/saveload.cpp:137
 msgid "Quick load or save game isn't supported in this location"
@@ -3934,8 +4002,9 @@ msgid ""
 msgstr ""
 
 #: engines/bladerunner/bladerunner.cpp:363
+#, fuzzy
 msgid "Failed to initialize resources"
-msgstr ""
+msgstr "ストレージの接続に失敗しました。"
 
 #: engines/bladerunner/bladerunner.cpp:1067
 msgid "A required game resource was not found"
@@ -3960,16 +4029,18 @@ msgid "Continue"
 msgstr "つづく"
 
 #: engines/bladerunner/detection.cpp:48
+#, fuzzy
 msgid "Sitcom mode"
-msgstr ""
+msgstr "拡大モード："
 
 #: engines/bladerunner/detection.cpp:49
 msgid "Game will add laughter after actor's line or narration"
 msgstr ""
 
 #: engines/bladerunner/detection.cpp:57
+#, fuzzy
 msgid "Shorty mode"
-msgstr ""
+msgstr "拡大モード："
 
 #: engines/bladerunner/detection.cpp:58
 msgid "Game will shrink the actors and make their voices high pitched"
@@ -4013,13 +4084,20 @@ msgid ""
 "ScummVM."
 msgstr ""
 
-#: engines/cge/detection.cpp:113
+#: engines/cge/detection.cpp:48 engines/cge/detection.cpp:54
+#: engines/saga/detection_tables.h:187 engines/saga/detection_tables.h:608
+#: engines/sci/detection_tables.h:4808 engines/sci/detection_tables.h:4816
+msgid "Missing game code"
+msgstr ""
+
+#: engines/cge/detection.cpp:99
 msgid "Color Blind Mode"
 msgstr "色覚特性モード"
 
-#: engines/cge/detection.cpp:114
+#: engines/cge/detection.cpp:100
+#, fuzzy
 msgid "Enable Color Blind Mode by default"
-msgstr ""
+msgstr "色覚特性モード"
 
 #: engines/cine/detection.cpp:52
 msgid "Use transparent dialog boxes in 16 color scenes"
@@ -4032,8 +4110,9 @@ msgid ""
 msgstr ""
 
 #: engines/cine/metaengine.cpp:142
+#, fuzzy
 msgid "Unnamed autosave"
-msgstr ""
+msgstr "無名のセーブ"
 
 #: engines/cine/metaengine.cpp:144 engines/cine/metaengine.cpp:219
 #, fuzzy
@@ -4053,8 +4132,9 @@ msgid ""
 msgstr ""
 
 #: engines/cine/saveload.cpp:864
+#, fuzzy
 msgid "Load anyway"
-msgstr ""
+msgstr "承知して追加する"
 
 #: engines/dragons/dragons.cpp:1803
 #, c-format
@@ -4089,15 +4169,16 @@ msgstr ""
 #: engines/grim/grim.cpp:491 engines/grim/grim.cpp:583
 #: engines/hdb/metaengine.cpp:231 engines/scumm/help.cpp:225
 #: engines/scumm/help.cpp:234 engines/scumm/help.cpp:241
-#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:311
+#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:339
 #: engines/zvision/metaengine.cpp:164
 msgid "Inventory"
 msgstr "インベントリ"
 
 #: engines/dragons/metaengine.cpp:159 engines/scumm/help.cpp:86
 #: engines/scumm/help.cpp:89
+#, fuzzy
 msgid "Enter"
-msgstr ""
+msgstr "作用"
 
 #: engines/dragons/metaengine.cpp:225
 #, fuzzy
@@ -4136,36 +4217,42 @@ msgid "Use TTS to read the text"
 msgstr "音声合成で文章を読み上げる"
 
 #: engines/glk/detection.cpp:231
+#, fuzzy
 msgid "Also read input text"
-msgstr ""
+msgstr "音声合成で文章を読み上げる"
 
 #: engines/glk/detection.cpp:232
+#, fuzzy
 msgid "Use TTS to read the input text"
-msgstr ""
+msgstr "音声合成で文章を読み上げる"
 
 #: engines/glk/glk_api.cpp:63
 msgid "[ press any key to exit ]"
 msgstr ""
 
 #: engines/glk/quetzal.cpp:148 engines/glk/quetzal.cpp:157
+#, fuzzy
 msgid "Untitled Savegame"
-msgstr ""
+msgstr "無名のセーブ"
 
 #: engines/glk/adrift/os_glk.cpp:2814
+#, fuzzy
 msgid "Loading game...\n"
-msgstr ""
+msgstr "ロード中..."
 
 #: engines/glk/advsys/advsys.cpp:35
 msgid "Could not start AdvSys game"
 msgstr ""
 
 #: engines/glk/advsys/advsys.cpp:48 engines/glk/advsys/vm.cpp:320
+#, fuzzy
 msgid "Sorry, the savegame couldn't be restored"
-msgstr ""
+msgstr "エラー：ゲームをセーブできませんでした。"
 
 #: engines/glk/advsys/vm.cpp:315
+#, fuzzy
 msgid "Sorry, the savegame couldn't be created"
-msgstr ""
+msgstr "エラー：ゲームをセーブできませんでした。"
 
 #: engines/glk/advsys/vm.cpp:561
 msgid "Speak up! I can't hear you!\n"
@@ -4233,8 +4320,9 @@ msgid "Your light has run out. "
 msgstr ""
 
 #: engines/glk/scott/scott.cpp:130
+#, fuzzy
 msgid "Light runs out in "
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/glk/scott/scott.cpp:132
 msgid " turns. "
@@ -4285,8 +4373,9 @@ msgid ""
 msgstr ""
 
 #: engines/glk/scott/scott.cpp:456
+#, fuzzy
 msgid "none"
-msgstr ""
+msgstr "＜なし＞"
 
 #: engines/glk/scott/scott.cpp:465
 msgid ""
@@ -4301,8 +4390,9 @@ msgid ""
 msgstr ""
 
 #: engines/glk/scott/scott.cpp:551
+#, fuzzy
 msgid "Saved.\n"
-msgstr ""
+msgstr "セーブ"
 
 #: engines/glk/scott/scott.cpp:644
 msgid "You use word(s) I don't know! "
@@ -4326,8 +4416,9 @@ msgid "I am dead.\n"
 msgstr ""
 
 #: engines/glk/scott/scott.cpp:821
+#, fuzzy
 msgid "The game is now over.\n"
-msgstr ""
+msgstr "未対応のゲームID。"
 
 #: engines/glk/scott/scott.cpp:836
 msgid "You have stored "
@@ -4426,8 +4517,9 @@ msgid "It's beyond my power to do that.\n"
 msgstr ""
 
 #: engines/glk/zcode/zcode.cpp:145
+#, fuzzy
 msgid "Error writing save file\n"
-msgstr ""
+msgstr "ゲームを実行のエラー："
 
 #: engines/glk/hugo/hugo.cpp:183
 msgid "Incorrect rs file."
@@ -4444,12 +4536,14 @@ msgstr ""
 
 #: engines/gob/inter_v2.cpp:1549 engines/gob/inter_geisha.cpp:263
 #: engines/tinsel/saveload.cpp:567
+#, fuzzy
 msgid "Failed to save game to file."
-msgstr ""
+msgstr "オートセーブに失敗しました"
 
 #: engines/gob/inter_v5.cpp:107
+#, fuzzy
 msgid "Failed to delete file."
-msgstr ""
+msgstr "ストレージの接続に失敗しました。"
 
 #: engines/griffon/metaengine.cpp:86
 msgid "Menu / Skip"
@@ -4475,8 +4569,9 @@ msgid ""
 msgstr ""
 
 #: engines/grim/detection.cpp:54 engines/zvision/metaengine.cpp:153
+#, fuzzy
 msgid "Show FPS"
-msgstr ""
+msgstr "地図を表示"
 
 #: engines/grim/detection.cpp:55
 msgid "Show the current FPS-rate, while you play."
@@ -4529,8 +4624,9 @@ msgid "Quick Room Exit"
 msgstr ""
 
 #: engines/grim/grim.cpp:568
+#, fuzzy
 msgid "Examine/Look"
-msgstr ""
+msgstr "調べる"
 
 #: engines/grim/grim.cpp:1333
 msgid "Error: the game could not be saved."
@@ -4592,21 +4688,28 @@ msgid ""
 "Alternatively, a Steam or GOG copy has a combined FullMonkeyMap.imt"
 msgstr ""
 
-#: engines/groovie/detection.cpp:320
+#: engines/groovie/detection.cpp:297
 msgid "Fast movie speed"
 msgstr ""
 
-#: engines/groovie/detection.cpp:321
+#: engines/groovie/detection.cpp:298
 msgid "Play movies at an increased speed"
 msgstr ""
 
+#: engines/groovie/metaengine.cpp:53
+#, fuzzy
+msgid "GroovieV2 support is not compiled in"
+msgstr "含まれた機能："
+
 #: engines/groovie/script.cpp:484
+#, fuzzy
 msgid "Failed to save game"
-msgstr ""
+msgstr "オートセーブに失敗しました"
 
 #: engines/hdb/detection.cpp:124
+#, fuzzy
 msgid "Enable cheat mode"
-msgstr ""
+msgstr "マウス操作を有効にする"
 
 #: engines/hdb/detection.cpp:125
 msgid "Debug info and level selection becomes available"
@@ -4614,12 +4717,11 @@ msgstr ""
 
 #: engines/hdb/metaengine.cpp:193
 msgid "Move up"
-msgstr ""
+msgstr "上"
 
 #: engines/hdb/metaengine.cpp:199
-#, fuzzy
 msgid "Move down"
-msgstr "下を見る"
+msgstr "下"
 
 #: engines/hdb/metaengine.cpp:217 engines/scumm/help.cpp:128
 #: engines/scumm/help.cpp:152 engines/scumm/help.cpp:170
@@ -4653,8 +4755,9 @@ msgid "Studio audience"
 msgstr ""
 
 #: engines/kyra/detection.cpp:46
+#, fuzzy
 msgid "Enable studio audience"
-msgstr ""
+msgstr "有効にする"
 
 #. I18N: This option allows the user to skip text and cutscenes.
 #: engines/kyra/detection.cpp:56
@@ -4671,136 +4774,159 @@ msgid "Helium mode"
 msgstr ""
 
 #: engines/kyra/detection.cpp:68
+#, fuzzy
 msgid "Enable helium mode"
-msgstr ""
+msgstr "マウス操作を有効にする"
 
 #. I18N: When enabled, this option makes scrolling smoother when
 #. changing from one screen to another.
-#: engines/kyra/detection.cpp:82
+#: engines/kyra/detection.cpp:81
 msgid "Smooth scrolling"
 msgstr ""
 
-#: engines/kyra/detection.cpp:83
+#: engines/kyra/detection.cpp:82
 msgid "Enable smooth scrolling when walking"
 msgstr ""
 
 #. I18N: When enabled, this option changes the cursor when it floats to the
 #. edge of the screen to a directional arrow. The player can then click to
 #. walk towards that direction.
-#: engines/kyra/detection.cpp:95
+#: engines/kyra/detection.cpp:94
 msgid "Floating cursors"
 msgstr ""
 
-#: engines/kyra/detection.cpp:96
+#: engines/kyra/detection.cpp:95
+#, fuzzy
 msgid "Enable floating cursors"
-msgstr ""
+msgstr "音声を有効にする"
 
 #. I18N: When enabled, this option will fill in an autogenerated savegame
 #. description into the input prompt where.
-#: engines/kyra/detection.cpp:107
+#: engines/kyra/detection.cpp:106
+#, fuzzy
 msgid "Suggest save names"
-msgstr ""
+msgstr "セーブデータの同期を始まる"
 
-#: engines/kyra/detection.cpp:108
+#: engines/kyra/detection.cpp:107
 msgid "Autogenerated naming suggestions for savegames"
 msgstr ""
 
 #. I18N: HP stands for Hit Points
-#: engines/kyra/detection.cpp:122
+#: engines/kyra/detection.cpp:119
 msgid "HP bar graphs"
 msgstr ""
 
-#: engines/kyra/detection.cpp:123
+#: engines/kyra/detection.cpp:120
 msgid "Enable hit point bar graphs"
 msgstr ""
 
 #. I18N: L/R stands for Left/Right
-#: engines/kyra/detection.cpp:133
+#: engines/kyra/detection.cpp:130
 msgid "Fight Button L/R Swap"
 msgstr ""
 
-#: engines/kyra/detection.cpp:134
+#: engines/kyra/detection.cpp:131
 msgid "Left button to attack, right button to pick up items"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:366 engines/kyra/engine/lol.cpp:469
+#: engines/kyra/metaengine.cpp:116
+#, fuzzy
+msgid "Lands of Lore support is not compiled in"
+msgstr "含まれた機能："
+
+#: engines/kyra/metaengine.cpp:128
+msgid ""
+"EOB II FM-TOWNS requires support of 16bit color modes which has not been "
+"activated in your ScummVM build"
+msgstr ""
+
+#: engines/kyra/metaengine.cpp:137
+#, fuzzy
+msgid "Eye of Beholder support is not compiled in"
+msgstr "含まれた機能："
+
+#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:469
 #: engines/ultima/ultima4/meta_engine.cpp:233
 #: engines/ultima/ultima8/meta_engine.cpp:130
+#, fuzzy
 msgid "Interact via Left Click"
-msgstr ""
+msgstr "左クリック"
 
-#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:470
+#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:470
 #: engines/ultima/ultima4/meta_engine.cpp:239
 #: engines/ultima/ultima8/meta_engine.cpp:136
+#, fuzzy
 msgid "Interact via Right Click"
-msgstr ""
+msgstr "右クリック"
 
-#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:475
-#: engines/twine/metaengine.cpp:277
+#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:475
+#: engines/twine/metaengine.cpp:305
 msgid "Move Forward"
 msgstr "前に進む"
 
-#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:476
+#: engines/kyra/engine/eobcommon.cpp:370 engines/kyra/engine/lol.cpp:476
 msgid "Move Back"
 msgstr "去る"
 
-#: engines/kyra/engine/eobcommon.cpp:370
+#: engines/kyra/engine/eobcommon.cpp:371
 msgid "Move Left"
 msgstr "左に行く"
 
-#: engines/kyra/engine/eobcommon.cpp:371
+#: engines/kyra/engine/eobcommon.cpp:372
 msgid "Move Right"
 msgstr "右に行く"
 
-#: engines/kyra/engine/eobcommon.cpp:372 engines/kyra/engine/lol.cpp:479
-#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:295
+#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:479
+#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:323
 #: engines/zvision/metaengine.cpp:141
 msgid "Turn Left"
 msgstr "左に曲がる"
 
-#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:480
-#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:289
+#: engines/kyra/engine/eobcommon.cpp:374 engines/kyra/engine/lol.cpp:480
+#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:317
 #: engines/zvision/metaengine.cpp:147
 msgid "Turn Right"
 msgstr "右に曲がる"
 
-#: engines/kyra/engine/eobcommon.cpp:374
-msgid "Open/Close Inventory"
-msgstr ""
-
 #: engines/kyra/engine/eobcommon.cpp:375
+#, fuzzy
+msgid "Open/Close Inventory"
+msgstr "インベントリ"
+
+#: engines/kyra/engine/eobcommon.cpp:376
 msgid "Switch Inventory/Character screen"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:376
+#: engines/kyra/engine/eobcommon.cpp:377
 msgid "Camp"
 msgstr "キャンプ"
 
-#: engines/kyra/engine/eobcommon.cpp:377
+#: engines/kyra/engine/eobcommon.cpp:378
+#, fuzzy
 msgid "Cast Spell"
-msgstr ""
+msgstr "魔法を選択"
 
-#: engines/kyra/engine/eobcommon.cpp:380
+#: engines/kyra/engine/eobcommon.cpp:381
 msgid "Spell Level 1"
 msgstr "魔法レベル１"
 
-#: engines/kyra/engine/eobcommon.cpp:381
+#: engines/kyra/engine/eobcommon.cpp:382
 msgid "Spell Level 2"
 msgstr "魔法レベル２"
 
-#: engines/kyra/engine/eobcommon.cpp:382
+#: engines/kyra/engine/eobcommon.cpp:383
 msgid "Spell Level 3"
 msgstr "魔法レベル３"
 
-#: engines/kyra/engine/eobcommon.cpp:383
+#: engines/kyra/engine/eobcommon.cpp:384
 msgid "Spell Level 4"
 msgstr "魔法レベル４"
 
-#: engines/kyra/engine/eobcommon.cpp:384
+#: engines/kyra/engine/eobcommon.cpp:385
 msgid "Spell Level 5"
 msgstr "魔法レベル５"
 
-#: engines/kyra/engine/eobcommon.cpp:386
+#: engines/kyra/engine/eobcommon.cpp:387
 msgid "Spell Level 6"
 msgstr "魔法レベル６"
 
@@ -4821,12 +4947,14 @@ msgid "Show Map"
 msgstr "地図を表示"
 
 #: engines/kyra/engine/lol.cpp:477
+#, fuzzy
 msgid "Slide Left"
-msgstr ""
+msgstr "左に行く"
 
 #: engines/kyra/engine/lol.cpp:478
+#, fuzzy
 msgid "Slide Right"
-msgstr ""
+msgstr "右に行く"
 
 #: engines/kyra/engine/lol.cpp:481
 msgid "Rest"
@@ -4934,6 +5062,10 @@ msgstr ""
 msgid "Use TTS to read the descriptions (if TTS is available)"
 msgstr ""
 
+#: engines/made/detection_tables.h:360
+msgid "The game is using unsupported engine"
+msgstr "このゲームはサポートされていないエンジンを使用しています"
+
 #: engines/mads/detection.cpp:55
 msgid "Easy mouse interface"
 msgstr ""
@@ -4977,12 +5109,14 @@ msgid "~D~rop Page"
 msgstr ""
 
 #: engines/mohawk/dialogs.cpp:131
+#, fuzzy
 msgid "Show ~M~ap"
-msgstr ""
+msgstr "地図を表示"
 
 #: engines/mohawk/dialogs.cpp:136
+#, fuzzy
 msgid "Main Men~u~"
-msgstr ""
+msgstr "メインメニュー"
 
 #: engines/mohawk/dialogs.cpp:250
 msgid "The new language will be applied after restarting the game."
@@ -5012,25 +5146,49 @@ msgstr "良質"
 msgid "The game is paused. Press any key to continue."
 msgstr ""
 
+#: engines/mohawk/metaengine.cpp:272
+#, fuzzy
+msgid "Myst ME support not compiled in"
+msgstr "含まれた機能："
+
+#: engines/mohawk/metaengine.cpp:279
+#, fuzzy
+msgid "Myst support not compiled in"
+msgstr "含まれた機能："
+
+#: engines/mohawk/metaengine.cpp:287
+#, fuzzy
+msgid "Riven support not compiled in"
+msgstr "含まれた機能："
+
+#: engines/mohawk/metaengine.cpp:302
+#, fuzzy
+msgid "CSTime support not compiled in"
+msgstr "含まれた機能："
+
 #: engines/mohawk/myst.cpp:552 engines/mohawk/riven.cpp:822
 msgid "Open main menu"
 msgstr ""
 
 #: engines/mohawk/myst.cpp:576 engines/mohawk/riven.cpp:846
+#, fuzzy
 msgid "Load game state"
-msgstr ""
+msgstr "ゲームをロード"
 
 #: engines/mohawk/myst.cpp:581 engines/mohawk/riven.cpp:851
+#, fuzzy
 msgid "Save game state"
-msgstr ""
+msgstr "ゲームをセーブ："
 
 #: engines/mohawk/myst.cpp:586 engines/mohawk/riven.cpp:856
+#, fuzzy
 msgid "Show options menu"
-msgstr ""
+msgstr "設定"
 
 #: engines/mohawk/myst.cpp:598
+#, fuzzy
 msgid "Drop page"
-msgstr ""
+msgstr "前のページ"
 
 #: engines/mohawk/myst.cpp:604 engines/wintermute/keymapper_tables.h:1176
 #: engines/wintermute/keymapper_tables.h:1318
@@ -5095,20 +5253,24 @@ msgid "You are missing the following required Riven data files:\n"
 msgstr ""
 
 #: engines/mohawk/riven.cpp:868
+#, fuzzy
 msgid "Move forward"
-msgstr ""
+msgstr "前に進む"
 
 #: engines/mohawk/riven.cpp:874
+#, fuzzy
 msgid "Move forward left"
-msgstr ""
+msgstr "前に進む"
 
 #: engines/mohawk/riven.cpp:878
+#, fuzzy
 msgid "Move forward right"
-msgstr ""
+msgstr "前に進む"
 
 #: engines/mohawk/riven.cpp:882
+#, fuzzy
 msgid "Move backwards"
-msgstr ""
+msgstr "去る"
 
 #: engines/mohawk/riven.cpp:888 engines/wintermute/keymapper_tables.h:159
 #: engines/wintermute/keymapper_tables.h:520
@@ -5156,10 +5318,13 @@ msgstr ""
 msgid "Unable to locate the '%s' engine data file"
 msgstr ""
 
+#: engines/myst3/detection.cpp:149 engines/myst3/detection.cpp:163
+msgid "PS2 version is not yet supported"
+msgstr "PS2版はまだサポートされていません"
+
 #: engines/myst3/detection.cpp:182
-#, fuzzy
 msgid "Widescreen mod"
-msgstr "全面モード"
+msgstr "ワイドスクリーン対応MOD"
 
 #: engines/myst3/detection.cpp:183
 msgid "Enable widescreen rendering in fullscreen mode."
@@ -5175,8 +5340,9 @@ msgid ""
 msgstr ""
 
 #: engines/myst3/myst3.cpp:1575 engines/pegasus/pegasus.cpp:701
+#, fuzzy
 msgid "Invalid file name for saving"
-msgstr ""
+msgstr "セーブデータの名前を入力してください"
 
 #: engines/neverhood/detection.cpp:119
 msgid "Skip the Hall of Records storyboard scenes"
@@ -5202,16 +5368,18 @@ msgid ""
 msgstr ""
 
 #: engines/parallaction/saveload.cpp:194
+#, fuzzy
 msgid "Load file"
-msgstr ""
+msgstr "ゲームをロード"
 
 #: engines/parallaction/saveload.cpp:201
 msgid "Loading game..."
 msgstr "ロード中..."
 
 #: engines/parallaction/saveload.cpp:209
+#, fuzzy
 msgid "Save file"
-msgstr ""
+msgstr "ゲームをセーブ"
 
 #: engines/parallaction/saveload.cpp:216
 msgid "Saving game..."
@@ -5244,12 +5412,14 @@ msgid "Up/Zoom In/Move Forward/Open Doors"
 msgstr ""
 
 #: engines/pegasus/pegasus.cpp:2490
+#, fuzzy
 msgid "Down/Zoom Out"
-msgstr ""
+msgstr "ズームアウト"
 
 #: engines/pegasus/pegasus.cpp:2511
+#, fuzzy
 msgid "Action/Select"
-msgstr ""
+msgstr "自発的"
 
 #: engines/pegasus/pegasus.cpp:2531
 msgid "Display/Hide Inventory Tray"
@@ -5306,6 +5476,16 @@ msgstr ""
 msgid "Use an alternative game intro (CD version only)"
 msgstr ""
 
+#: engines/saga/metaengine.cpp:117
+#, fuzzy
+msgid "I Have No Mouth support not compiled in"
+msgstr "含まれた機能："
+
+#: engines/saga/metaengine.cpp:124
+#, fuzzy
+msgid "SAGA2 support not compiled in"
+msgstr "含まれた機能："
+
 #: engines/saga/saga.cpp:247
 msgid "Error loading game resources."
 msgstr ""
@@ -5319,8 +5499,9 @@ msgid "Skip dithering pass in EGA games, graphics are shown with full colors"
 msgstr ""
 
 #: engines/sci/detection.cpp:153
+#, fuzzy
 msgid "Enable high resolution graphics"
-msgstr ""
+msgstr "高解像度なMPEGファイルを使用する"
 
 #: engines/sci/detection.cpp:154
 msgid "Enable high resolution graphics/content"
@@ -5339,8 +5520,9 @@ msgid "Use high-quality video scaling"
 msgstr ""
 
 #: engines/sci/detection.cpp:175
+#, fuzzy
 msgid "Use linear interpolation when upscaling videos, where possible"
-msgstr ""
+msgstr "線形フィルターによる画像を拡大する"
 
 #: engines/sci/detection.cpp:185
 msgid "Use high-quality \"LarryScale\" cel scaling"
@@ -5351,8 +5533,9 @@ msgid "Use special cartoon scaler for drawing character sprites"
 msgstr ""
 
 #: engines/sci/detection.cpp:195
+#, fuzzy
 msgid "Prefer digital sound effects"
-msgstr ""
+msgstr "音響効果の音量"
 
 #: engines/sci/detection.cpp:196
 msgid "Prefer digital sound effects instead of synthesized ones"
@@ -5438,7 +5621,7 @@ msgstr "ローランド D-110 / D-10 / D-20"
 msgid "Yamaha FB-01"
 msgstr "ヤマハ FB-01"
 
-#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:396
+#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:404
 msgid "(Autosave)"
 msgstr "(自動セーブ)"
 
@@ -5459,9 +5642,9 @@ msgid "The format of this saved game is obsolete, unable to load it"
 msgstr ""
 
 #: engines/sci/engine/savegame.cpp:1409
-#, c-format
+#, fuzzy, c-format
 msgid "Savegame version is %d, maximum supported is %0d"
-msgstr ""
+msgstr "PS2版はまだサポートされていません"
 
 #: engines/sci/engine/savegame.cpp:1420
 msgid ""
@@ -5475,7 +5658,12 @@ msgid ""
 "Cannot play back %dbpp video on a system with maximum color depth of 8bpp"
 msgstr ""
 
-#: engines/sci/resource.cpp:845
+#: engines/sci/metaengine.cpp:325
+#, fuzzy
+msgid "SCI32 support not compiled in"
+msgstr "含まれた機能："
+
+#: engines/sci/resource/resource.cpp:845
 msgid ""
 "Missing or corrupt game resources have been detected. Some game features may "
 "not work properly. Please check the console for more information, and verify "
@@ -5608,16 +5796,19 @@ msgstr ""
 
 #. I18N: you may specify 'Yes' symbol at the end of the line. See previous comment
 #: engines/scumm/dialogs.cpp:178
+#, fuzzy
 msgid "Are you sure you want to quit?  (Y/N)Y"
-msgstr ""
+msgstr "終了してもよろしいですか？"
 
 #: engines/scumm/dialogs.cpp:183
+#, fuzzy
 msgid "Play"
-msgstr ""
+msgstr "再生"
 
 #: engines/scumm/dialogs.cpp:187
+#, fuzzy
 msgid "Insert save/load game disk"
-msgstr ""
+msgstr "セーブデータの同期を始まる"
 
 #: engines/scumm/dialogs.cpp:188
 msgid "You must enter a name"
@@ -5628,8 +5819,9 @@ msgid "The game was NOT saved (disk full?)"
 msgstr ""
 
 #: engines/scumm/dialogs.cpp:190
+#, fuzzy
 msgid "The game was NOT loaded"
-msgstr ""
+msgstr "テーマを読み込みできませんでした！"
 
 #: engines/scumm/dialogs.cpp:191
 #, c-format
@@ -5646,12 +5838,14 @@ msgid "Name your SAVE game"
 msgstr ""
 
 #: engines/scumm/dialogs.cpp:194
+#, fuzzy
 msgid "Select a game to LOAD"
-msgstr ""
+msgstr "テーマを選ぶ"
 
 #: engines/scumm/dialogs.cpp:195
+#, fuzzy
 msgid "Game title)"
-msgstr ""
+msgstr "ゲームメニュー"
 
 #. I18N: Previous page button
 #: engines/scumm/dialogs.cpp:281
@@ -5676,9 +5870,10 @@ msgid "Subtitles Only"
 msgstr "字幕のみ"
 
 #: engines/scumm/dialogs.cpp:630
+#, fuzzy
 msgctxt "lowres"
 msgid "Speech & Subs"
-msgstr ""
+msgstr "音声と字幕"
 
 #: engines/scumm/dialogs.cpp:676
 msgid "Select a Proficiency Level."
@@ -5721,8 +5916,9 @@ msgid "Space"
 msgstr ""
 
 #: engines/scumm/help.cpp:78
+#, fuzzy
 msgid "Pause game"
-msgstr ""
+msgstr "ゲームをセーブ："
 
 #: engines/scumm/help.cpp:79 engines/scumm/help.cpp:84
 #: engines/scumm/help.cpp:95 engines/scumm/help.cpp:96
@@ -5733,8 +5929,9 @@ msgid "Ctrl"
 msgstr ""
 
 #: engines/scumm/help.cpp:79
+#, fuzzy
 msgid "Load saved game 1-10"
-msgstr ""
+msgstr "ゲームをロード"
 
 #: engines/scumm/help.cpp:80 engines/scumm/help.cpp:84
 #: engines/scumm/help.cpp:86 engines/scumm/help.cpp:100
@@ -5743,36 +5940,41 @@ msgid "Alt"
 msgstr ""
 
 #: engines/scumm/help.cpp:80
+#, fuzzy
 msgid "Save game 1-10"
-msgstr ""
+msgstr "ゲームをセーブ："
 
 #: engines/scumm/help.cpp:87
+#, fuzzy
 msgid "Music volume up / down"
-msgstr ""
+msgstr "音楽の音量： "
 
 #: engines/scumm/help.cpp:88
 msgid "Text speed slower / faster"
 msgstr ""
 
 #: engines/scumm/help.cpp:89
+#, fuzzy
 msgid "Simulate left mouse button"
-msgstr ""
+msgstr "マウスの左ボタン"
 
 #: engines/scumm/help.cpp:90 engines/wintermute/keymapper_tables.h:1741
 msgid "Tab"
 msgstr ""
 
 #: engines/scumm/help.cpp:90
+#, fuzzy
 msgid "Simulate right mouse button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/scumm/help.cpp:93
 msgid "Special keyboard commands:"
 msgstr ""
 
 #: engines/scumm/help.cpp:94
+#, fuzzy
 msgid "Show / Hide console"
-msgstr ""
+msgstr "隠しファイルを表示する"
 
 #: engines/scumm/help.cpp:95
 msgid "Start the debugger"
@@ -5795,12 +5997,14 @@ msgid "Switch between graphics filters"
 msgstr ""
 
 #: engines/scumm/help.cpp:101
+#, fuzzy
 msgid "Increase / Decrease scale factor"
-msgstr ""
+msgstr "スケールを拡大する"
 
 #: engines/scumm/help.cpp:102
+#, fuzzy
 msgid "Toggle aspect-ratio correction"
-msgstr ""
+msgstr "縦横比修正の切替"
 
 #: engines/scumm/help.cpp:107
 msgid "* Note that using ctrl-f and"
@@ -5823,8 +6027,9 @@ msgid "Spinning drafts on the keyboard:"
 msgstr ""
 
 #: engines/scumm/help.cpp:116
+#, fuzzy
 msgid "Main game controls:"
-msgstr ""
+msgstr "ゲームの設定を変える"
 
 #: engines/scumm/help.cpp:121 engines/scumm/help.cpp:136
 #: engines/scumm/help.cpp:161
@@ -5876,15 +6081,17 @@ msgstr "消す"
 
 #: engines/scumm/help.cpp:142 engines/scumm/help.cpp:167
 #: engines/scumm/help.cpp:194 engines/wintermute/keymapper_tables.h:1190
+#, fuzzy
 msgid "Walk to"
-msgstr ""
+msgstr "歩く"
 
 #: engines/scumm/help.cpp:143 engines/scumm/help.cpp:168
 #: engines/scumm/help.cpp:195 engines/scumm/help.cpp:210
 #: engines/scumm/help.cpp:227 engines/wintermute/keymapper_tables.h:132
 #: engines/wintermute/keymapper_tables.h:1196
+#, fuzzy
 msgid "Pick up"
-msgstr ""
+msgstr "拾う／片付ける"
 
 #: engines/scumm/help.cpp:144 engines/scumm/help.cpp:169
 msgid "What is"
@@ -5899,16 +6106,18 @@ msgid "Put on"
 msgstr ""
 
 #: engines/scumm/help.cpp:150
+#, fuzzy
 msgid "Take off"
-msgstr ""
+msgstr "消す"
 
 #: engines/scumm/help.cpp:156
 msgid "Fix"
 msgstr "直す"
 
 #: engines/scumm/help.cpp:158
+#, fuzzy
 msgid "Switch"
-msgstr ""
+msgstr "ゲームへ切り替え"
 
 #: engines/scumm/help.cpp:166 engines/scumm/help.cpp:228
 msgid "Look"
@@ -5970,22 +6179,26 @@ msgstr ""
 #: engines/scumm/help.cpp:196 engines/scumm/help.cpp:212
 #: engines/scumm/help.cpp:248 engines/wintermute/keymapper_tables.h:126
 #: engines/wintermute/keymapper_tables.h:1208
+#, fuzzy
 msgid "Talk to"
-msgstr ""
+msgstr "話す"
 
 #: engines/scumm/help.cpp:199 engines/scumm/help.cpp:211
 #: engines/wintermute/keymapper_tables.h:120
 #: engines/wintermute/keymapper_tables.h:1184
+#, fuzzy
 msgid "Look at"
-msgstr ""
+msgstr "見る"
 
 #: engines/scumm/help.cpp:200
+#, fuzzy
 msgid "turn oN"
-msgstr ""
+msgstr "付く"
 
 #: engines/scumm/help.cpp:201
+#, fuzzy
 msgid "turn oFf"
-msgstr ""
+msgstr "消す"
 
 #: engines/scumm/help.cpp:217
 msgid "KeyUp"
@@ -5996,8 +6209,9 @@ msgid "Highlight prev dialogue"
 msgstr ""
 
 #: engines/scumm/help.cpp:218
+#, fuzzy
 msgid "KeyDown"
-msgstr ""
+msgstr "下"
 
 #: engines/scumm/help.cpp:218
 msgid "Highlight next dialogue"
@@ -6024,8 +6238,9 @@ msgid "Tongue"
 msgstr "舌"
 
 #: engines/scumm/help.cpp:235
+#, fuzzy
 msgid "Punch"
-msgstr ""
+msgstr "ロンチャー"
 
 #: engines/scumm/help.cpp:236
 msgid "Kick"
@@ -6045,12 +6260,14 @@ msgid "Save / Load / Options"
 msgstr ""
 
 #: engines/scumm/help.cpp:257
+#, fuzzy
 msgid "Other game controls:"
-msgstr ""
+msgstr "ゲームの設定を変える"
 
 #: engines/scumm/help.cpp:259 engines/scumm/help.cpp:269
+#, fuzzy
 msgid "Inventory:"
-msgstr ""
+msgstr "インベントリ"
 
 #: engines/scumm/help.cpp:260 engines/scumm/help.cpp:276
 msgid "Scroll list up"
@@ -6073,12 +6290,14 @@ msgid "Upper right item"
 msgstr ""
 
 #: engines/scumm/help.cpp:265 engines/scumm/help.cpp:275
+#, fuzzy
 msgid "Lower right item"
-msgstr ""
+msgstr "右に行く"
 
 #: engines/scumm/help.cpp:271
+#, fuzzy
 msgid "Middle left item"
-msgstr ""
+msgstr "中クリック"
 
 #: engines/scumm/help.cpp:274
 msgid "Middle right item"
@@ -6166,8 +6385,9 @@ msgid "Fly to upper left"
 msgstr ""
 
 #: engines/scumm/help.cpp:333
+#, fuzzy
 msgid "Fly to left"
-msgstr ""
+msgstr "左に行く"
 
 #: engines/scumm/help.cpp:334
 msgid "Fly to lower left"
@@ -6190,8 +6410,9 @@ msgid "Fly to upper right"
 msgstr ""
 
 #: engines/scumm/help.cpp:339
+#, fuzzy
 msgid "Fly to right"
-msgstr ""
+msgstr "右に行く"
 
 #: engines/scumm/help.cpp:340
 msgid "Fly to lower right"
@@ -6210,8 +6431,9 @@ msgid "Music volume: "
 msgstr "音楽の音量： "
 
 #: engines/scumm/input.cpp:595
+#, fuzzy
 msgid "Subtitle speed: "
-msgstr ""
+msgstr "字幕の速度："
 
 #: engines/scumm/metaengine.cpp:331
 msgid ""
@@ -6225,6 +6447,16 @@ msgid ""
 "The Russian version of Pajama Sam 2 is not supported yet due to incomplete "
 "code."
 msgstr ""
+
+#: engines/scumm/metaengine.cpp:429
+#, fuzzy
+msgid "HE v71+ support is not compiled in"
+msgstr "含まれた機能："
+
+#: engines/scumm/metaengine.cpp:453
+#, fuzzy
+msgid "SCUMM v7-8 support is not compiled in"
+msgstr "含まれた機能："
 
 #: engines/scumm/scumm.cpp:1918
 #, c-format
@@ -6332,37 +6564,38 @@ msgid "Open control panel"
 msgstr ""
 
 #: engines/sky/metaengine.cpp:118
-#, fuzzy
 msgid "Toggle fast mode"
-msgstr "消音の切替"
+msgstr "高速モードの切り替え"
 
 #: engines/sky/metaengine.cpp:123
+#, fuzzy
 msgid "Toggle really fast mode"
-msgstr ""
+msgstr "高速モードの切り替え"
 
-#: engines/stark/detection.cpp:368
+#: engines/stark/detection.cpp:322
 msgid "Load modded assets"
 msgstr ""
 
-#: engines/stark/detection.cpp:369
+#: engines/stark/detection.cpp:323
 msgid "Enable loading of external replacement assets."
 msgstr ""
 
-#: engines/stark/detection.cpp:377
+#: engines/stark/detection.cpp:331
 msgid "Enable linear filtering of the backgrounds images"
 msgstr ""
 
-#: engines/stark/detection.cpp:378
+#: engines/stark/detection.cpp:332
 msgid ""
 "When linear filtering is enabled the background graphics are smoother in "
 "full screen mode, at the cost of some details."
 msgstr ""
 
-#: engines/stark/detection.cpp:386
+#: engines/stark/detection.cpp:340
+#, fuzzy
 msgid "Enable font anti-aliasing"
-msgstr ""
+msgstr "3Dアンチエイリアス："
 
-#: engines/stark/detection.cpp:387
+#: engines/stark/detection.cpp:341
 msgid "When font anti-aliasing is enabled, the text is smoother."
 msgstr ""
 
@@ -6419,12 +6652,14 @@ msgid ""
 msgstr ""
 
 #: engines/supernova/supernova.cpp:828
+#, fuzzy
 msgid "Failed to load temporary game state."
-msgstr ""
+msgstr "ストレージの接続に失敗しました。"
 
 #: engines/supernova/detection.cpp:35
+#, fuzzy
 msgid "Improved mode"
-msgstr ""
+msgstr "ウインドーモード"
 
 #: engines/supernova/detection.cpp:36
 msgid ""
@@ -6494,8 +6729,9 @@ msgid "Show labels for objects on mouse hover"
 msgstr ""
 
 #: engines/sword25/detection.cpp:41
+#, fuzzy
 msgid "Use English speech"
-msgstr ""
+msgstr "テキストの読み上げ機能を使用する"
 
 #: engines/sword25/detection.cpp:42
 msgid ""
@@ -6507,6 +6743,10 @@ msgid ""
 "The teenagent.dat file is compressed and zlib hasn't been included in this "
 "executable. Please decompress it"
 msgstr ""
+
+#: engines/tinsel/detection_tables.h:466
+msgid "Saturn CD version is not yet supported"
+msgstr "セガサターン版はまだサポートされていません"
 
 #: engines/tony/tony.cpp:257
 #, c-format
@@ -6529,14 +6769,18 @@ msgid "Saved game #%d quick loaded"
 msgstr ""
 
 #: engines/toon/toon.cpp:246
-#, c-format
+#, fuzzy, c-format
 msgid "Could not quick load the saved game #%d"
-msgstr ""
+msgstr "セーブデータをロードしますか？"
 
 #: engines/toon/toon.cpp:1528
 #, c-format
 msgid "Unable to locate the '%s' data file."
 msgstr ""
+
+#: engines/tsage/detection_tables.h:150
+msgid "Spanish CD version is not yet supported"
+msgstr "スペイン版(CDバージョン)はまだサポートされていません"
 
 #: engines/twine/metaengine.cpp:68
 msgid "Enable wall collisions"
@@ -6547,18 +6791,16 @@ msgid "Enable the original wall collision damage"
 msgstr ""
 
 #: engines/twine/metaengine.cpp:75
-#, fuzzy
 msgid "Enable cross fade"
-msgstr "有効にする"
+msgstr "クロスフェードを有効にする"
 
 #: engines/twine/metaengine.cpp:76
 msgid "Enable cross fading of images and scenes"
 msgstr ""
 
 #: engines/twine/metaengine.cpp:83
-#, fuzzy
 msgid "Disable save menu"
-msgstr "無名のセーブ"
+msgstr "セーブメニューを無効にする"
 
 #: engines/twine/metaengine.cpp:84
 msgid ""
@@ -6566,40 +6808,39 @@ msgid ""
 msgstr ""
 
 #: engines/twine/metaengine.cpp:90
+#, fuzzy
 msgid "Enable debug mode"
-msgstr ""
+msgstr "マウス操作を有効にする"
 
 #: engines/twine/metaengine.cpp:91
+#, fuzzy
 msgid "Enable the debug mode"
-msgstr ""
+msgstr "ゲームの音声を有効にする"
 
 #: engines/twine/metaengine.cpp:97
+#, fuzzy
 msgid "Enable audio CD"
-msgstr ""
+msgstr "音声を有効にする"
 
 #: engines/twine/metaengine.cpp:98
 msgid "Enable the original audio cd track"
 msgstr ""
 
 #: engines/twine/metaengine.cpp:104
-#, fuzzy
 msgid "Enable sound"
-msgstr "有効にする"
+msgstr "音声を有効にする"
 
 #: engines/twine/metaengine.cpp:105
-#, fuzzy
 msgid "Enable the sound for the game"
-msgstr "ゲームのフルネーム"
+msgstr "ゲームの音声を有効にする"
 
 #: engines/twine/metaengine.cpp:111
-#, fuzzy
 msgid "Enable voices"
-msgstr "有効にする"
+msgstr "音声を有効にする"
 
 #: engines/twine/metaengine.cpp:112
-#, fuzzy
 msgid "Enable the voices for the game"
-msgstr "ゲームのフルネーム"
+msgstr "ゲーム音声を有効にする"
 
 #: engines/twine/metaengine.cpp:118
 #, fuzzy
@@ -6612,132 +6853,141 @@ msgid "Enable the text for the game"
 msgstr "ゲームのフルネーム"
 
 #: engines/twine/metaengine.cpp:125
-#, fuzzy
 msgid "Enable movies"
-msgstr "有効にする"
+msgstr "ムービーを有効にする"
 
 #: engines/twine/metaengine.cpp:126
+#, fuzzy
 msgid "Enable the cutscenes for the game"
-msgstr ""
+msgstr "ゲーム音声を有効にする"
 
 #: engines/twine/metaengine.cpp:132
+msgid "Enable mouse"
+msgstr "マウス操作を有効にする"
+
+#: engines/twine/metaengine.cpp:133
+msgid "Enable the mouse for the UI"
+msgstr "マウスでのUI操作を有効にする"
+
+#: engines/twine/metaengine.cpp:139
 msgid "Use the USA version"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:133
+#: engines/twine/metaengine.cpp:140
 msgid "Enable the USA specific version flags"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:166
+#: engines/twine/metaengine.cpp:174
 msgid "Debug Next Room"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:171
+#: engines/twine/metaengine.cpp:179
 msgid "Debug Previous Room"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:176
+#: engines/twine/metaengine.cpp:184
 msgid "Debug Apply Celling Grid"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:181
+#: engines/twine/metaengine.cpp:189
 msgid "Debug Increase Celling Grid Index"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:186
+#: engines/twine/metaengine.cpp:194
 msgid "Debug Decrease Celling Grid Index"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:191
+#: engines/twine/metaengine.cpp:199
 msgid "Debug Grid Camera Up"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:196
+#: engines/twine/metaengine.cpp:204
 msgid "Debug Grid Camera Down"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:201
+#: engines/twine/metaengine.cpp:209
 msgid "Debug Grid Camera Left"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:207
+#: engines/twine/metaengine.cpp:215
 msgid "Debug Grid Camera Right"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:212
+#: engines/twine/metaengine.cpp:220
 msgid "Debug Menu"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:217
+#: engines/twine/metaengine.cpp:225
 msgid "Debug Menu Execute"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:222
+#: engines/twine/metaengine.cpp:230 engines/twine/metaengine.cpp:250
 msgid "Normal Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:227
+#: engines/twine/metaengine.cpp:235 engines/twine/metaengine.cpp:255
 msgid "Athletic Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:232
+#: engines/twine/metaengine.cpp:240 engines/twine/metaengine.cpp:260
 msgid "Aggressive Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:237
+#: engines/twine/metaengine.cpp:245 engines/twine/metaengine.cpp:265
 msgid "Discreet Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:242
+#: engines/twine/metaengine.cpp:270
 msgid "Behaviour Action"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:248
+#: engines/twine/metaengine.cpp:276
 msgid "Change Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:254
-#, fuzzy
+#: engines/twine/metaengine.cpp:282
 msgid "Options Menu"
 msgstr "設定"
 
-#: engines/twine/metaengine.cpp:265
+#: engines/twine/metaengine.cpp:293
 msgid "Use Selected Object"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:271
+#: engines/twine/metaengine.cpp:299
 msgid "Throw Magic Ball"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:283
+#: engines/twine/metaengine.cpp:311
+#, fuzzy
 msgid "Move Backward"
-msgstr ""
+msgstr "去る"
 
-#: engines/twine/metaengine.cpp:301
+#: engines/twine/metaengine.cpp:329
 msgid "Use Protopack"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:306
+#: engines/twine/metaengine.cpp:334
 msgid "Open Holomap"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:318
+#: engines/twine/metaengine.cpp:346
+#, fuzzy
 msgid "Special Action"
-msgstr ""
+msgstr "自発的"
 
-#: engines/twine/metaengine.cpp:323 engines/wintermute/keymapper_tables.h:61
+#: engines/twine/metaengine.cpp:351 engines/wintermute/keymapper_tables.h:61
 msgid "Escape"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:334
+#: engines/twine/metaengine.cpp:362
 msgid "Accept"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:340 engines/twine/metaengine.cpp:381
+#: engines/twine/metaengine.cpp:369 engines/twine/metaengine.cpp:413
 msgid "Abort"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:369
+#: engines/twine/metaengine.cpp:401
 #, fuzzy
 msgid "Next Page"
 msgstr "次のページ"
@@ -6783,12 +7033,14 @@ msgid "Crusader"
 msgstr ""
 
 #: engines/ultima/ultima8/meta_engine.cpp:169
+#, fuzzy
 msgid "Ultima VIII Cheats"
-msgstr ""
+msgstr "ウルティマ VIII"
 
 #: engines/ultima/ultima8/meta_engine.cpp:184
+#, fuzzy
 msgid "Ultima VIII Debug"
-msgstr ""
+msgstr "ウルティマ VIII"
 
 #: engines/ultima/ultima8/gumps/u8_save_gump.cpp:299
 msgid "[corrupt]"
@@ -6818,9 +7070,25 @@ msgstr ""
 msgid "Apply bilinear filtering to individual sprites"
 msgstr ""
 
+#: engines/wintermute/metaengine.cpp:67
+#, fuzzy
+msgid "FoxTail support is not compiled in"
+msgstr "含まれた機能："
+
+#: engines/wintermute/metaengine.cpp:74
+#, fuzzy
+msgid "Hero Craft support is not compiled in"
+msgstr "含まれた機能："
+
+#: engines/wintermute/metaengine.cpp:81
+#, fuzzy
+msgid "Wintermute3D support is not compiled in"
+msgstr "含まれた機能："
+
 #: engines/wintermute/wintermute.cpp:176
+#, fuzzy
 msgid "This game requires PNG, JPEG and Vorbis support."
-msgstr ""
+msgstr "未対応のゲームID。"
 
 #: engines/wintermute/wintermute.cpp:187
 msgid "This game requires the FoxTail subengine, which is not compiled in."
@@ -6852,8 +7120,9 @@ msgstr ""
 #: engines/wintermute/keymapper_tables.h:171
 #: engines/wintermute/keymapper_tables.h:468
 #: engines/wintermute/keymapper_tables.h:1412
+#, fuzzy
 msgid "Show scene geometry"
-msgstr ""
+msgstr "画面上コントロールを表示する"
 
 #: engines/wintermute/keymapper_tables.h:180
 #: engines/wintermute/keymapper_tables.h:196
@@ -6889,8 +7158,9 @@ msgstr "次のページ"
 #: engines/wintermute/keymapper_tables.h:1354
 #: engines/wintermute/keymapper_tables.h:1537
 #: engines/wintermute/keymapper_tables.h:1653
+#, fuzzy
 msgid "Show hints"
-msgstr ""
+msgstr "隠しファイルを表示する"
 
 #: engines/wintermute/keymapper_tables.h:242
 #: engines/wintermute/keymapper_tables.h:442
@@ -6901,24 +7171,27 @@ msgstr ""
 #: engines/wintermute/keymapper_tables.h:1324
 #: engines/wintermute/keymapper_tables.h:1333
 #: engines/wintermute/keymapper_tables.h:1504
+#, fuzzy
 msgid "Show inventory"
-msgstr ""
+msgstr "インベントリ"
 
 #: engines/wintermute/keymapper_tables.h:262
 #: engines/wintermute/keymapper_tables.h:311
 #: engines/wintermute/keymapper_tables.h:338
 #: engines/wintermute/keymapper_tables.h:1486
 #: engines/wintermute/keymapper_tables.h:1544
+#, fuzzy
 msgid "GUI variant A"
-msgstr ""
+msgstr "未認識バージョン"
 
 #: engines/wintermute/keymapper_tables.h:269
 #: engines/wintermute/keymapper_tables.h:318
 #: engines/wintermute/keymapper_tables.h:345
 #: engines/wintermute/keymapper_tables.h:1492
 #: engines/wintermute/keymapper_tables.h:1550
+#, fuzzy
 msgid "GUI variant B"
-msgstr ""
+msgstr "未認識バージョン"
 
 #: engines/wintermute/keymapper_tables.h:276
 #: engines/wintermute/keymapper_tables.h:352
@@ -6929,8 +7202,9 @@ msgstr ""
 #: engines/wintermute/keymapper_tables.h:281
 #: engines/wintermute/keymapper_tables.h:357
 #: engines/wintermute/keymapper_tables.h:871
+#, fuzzy
 msgid "Phone up button"
-msgstr ""
+msgstr "マウスの左ボタン"
 
 #: engines/wintermute/keymapper_tables.h:287
 #: engines/wintermute/keymapper_tables.h:363
@@ -6940,68 +7214,81 @@ msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:369
 #: engines/wintermute/keymapper_tables.h:883
+#, fuzzy
 msgid "Phone 0 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:374
 #: engines/wintermute/keymapper_tables.h:888
+#, fuzzy
 msgid "Phone 1 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:379
 #: engines/wintermute/keymapper_tables.h:893
+#, fuzzy
 msgid "Phone 2 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:384
 #: engines/wintermute/keymapper_tables.h:898
+#, fuzzy
 msgid "Phone 3 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:389
 #: engines/wintermute/keymapper_tables.h:903
+#, fuzzy
 msgid "Phone 4 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:394
 #: engines/wintermute/keymapper_tables.h:908
+#, fuzzy
 msgid "Phone 5 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:399
 #: engines/wintermute/keymapper_tables.h:913
+#, fuzzy
 msgid "Phone 6 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:404
 #: engines/wintermute/keymapper_tables.h:918
+#, fuzzy
 msgid "Phone 7 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:409
 #: engines/wintermute/keymapper_tables.h:923
+#, fuzzy
 msgid "Phone 8 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:414
 #: engines/wintermute/keymapper_tables.h:928
+#, fuzzy
 msgid "Phone 9 button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:419
 #: engines/wintermute/keymapper_tables.h:933
+#, fuzzy
 msgid "Phone * button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:424
 #: engines/wintermute/keymapper_tables.h:938
+#, fuzzy
 msgid "Phone # button"
-msgstr ""
+msgstr "マウスの右ボタン"
 
 #: engines/wintermute/keymapper_tables.h:448
 #: engines/wintermute/keymapper_tables.h:1073
+#, fuzzy
 msgid "Show help"
-msgstr ""
+msgstr "地図を表示"
 
 #: engines/wintermute/keymapper_tables.h:454
 #: engines/wintermute/keymapper_tables.h:621
@@ -7026,8 +7313,9 @@ msgstr ""
 #: engines/wintermute/keymapper_tables.h:1347
 #: engines/wintermute/keymapper_tables.h:1530
 #: engines/wintermute/keymapper_tables.h:1726
+#, fuzzy
 msgid "Scroll down"
-msgstr ""
+msgstr "下"
 
 #: engines/wintermute/keymapper_tables.h:473
 msgid "Change shadow type"
@@ -7035,8 +7323,9 @@ msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:483
 #: engines/wintermute/keymapper_tables.h:570
+#, fuzzy
 msgid "Volume max"
-msgstr ""
+msgstr "音量"
 
 #: engines/wintermute/keymapper_tables.h:488
 msgid "Show debug parser"
@@ -7046,8 +7335,9 @@ msgstr ""
 #: engines/wintermute/keymapper_tables.h:603
 #: engines/wintermute/keymapper_tables.h:1228
 #: engines/wintermute/keymapper_tables.h:1434
+#, fuzzy
 msgid "Debug print"
-msgstr ""
+msgstr "画像"
 
 #: engines/wintermute/keymapper_tables.h:500
 #: engines/wintermute/keymapper_tables.h:1407
@@ -7059,36 +7349,42 @@ msgid "Light helper window"
 msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:530
+#, fuzzy
 msgid "Run forward"
-msgstr ""
+msgstr "前に進む"
 
 #: engines/wintermute/keymapper_tables.h:535
+#, fuzzy
 msgid "Run backward"
-msgstr ""
+msgstr "バックグラウンドで実行する"
 
 #: engines/wintermute/keymapper_tables.h:540
+#, fuzzy
 msgid "Turn left fast"
-msgstr ""
+msgstr "左へ"
 
 #: engines/wintermute/keymapper_tables.h:545
+#, fuzzy
 msgid "Turn right fast"
-msgstr ""
+msgstr "右へ"
 
 #: engines/wintermute/keymapper_tables.h:550
 msgid "Show blueprint"
 msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:577
+#, fuzzy
 msgid "Volume off"
-msgstr ""
+msgstr "音量"
 
 #: engines/wintermute/keymapper_tables.h:591
 msgid "Change font size"
 msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:670
+#, fuzzy
 msgid "Save game"
-msgstr ""
+msgstr "ゲームをセーブ："
 
 #: engines/wintermute/keymapper_tables.h:680
 msgid "Quick save"
@@ -7113,16 +7409,19 @@ msgstr ""
 #: engines/wintermute/keymapper_tables.h:705
 #: engines/wintermute/keymapper_tables.h:1035
 #: engines/wintermute/keymapper_tables.h:1429
+#, fuzzy
 msgid "Cancel waiting"
-msgstr ""
+msgstr "ダウンロードをキャンセル"
 
 #: engines/wintermute/keymapper_tables.h:715
+#, fuzzy
 msgid "First page"
-msgstr ""
+msgstr "次のページ"
 
 #: engines/wintermute/keymapper_tables.h:720
+#, fuzzy
 msgid "Last page"
-msgstr ""
+msgstr "次のページ"
 
 #: engines/wintermute/keymapper_tables.h:727
 msgid "Walking speed: Ultra Super Mega Fast"
@@ -7141,32 +7440,39 @@ msgid "Select next music record"
 msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:758
+#, fuzzy
 msgid "Play note 1: A"
-msgstr ""
+msgstr "1P：上"
 
 #: engines/wintermute/keymapper_tables.h:763
+#, fuzzy
 msgid "Play note 2: F#"
-msgstr ""
+msgstr "2P：上"
 
 #: engines/wintermute/keymapper_tables.h:768
+#, fuzzy
 msgid "Play note 3: D#"
-msgstr ""
+msgstr "再生時間： "
 
 #: engines/wintermute/keymapper_tables.h:773
+#, fuzzy
 msgid "Play note 4: C#"
-msgstr ""
+msgstr "再生時間： "
 
 #: engines/wintermute/keymapper_tables.h:778
+#, fuzzy
 msgid "Play note 5: E"
-msgstr ""
+msgstr "再生時間： "
 
 #: engines/wintermute/keymapper_tables.h:783
+#, fuzzy
 msgid "Play note 6: G#"
-msgstr ""
+msgstr "再生時間： "
 
 #: engines/wintermute/keymapper_tables.h:788
+#, fuzzy
 msgid "Play note 7: B"
-msgstr ""
+msgstr "再生時間： "
 
 #: engines/wintermute/keymapper_tables.h:801
 msgid "Ability: Telekinesis"
@@ -7209,24 +7515,29 @@ msgid "Show hints / Dance move"
 msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:956
+#, fuzzy
 msgid "Dance move up"
-msgstr ""
+msgstr "上"
 
 #: engines/wintermute/keymapper_tables.h:962
+#, fuzzy
 msgid "Dance move down"
-msgstr ""
+msgstr "下"
 
 #: engines/wintermute/keymapper_tables.h:968
+#, fuzzy
 msgid "Dance move left"
-msgstr ""
+msgstr "左に行く"
 
 #: engines/wintermute/keymapper_tables.h:974
+#, fuzzy
 msgid "Dance move right"
-msgstr ""
+msgstr "右に行く"
 
 #: engines/wintermute/keymapper_tables.h:1004
+#, fuzzy
 msgid "Cancel input"
-msgstr ""
+msgstr "キャンセル"
 
 #: engines/wintermute/keymapper_tables.h:1114
 msgid "Shift"
@@ -7238,13 +7549,15 @@ msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:1234
 #: engines/wintermute/keymapper_tables.h:1639
+#, fuzzy
 msgid "Next action"
-msgstr ""
+msgstr "次のページ"
 
 #: engines/wintermute/keymapper_tables.h:1242
 #: engines/wintermute/keymapper_tables.h:1647
+#, fuzzy
 msgid "Previous action"
-msgstr ""
+msgstr "前のページ"
 
 #: engines/wintermute/keymapper_tables.h:1261
 #: engines/wintermute/keymapper_tables.h:1424
@@ -7277,16 +7590,17 @@ msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:1376
 msgid "Zoom out"
-msgstr ""
+msgstr "ズームアウト"
 
 #: engines/wintermute/keymapper_tables.h:1383
 msgid "Zoom in"
-msgstr ""
+msgstr "ズームイン"
 
 #: engines/wintermute/keymapper_tables.h:1396
 #: engines/wintermute/keymapper_tables.h:1511
+#, fuzzy
 msgid "Show journal"
-msgstr ""
+msgstr "地図を表示"
 
 #: engines/wintermute/keymapper_tables.h:1439
 msgid "Bezier window"
@@ -7297,8 +7611,9 @@ msgid "Droid action"
 msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:1517
+#, fuzzy
 msgid "Music menu"
-msgstr ""
+msgstr "音楽の音量："
 
 #: engines/wintermute/keymapper_tables.h:1561
 msgid "Rotate"
@@ -7310,35 +7625,35 @@ msgstr "落とす"
 
 #: engines/wintermute/keymapper_tables.h:1594
 msgid "Player 1: Up"
-msgstr ""
+msgstr "1P：上"
 
 #: engines/wintermute/keymapper_tables.h:1599
 msgid "Player 1: Left"
-msgstr ""
+msgstr "1P：左"
 
 #: engines/wintermute/keymapper_tables.h:1604
 msgid "Player 1: Down"
-msgstr ""
+msgstr "1P：下"
 
 #: engines/wintermute/keymapper_tables.h:1609
 msgid "Player 1: Right"
-msgstr ""
+msgstr "1P：右"
 
 #: engines/wintermute/keymapper_tables.h:1614
 msgid "Player 2: Up"
-msgstr ""
+msgstr "2P：上"
 
 #: engines/wintermute/keymapper_tables.h:1619
 msgid "Player 2: Left"
-msgstr ""
+msgstr "2P：左"
 
 #: engines/wintermute/keymapper_tables.h:1624
 msgid "Player 2: Down"
-msgstr ""
+msgstr "2P：下"
 
 #: engines/wintermute/keymapper_tables.h:1629
 msgid "Player 2: Right"
-msgstr ""
+msgstr "2P：右"
 
 #: engines/wintermute/keymapper_tables.h:1634
 msgid "Debug FPS"
@@ -7372,7 +7687,7 @@ msgstr ""
 
 #: engines/xeen/saves.cpp:291
 msgid "Failed to autosave"
-msgstr ""
+msgstr "オートセーブに失敗しました"
 
 #: engines/zvision/detection_tables.h:60
 msgid "Double FPS"
@@ -7380,15 +7695,17 @@ msgstr ""
 
 #: engines/zvision/detection_tables.h:61
 msgid "Increase framerate from 30 to 60 FPS"
-msgstr ""
+msgstr "フレームレートを30→60fpsへ引き上げる"
 
 #: engines/zvision/detection_tables.h:70
+#, fuzzy
 msgid "Enable Venus"
-msgstr ""
+msgstr "マウス操作を有効にする"
 
 #: engines/zvision/detection_tables.h:71
+#, fuzzy
 msgid "Enable the Venus help system"
-msgstr ""
+msgstr "ゲーム音声を有効にする"
 
 #: engines/zvision/detection_tables.h:80
 msgid "Disable animation while turning"
@@ -7400,11 +7717,11 @@ msgstr ""
 
 #: engines/zvision/detection_tables.h:90
 msgid "Use high resolution MPEG video"
-msgstr ""
+msgstr "高解像度なMPEGファイルを使用する"
 
 #: engines/zvision/detection_tables.h:91
 msgid "Use MPEG video from the DVD version instead of lower resolution AVI"
-msgstr ""
+msgstr "低解像度なAVIファイルを、DVD版のMPEGファイルで代替する"
 
 #: engines/zvision/file/save_manager.cpp:222
 #, c-format
@@ -7412,6 +7729,8 @@ msgid ""
 "This saved game uses version %u, but this engine only supports up to version "
 "%d. You will need an updated version of the engine to use this saved game."
 msgstr ""
+"セーブされたゲームのエンジンはバージョン%uですが、ScummVMはバージョン%d以降の"
+"み対応しています。エンジンをバージョンアップしてください。"
 
 #: engines/zvision/metaengine.cpp:129
 msgid "Look Up"

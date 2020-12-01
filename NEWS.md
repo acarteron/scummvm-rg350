@@ -10,6 +10,8 @@ For a more comprehensive changelog of the latest experimental code, see:
    - Added support for Myst 3: Exile.
    - Added support for Hades' Challenge.
    - Added support for Little Big Adventure.
+   - Added support for Red Comrades 1: Save the Galaxy.
+   - Added support for Red Comrades 2: For the Great Justice.
 
  General:
    - Switched ScummVM GUI output to UTF-32.
@@ -29,6 +31,9 @@ For a more comprehensive changelog of the latest experimental code, see:
    - Added support for Brazillian Portuguese Grim Fandango.
    - Added support for Russian EMI.
 
+ Kyra:
+   - Added support for the Japanese Sega-CD version of Eye of the Beholder.
+ 
  Lure:
    - Fix fire animation in first room when loading saves.
 
@@ -53,6 +58,9 @@ For a more comprehensive changelog of the latest experimental code, see:
 
  Tinsel:
    - Enabled the Return to Launcher feature.
+
+ TsAGE:
+   - Added support for uninstalled floppy version.
 
  Stark:
    - Added support for Hungarian translation.

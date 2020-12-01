@@ -25,6 +25,7 @@
 
 #include "common/scummsys.h"
 #include "common/str.h"
+#include "common/rect.h"
 
 namespace TwinE {
 
@@ -140,8 +141,6 @@ private:
 	 * @param counter The amount of characters to handle - max 32
 	 */
 	void fadeInCharacters(int32 counter, int32 fontColor);
-	int32 getCharWidth(uint8 chr) const;
-	int32 getCharHeight(uint8 chr) const;
 	/**
 	 * Copy dialogue text
 	 * @param src source text buffer
@@ -185,8 +184,6 @@ private:
 	/** Current dialogue text size */
 	int32 _currDialTextSize = 0;
 
-	/** Dialogue text size */
-	int32 _dialTextSize = 0;
 	/** Pixel size between dialogue text */
 	int32 _dialSpaceBetween = 0;
 	/** Pixel size of the space character */
@@ -207,10 +204,7 @@ private:
 	/** Dialogue text buffer size for cross coloring dialogues */
 	int32 _dialTextBufferSize = 0;
 
-	int32 _dialTextBoxLeft = 0;   // dialogueBoxLeft
-	int32 _dialTextBoxTop = 0;    // dialogueBoxTop
-	int32 _dialTextBoxRight = 0;  // dialogueBoxRight
-	int32 _dialTextBoxBottom = 0; // dialogueBoxBottom
+	Common::Rect _dialTextBox { 0, 0, 0, 0};
 
 	int32 _dialTextBoxLines = 0; // dialogueBoxParam1
 	int32 _dialTextBoxParam2 = 0; // dialogueBoxParam2
@@ -254,6 +248,8 @@ public:
 	 * @param dialogue ascii text to display
 	 */
 	int32 getTextSize(const char *dialogue);
+	int32 getCharWidth(uint8 chr) const;
+	int32 getCharHeight(uint8 chr) const;
 
 	void initDialogueBox();
 	void initInventoryDialogueBox();

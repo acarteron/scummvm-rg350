@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.3.0svn\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2020-11-23 16:13+0000\n"
+"POT-Creation-Date: 2020-11-29 20:25+0000\n"
 "PO-Revision-Date: 2020-09-26 21:13+0000\n"
 "Last-Translator: Eugene Sandulenko <sev@scummvm.org>\n"
 "Language-Team: Norwegian Bokmål <https://translations.scummvm.org/projects/"
@@ -601,7 +601,7 @@ msgstr "Lukk"
 #: backends/platform/symbian/src/SymbianActions.cpp:40
 #: engines/dragons/metaengine.cpp:165 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:98 engines/grim/grim.cpp:451
-#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:345
+#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:375
 #: engines/wintermute/keymapper_tables.h:1011
 #: engines/wintermute/keymapper_tables.h:1100
 #: engines/wintermute/keymapper_tables.h:1474
@@ -613,7 +613,7 @@ msgstr "Opp"
 #: backends/platform/symbian/src/SymbianActions.cpp:41
 #: engines/dragons/metaengine.cpp:171 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:104 engines/grim/grim.cpp:456
-#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:351
+#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:381
 #: engines/wintermute/keymapper_tables.h:1017
 #: engines/wintermute/keymapper_tables.h:1107
 #: engines/wintermute/keymapper_tables.h:1480
@@ -625,7 +625,7 @@ msgstr "Ned"
 #: backends/platform/symbian/src/SymbianActions.cpp:42
 #: engines/dragons/metaengine.cpp:177 engines/griffon/metaengine.cpp:110
 #: engines/grim/grim.cpp:461 engines/grim/grim.cpp:538
-#: engines/twine/metaengine.cpp:363 engines/wintermute/keymapper_tables.h:1023
+#: engines/twine/metaengine.cpp:394 engines/wintermute/keymapper_tables.h:1023
 #: engines/wintermute/keymapper_tables.h:1462
 #: engines/wintermute/keymapper_tables.h:1570
 #: engines/wintermute/keymapper_tables.h:1692
@@ -636,7 +636,7 @@ msgstr "Venstre"
 #: backends/platform/symbian/src/SymbianActions.cpp:43
 #: engines/dragons/metaengine.cpp:183 engines/griffon/metaengine.cpp:116
 #: engines/grim/grim.cpp:466 engines/grim/grim.cpp:543
-#: engines/twine/metaengine.cpp:357 engines/wintermute/keymapper_tables.h:1029
+#: engines/twine/metaengine.cpp:387 engines/wintermute/keymapper_tables.h:1029
 #: engines/wintermute/keymapper_tables.h:1468
 #: engines/wintermute/keymapper_tables.h:1578
 #: engines/wintermute/keymapper_tables.h:1698
@@ -929,8 +929,9 @@ msgid "the filtering setting could not be changed"
 msgstr "filterinnstillingen kunne ikke endres"
 
 #: gui/options.cpp:1128
+#, fuzzy
 msgid "Show On-screen control"
-msgstr ""
+msgstr "Inventar"
 
 #: gui/options.cpp:1132
 #, fuzzy
@@ -1009,8 +1010,9 @@ msgid "Special dithering modes supported by some games"
 msgstr "Spesiel dithering-modus støttet av enkelte spill"
 
 #: gui/options.cpp:1304
+#, fuzzy
 msgid "Stretch mode:"
-msgstr ""
+msgstr "Helium-modus"
 
 #: gui/options.cpp:1315 backends/graphics/sdl/sdl-graphics.cpp:365
 msgid "Fullscreen mode"
@@ -1733,8 +1735,9 @@ msgid "add"
 msgstr "legg til"
 
 #: gui/predictivedialog.cpp:112 gui/predictivedialog.cpp:189
+#, fuzzy
 msgid "Delete char"
-msgstr ""
+msgstr "Slett"
 
 #: gui/predictivedialog.cpp:117 gui/predictivedialog.cpp:193
 msgid "<"
@@ -1769,8 +1772,9 @@ msgid "Record"
 msgstr ""
 
 #: gui/recorderdialog.cpp:70
+#, fuzzy
 msgid "Playback"
-msgstr ""
+msgstr "Spill"
 
 #: gui/recorderdialog.cpp:72
 msgid "Edit"
@@ -1787,8 +1791,9 @@ msgid "Notes: "
 msgstr "Notater: "
 
 #: gui/recorderdialog.cpp:154
+#, fuzzy
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Vil du virkelig slette dette lagrede spillet?"
 
 #: gui/recorderdialog.cpp:171
 msgid "Unknown Author"
@@ -2226,7 +2231,6 @@ msgstr "Kunne ikke aktivere filterinnstilling."
 
 #: engines/engine.cpp:420
 #, fuzzy
-#| msgid "No error"
 msgid "Error"
 msgstr "Ingen feil"
 
@@ -2355,7 +2359,7 @@ msgstr "Høyreklikk"
 #: backends/platform/symbian/src/SymbianActions.cpp:52
 #: engines/hdb/metaengine.cpp:238 engines/mohawk/myst.cpp:593
 #: engines/mohawk/riven.cpp:863 engines/sky/metaengine.cpp:113
-#: engines/twine/metaengine.cpp:161 engines/wintermute/keymapper_tables.h:1255
+#: engines/twine/metaengine.cpp:169 engines/wintermute/keymapper_tables.h:1255
 msgid "Pause"
 msgstr "Pause"
 
@@ -2427,7 +2431,7 @@ msgstr "OPL2LPT"
 msgid "OPL3LPT"
 msgstr ""
 
-#: audio/mididrv.cpp:259
+#: audio/mididrv.cpp:220
 #, c-format
 msgid ""
 "The selected audio device '%s' was not found (e.g. might be turned off or "
@@ -2436,12 +2440,12 @@ msgstr ""
 "Den valgte lydenheten '%s' ble ikke funnet (den kan f.eks. være avslått "
 "eller frakoblet)."
 
-#: audio/mididrv.cpp:260 audio/mididrv.cpp:274 audio/mididrv.cpp:312
-#: audio/mididrv.cpp:329
+#: audio/mididrv.cpp:221 audio/mididrv.cpp:235 audio/mididrv.cpp:273
+#: audio/mididrv.cpp:290
 msgid "Attempting to fall back to the next available device..."
 msgstr "Forsøker å falle tilbake på den neste tilgjengelige enheten..."
 
-#: audio/mididrv.cpp:273
+#: audio/mididrv.cpp:234
 #, c-format
 msgid ""
 "The selected audio device '%s' cannot be used. See log file for more "
@@ -2450,7 +2454,7 @@ msgstr ""
 "Den valgte lydenheten '%s' kan ikke brukes. Se logg-filen for mer "
 "informasjon."
 
-#: audio/mididrv.cpp:311
+#: audio/mididrv.cpp:272
 #, c-format
 msgid ""
 "The preferred audio device '%s' was not found (e.g. might be turned off or "
@@ -2459,7 +2463,7 @@ msgstr ""
 "Den foretrukne lydenheten '%s' ble ikke funnet (den kan f.eks. være avslått "
 "eller frakoblet)."
 
-#: audio/mididrv.cpp:328
+#: audio/mididrv.cpp:289
 #, c-format
 msgid ""
 "The preferred audio device '%s' cannot be used. See log file for more "
@@ -2468,7 +2472,7 @@ msgstr ""
 "Den foretrukne lydenheten '%s' kan ikke brukes. Se i logg-filen for mer "
 "informasjon."
 
-#: audio/mididrv.cpp:725
+#: audio/mididrv.cpp:454
 msgid "Starting MIDI dump"
 msgstr ""
 
@@ -2672,7 +2676,7 @@ msgstr "Vil du avslutte?"
 
 #: backends/graphics/opengl/opengl-graphics.cpp:244
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:83
-#: engines/twine/metaengine.cpp:259
+#: engines/twine/metaengine.cpp:287
 #, fuzzy
 msgid "Center"
 msgstr "Enter"
@@ -2724,8 +2728,9 @@ msgstr "Filtrering deaktivert"
 
 #: backends/graphics/openglsdl/openglsdl-graphics.cpp:666
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:2553
+#, fuzzy
 msgid "Stretch mode"
-msgstr ""
+msgstr "Helium-modus"
 
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:62
 msgid "Normal (no scaling)"
@@ -2765,8 +2770,9 @@ msgstr "Veksle muslåsing"
 #: engines/wintermute/keymapper_tables.h:1402
 #: engines/wintermute/keymapper_tables.h:1419
 #: engines/wintermute/keymapper_tables.h:1450
+#, fuzzy
 msgid "Save screenshot"
-msgstr ""
+msgstr "Trinnvis skjermrulling på"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:396
 #: backends/graphics3d/sdl/sdl-graphics3d.cpp:154
@@ -2860,20 +2866,24 @@ msgid "X2 Mouse Button"
 msgstr "Simuler venstre mustast"
 
 #: backends/keymapper/hardware-input.cpp:256
+#, fuzzy
 msgid "Joy A"
-msgstr ""
+msgstr "Beveg Bakover"
 
 #: backends/keymapper/hardware-input.cpp:257
+#, fuzzy
 msgid "Joy B"
-msgstr ""
+msgstr "Beveg Bakover"
 
 #: backends/keymapper/hardware-input.cpp:258
+#, fuzzy
 msgid "Joy X"
-msgstr ""
+msgstr "Beveg Bakover"
 
 #: backends/keymapper/hardware-input.cpp:259
+#, fuzzy
 msgid "Joy Y"
-msgstr ""
+msgstr "Beveg Bakover"
 
 #: backends/keymapper/hardware-input.cpp:260
 #, fuzzy
@@ -2911,15 +2921,17 @@ msgstr ""
 #: backends/platform/3ds/osystem-events.cpp:58
 #: backends/platform/sdl/ps3/ps3.cpp:52 backends/platform/sdl/psp2/psp2.cpp:53
 #: backends/platform/sdl/switch/switch.cpp:49
+#, fuzzy
 msgid "D-pad Up"
-msgstr ""
+msgstr "Skli mot Venstre"
 
 #: backends/keymapper/hardware-input.cpp:268
 #: backends/platform/3ds/osystem-events.cpp:59
 #: backends/platform/sdl/ps3/ps3.cpp:53 backends/platform/sdl/psp2/psp2.cpp:54
 #: backends/platform/sdl/switch/switch.cpp:50
+#, fuzzy
 msgid "D-pad Down"
-msgstr ""
+msgstr "Ned"
 
 #: backends/keymapper/hardware-input.cpp:269
 #: backends/platform/3ds/osystem-events.cpp:60
@@ -2983,8 +2995,9 @@ msgid "Clear mapping"
 msgstr ""
 
 #: backends/keymapper/virtual-mouse.cpp:157
+#, fuzzy
 msgid "Virtual mouse up"
-msgstr ""
+msgstr "Avbryt nedlasting"
 
 #: backends/keymapper/virtual-mouse.cpp:162
 #, fuzzy
@@ -2992,8 +3005,9 @@ msgid "Virtual mouse down"
 msgstr "Avbryt nedlasting"
 
 #: backends/keymapper/virtual-mouse.cpp:167
+#, fuzzy
 msgid "Virtual mouse left"
-msgstr ""
+msgstr "Skli mot Høyre"
 
 #: backends/keymapper/virtual-mouse.cpp:172
 #, fuzzy
@@ -3035,8 +3049,9 @@ msgid "Parent directory doesn't exists!"
 msgstr "Stien eksisterer ikke"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:88
+#, fuzzy
 msgid "Can't create a directory within a file!"
-msgstr ""
+msgstr "Stien er ikke en mappe"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:98
 #: backends/networking/sdl_net/uploadfileclienthandler.cpp:141
@@ -3099,8 +3114,9 @@ msgstr "Last fil"
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:71
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:229
+#, fuzzy
 msgid "Type new directory name:"
-msgstr ""
+msgstr "Stien er ikke en mappe"
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:72
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:230
@@ -3119,8 +3135,9 @@ msgid "Index of "
 msgstr ""
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:76
+#, fuzzy
 msgid "Error occurred"
-msgstr ""
+msgstr "Problem ved kjøring av spill:"
 
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:81
 #: backends/networking/sdl_net/handlers/listajaxhandler.cpp:45
@@ -3158,8 +3175,9 @@ msgid "Open Files manager"
 msgstr "Åpne nedlastingsbehandlerdialog"
 
 #: backends/networking/sdl_net/handlers/uploadfilehandler.cpp:67
+#, fuzzy
 msgid "The parent directory doesn't exist!"
-msgstr ""
+msgstr "Stien eksisterer ikke"
 
 #: backends/networking/sdl_net/handlers/uploadfilehandler.cpp:71
 #, fuzzy
@@ -3167,8 +3185,9 @@ msgid "Can't upload into a file!"
 msgstr "Stien er ikke en fil"
 
 #: backends/networking/sdl_net/handlerutils.cpp:198
+#, fuzzy
 msgid "Back to the files manager"
-msgstr ""
+msgstr "Åpne nedlastingsbehandlerdialog"
 
 #: backends/networking/sdl_net/localwebserver.cpp:123
 msgid ""
@@ -3312,8 +3331,9 @@ msgid "Toggle Drag Mode"
 msgstr "Gørrmodus"
 
 #: backends/platform/3ds/osystem-events.cpp:317
+#, fuzzy
 msgid "Toggle Magnify Mode"
-msgstr ""
+msgstr "Gørrmodus"
 
 #: backends/platform/3ds/osystem-events.cpp:322
 msgid "Open 3DS Settings"
@@ -3496,8 +3516,9 @@ msgstr "Ned"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:45
 #: backends/platform/ds/arm9/source/scummhelp.cpp:62
+#, fuzzy
 msgid "Skip dialog line (some games)"
-msgstr ""
+msgstr "Hopp over linje"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:46
 #: backends/platform/ds/arm9/source/scummhelp.cpp:63
@@ -3576,8 +3597,9 @@ msgid "High guard"
 msgstr ""
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:79
+#, fuzzy
 msgid "Guard down"
-msgstr ""
+msgstr "Slå midje"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:80
 #, fuzzy
@@ -4129,8 +4151,9 @@ msgstr ""
 "skje at enkelte spor ikke vil spilles riktig."
 
 #: engines/bladerunner/bladerunner.cpp:363
+#, fuzzy
 msgid "Failed to initialize resources"
-msgstr ""
+msgstr "Klarte ikke å kontakte skylagring!"
 
 #: engines/bladerunner/bladerunner.cpp:1067
 msgid "A required game resource was not found"
@@ -4210,11 +4233,18 @@ msgid ""
 "ScummVM."
 msgstr ""
 
-#: engines/cge/detection.cpp:113
+#: engines/cge/detection.cpp:48 engines/cge/detection.cpp:54
+#: engines/saga/detection_tables.h:187 engines/saga/detection_tables.h:608
+#: engines/sci/detection_tables.h:4808 engines/sci/detection_tables.h:4816
+#, fuzzy
+msgid "Missing game code"
+msgstr "Hovedkontroller for spill:"
+
+#: engines/cge/detection.cpp:99
 msgid "Color Blind Mode"
 msgstr "Fargeblindmodus"
 
-#: engines/cge/detection.cpp:114
+#: engines/cge/detection.cpp:100
 msgid "Enable Color Blind Mode by default"
 msgstr "Aktiver fargeblindmodus som standard"
 
@@ -4288,7 +4318,7 @@ msgstr ""
 #: engines/grim/grim.cpp:491 engines/grim/grim.cpp:583
 #: engines/hdb/metaengine.cpp:231 engines/scumm/help.cpp:225
 #: engines/scumm/help.cpp:234 engines/scumm/help.cpp:241
-#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:311
+#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:339
 #: engines/zvision/metaengine.cpp:164
 msgid "Inventory"
 msgstr "Inventar"
@@ -4346,12 +4376,14 @@ msgid "Use TTS to read the text"
 msgstr "Klarte ikke å slette fil."
 
 #: engines/glk/detection.cpp:231
+#, fuzzy
 msgid "Also read input text"
-msgstr ""
+msgstr "Klarte ikke å slette fil."
 
 #: engines/glk/detection.cpp:232
+#, fuzzy
 msgid "Use TTS to read the input text"
-msgstr ""
+msgstr "Klarte ikke å slette fil."
 
 #: engines/glk/glk_api.cpp:63
 msgid "[ press any key to exit ]"
@@ -4442,12 +4474,14 @@ msgid "I can't do that yet. "
 msgstr ""
 
 #: engines/glk/scott/scott.cpp:119
+#, fuzzy
 msgid "Light has run out! "
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/glk/scott/scott.cpp:121
+#, fuzzy
 msgid "Your light has run out. "
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/glk/scott/scott.cpp:130
 #, fuzzy
@@ -4539,8 +4573,9 @@ msgid "I've too much to carry! "
 msgstr ""
 
 #: engines/glk/scott/scott.cpp:807
+#, fuzzy
 msgid "You are dead.\n"
-msgstr ""
+msgstr "Gjenopprett"
 
 #: engines/glk/scott/scott.cpp:809
 msgid "I am dead.\n"
@@ -4827,13 +4862,18 @@ msgid ""
 "Alternatively, a Steam or GOG copy has a combined FullMonkeyMap.imt"
 msgstr ""
 
-#: engines/groovie/detection.cpp:320
+#: engines/groovie/detection.cpp:297
 msgid "Fast movie speed"
 msgstr "Rask filmhastighet"
 
-#: engines/groovie/detection.cpp:321
+#: engines/groovie/detection.cpp:298
 msgid "Play movies at an increased speed"
 msgstr "Spill filmer med økt hastighet"
+
+#: engines/groovie/metaengine.cpp:53
+#, fuzzy
+msgid "GroovieV2 support is not compiled in"
+msgstr "Funksjoner innkompilert:"
 
 #: engines/groovie/script.cpp:484
 msgid "Failed to save game"
@@ -4914,138 +4954,154 @@ msgstr "Aktiver helium-modus"
 
 #. I18N: When enabled, this option makes scrolling smoother when
 #. changing from one screen to another.
-#: engines/kyra/detection.cpp:82
+#: engines/kyra/detection.cpp:81
 msgid "Smooth scrolling"
 msgstr "Jevn skjermrulling"
 
-#: engines/kyra/detection.cpp:83
+#: engines/kyra/detection.cpp:82
 msgid "Enable smooth scrolling when walking"
 msgstr "Aktiver jevn skjermrulling når man går"
 
 #. I18N: When enabled, this option changes the cursor when it floats to the
 #. edge of the screen to a directional arrow. The player can then click to
 #. walk towards that direction.
-#: engines/kyra/detection.cpp:95
+#: engines/kyra/detection.cpp:94
 msgid "Floating cursors"
 msgstr "Flytende muspekere"
 
-#: engines/kyra/detection.cpp:96
+#: engines/kyra/detection.cpp:95
 msgid "Enable floating cursors"
 msgstr "Aktiver flytende muspekere"
 
 #. I18N: When enabled, this option will fill in an autogenerated savegame
 #. description into the input prompt where.
-#: engines/kyra/detection.cpp:107
+#: engines/kyra/detection.cpp:106
 #, fuzzy
 msgid "Suggest save names"
 msgstr "Lagret spill:"
 
-#: engines/kyra/detection.cpp:108
+#: engines/kyra/detection.cpp:107
 msgid "Autogenerated naming suggestions for savegames"
 msgstr ""
 
 #. I18N: HP stands for Hit Points
-#: engines/kyra/detection.cpp:122
+#: engines/kyra/detection.cpp:119
 msgid "HP bar graphs"
 msgstr "HP bar grafer"
 
-#: engines/kyra/detection.cpp:123
+#: engines/kyra/detection.cpp:120
 msgid "Enable hit point bar graphs"
 msgstr "Aktiver hit point-bar grafer"
 
 #. I18N: L/R stands for Left/Right
-#: engines/kyra/detection.cpp:133
+#: engines/kyra/detection.cpp:130
 msgid "Fight Button L/R Swap"
 msgstr ""
 
-#: engines/kyra/detection.cpp:134
+#: engines/kyra/detection.cpp:131
 msgid "Left button to attack, right button to pick up items"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:366 engines/kyra/engine/lol.cpp:469
+#: engines/kyra/metaengine.cpp:116
+#, fuzzy
+msgid "Lands of Lore support is not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/kyra/metaengine.cpp:128
+msgid ""
+"EOB II FM-TOWNS requires support of 16bit color modes which has not been "
+"activated in your ScummVM build"
+msgstr ""
+
+#: engines/kyra/metaengine.cpp:137
+#, fuzzy
+msgid "Eye of Beholder support is not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:469
 #: engines/ultima/ultima4/meta_engine.cpp:233
 #: engines/ultima/ultima8/meta_engine.cpp:130
 #, fuzzy
 msgid "Interact via Left Click"
 msgstr "Venstreklikk"
 
-#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:470
+#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:470
 #: engines/ultima/ultima4/meta_engine.cpp:239
 #: engines/ultima/ultima8/meta_engine.cpp:136
 #, fuzzy
 msgid "Interact via Right Click"
 msgstr "Høyreklikk"
 
-#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:475
-#: engines/twine/metaengine.cpp:277
+#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:475
+#: engines/twine/metaengine.cpp:305
 msgid "Move Forward"
 msgstr "Beveg Fremover"
 
-#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:476
+#: engines/kyra/engine/eobcommon.cpp:370 engines/kyra/engine/lol.cpp:476
 msgid "Move Back"
 msgstr "Beveg Bakover"
 
-#: engines/kyra/engine/eobcommon.cpp:370
+#: engines/kyra/engine/eobcommon.cpp:371
 #, fuzzy
 msgid "Move Left"
 msgstr "Skli mot Venstre"
 
-#: engines/kyra/engine/eobcommon.cpp:371
+#: engines/kyra/engine/eobcommon.cpp:372
 #, fuzzy
 msgid "Move Right"
 msgstr "Skli mot Høyre"
 
-#: engines/kyra/engine/eobcommon.cpp:372 engines/kyra/engine/lol.cpp:479
-#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:295
+#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:479
+#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:323
 #: engines/zvision/metaengine.cpp:141
 msgid "Turn Left"
 msgstr "Svin til Venstre"
 
-#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:480
-#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:289
+#: engines/kyra/engine/eobcommon.cpp:374 engines/kyra/engine/lol.cpp:480
+#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:317
 #: engines/zvision/metaengine.cpp:147
 msgid "Turn Right"
 msgstr "Sving til Høyre"
 
-#: engines/kyra/engine/eobcommon.cpp:374
+#: engines/kyra/engine/eobcommon.cpp:375
 #, fuzzy
 msgid "Open/Close Inventory"
 msgstr "Inventar"
 
-#: engines/kyra/engine/eobcommon.cpp:375
+#: engines/kyra/engine/eobcommon.cpp:376
 msgid "Switch Inventory/Character screen"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:376
+#: engines/kyra/engine/eobcommon.cpp:377
 msgid "Camp"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:377
+#: engines/kyra/engine/eobcommon.cpp:378
 #, fuzzy
 msgid "Cast Spell"
 msgstr "Velg Trolldom"
 
-#: engines/kyra/engine/eobcommon.cpp:380
+#: engines/kyra/engine/eobcommon.cpp:381
 msgid "Spell Level 1"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:381
+#: engines/kyra/engine/eobcommon.cpp:382
 msgid "Spell Level 2"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:382
+#: engines/kyra/engine/eobcommon.cpp:383
 msgid "Spell Level 3"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:383
+#: engines/kyra/engine/eobcommon.cpp:384
 msgid "Spell Level 4"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:384
+#: engines/kyra/engine/eobcommon.cpp:385
 msgid "Spell Level 5"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:386
+#: engines/kyra/engine/eobcommon.cpp:387
 msgid "Spell Level 6"
 msgstr ""
 
@@ -5193,6 +5249,11 @@ msgstr ""
 msgid "Use TTS to read the descriptions (if TTS is available)"
 msgstr ""
 
+#: engines/made/detection_tables.h:360
+#, fuzzy
+msgid "The game is using unsupported engine"
+msgstr "Spill-ID ikke støttet"
+
 #: engines/mads/detection.cpp:55
 msgid "Easy mouse interface"
 msgstr ""
@@ -5277,9 +5338,30 @@ msgstr ""
 msgid "The game is paused. Press any key to continue."
 msgstr "Spillet er satt på pause. Trykk en tast for å fortsette."
 
+#: engines/mohawk/metaengine.cpp:272
+#, fuzzy
+msgid "Myst ME support not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/mohawk/metaengine.cpp:279
+#, fuzzy
+msgid "Myst support not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/mohawk/metaengine.cpp:287
+#, fuzzy
+msgid "Riven support not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/mohawk/metaengine.cpp:302
+#, fuzzy
+msgid "CSTime support not compiled in"
+msgstr "Funksjoner innkompilert:"
+
 #: engines/mohawk/myst.cpp:552 engines/mohawk/riven.cpp:822
+#, fuzzy
 msgid "Open main menu"
-msgstr ""
+msgstr "~T~ilbake til oppstarter"
 
 #: engines/mohawk/myst.cpp:576 engines/mohawk/riven.cpp:846
 #, fuzzy
@@ -5292,8 +5374,9 @@ msgid "Save game state"
 msgstr "Lagret spill:"
 
 #: engines/mohawk/myst.cpp:586 engines/mohawk/riven.cpp:856
+#, fuzzy
 msgid "Show options menu"
-msgstr ""
+msgstr "Valg"
 
 #: engines/mohawk/myst.cpp:598
 #, fuzzy
@@ -5310,10 +5393,11 @@ msgstr "Vi~s~ Kart"
 
 #: engines/mohawk/myst_stacks/menu.cpp:283
 #: engines/mohawk/riven_stacks/aspit.cpp:349
+#, fuzzy
 msgid ""
 "Are you sure you want to load a saved game? All unsaved progress will be "
 "lost."
-msgstr ""
+msgstr "   Er du sikker på at du vil avslutte ?   "
 
 #: engines/mohawk/myst_stacks/menu.cpp:284
 #: engines/mohawk/riven_stacks/aspit.cpp:350
@@ -5324,9 +5408,10 @@ msgstr "Åpne spill:"
 
 #: engines/mohawk/myst_stacks/menu.cpp:300
 #: engines/mohawk/riven_stacks/aspit.cpp:371
+#, fuzzy
 msgid ""
 "Are you sure you want to start a new game? All unsaved progress will be lost."
-msgstr ""
+msgstr "   Er du sikker på at du vil avslutte ?   "
 
 #: engines/mohawk/myst_stacks/menu.cpp:301
 #: engines/mohawk/riven_stacks/aspit.cpp:372
@@ -5435,6 +5520,11 @@ msgstr ""
 #, c-format
 msgid "Unable to locate the '%s' engine data file"
 msgstr ""
+
+#: engines/myst3/detection.cpp:149 engines/myst3/detection.cpp:163
+#, fuzzy
+msgid "PS2 version is not yet supported"
+msgstr "Spill-ID ikke støttet"
 
 #: engines/myst3/detection.cpp:182
 #, fuzzy
@@ -5604,6 +5694,16 @@ msgstr "Alternativ intro"
 msgid "Use an alternative game intro (CD version only)"
 msgstr "Bruk en alternativ intro (Kun for CD-versjon)"
 
+#: engines/saga/metaengine.cpp:117
+#, fuzzy
+msgid "I Have No Mouth support not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/saga/metaengine.cpp:124
+#, fuzzy
+msgid "SAGA2 support not compiled in"
+msgstr "Funksjoner innkompilert:"
+
 #: engines/saga/saga.cpp:247
 #, fuzzy
 msgid "Error loading game resources."
@@ -5638,8 +5738,9 @@ msgid "Use high-quality video scaling"
 msgstr ""
 
 #: engines/sci/detection.cpp:175
+#, fuzzy
 msgid "Use linear interpolation when upscaling videos, where possible"
-msgstr ""
+msgstr "Bruk lineær filtrering ved grafikkskalering"
 
 #: engines/sci/detection.cpp:185
 msgid "Use high-quality \"LarryScale\" cel scaling"
@@ -5691,8 +5792,9 @@ msgid "Enable content censoring"
 msgstr "Aktiver flytende muspekere"
 
 #: engines/sci/detection.cpp:249
+#, fuzzy
 msgid "Enable the game's built-in optional content censoring"
-msgstr ""
+msgstr "Aktiver flytende muspekere"
 
 #: engines/sci/detection.cpp:259
 msgid "Upscale videos"
@@ -5741,7 +5843,7 @@ msgstr ""
 msgid "Yamaha FB-01"
 msgstr ""
 
-#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:396
+#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:404
 #, fuzzy
 msgid "(Autosave)"
 msgstr "Autolagre:"
@@ -5763,9 +5865,9 @@ msgid "The format of this saved game is obsolete, unable to load it"
 msgstr ""
 
 #: engines/sci/engine/savegame.cpp:1409
-#, c-format
+#, fuzzy, c-format
 msgid "Savegame version is %d, maximum supported is %0d"
-msgstr ""
+msgstr "Spill-ID ikke støttet"
 
 #: engines/sci/engine/savegame.cpp:1420
 msgid ""
@@ -5779,7 +5881,12 @@ msgid ""
 "Cannot play back %dbpp video on a system with maximum color depth of 8bpp"
 msgstr ""
 
-#: engines/sci/resource.cpp:845
+#: engines/sci/metaengine.cpp:325
+#, fuzzy
+msgid "SCI32 support not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/sci/resource/resource.cpp:845
 msgid ""
 "Missing or corrupt game resources have been detected. Some game features may "
 "not work properly. Please check the console for more information, and verify "
@@ -6534,6 +6641,16 @@ msgid ""
 "code."
 msgstr ""
 
+#: engines/scumm/metaengine.cpp:429
+#, fuzzy
+msgid "HE v71+ support is not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/scumm/metaengine.cpp:453
+#, fuzzy
+msgid "SCUMM v7-8 support is not compiled in"
+msgstr "Funksjoner innkompilert:"
+
 #: engines/scumm/scumm.cpp:1918
 #, c-format
 msgid ""
@@ -6611,8 +6728,9 @@ msgid "Show portraits for the characters when conversing"
 msgstr "Vis portretter for karakterene når de snakker sammen"
 
 #: engines/sherlock/detection.cpp:90
+#, fuzzy
 msgid "Slide dialogs into view"
-msgstr ""
+msgstr "Hopp over linje"
 
 #: engines/sherlock/detection.cpp:91
 msgid "Slide UI dialogs into view, rather than simply showing them immediately"
@@ -6661,31 +6779,31 @@ msgstr "Rask modus"
 msgid "Toggle really fast mode"
 msgstr "Kjør i virkelig rask modus (*)"
 
-#: engines/stark/detection.cpp:368
+#: engines/stark/detection.cpp:322
 #, fuzzy
 msgid "Load modded assets"
 msgstr "Åpne spill:"
 
-#: engines/stark/detection.cpp:369
+#: engines/stark/detection.cpp:323
 msgid "Enable loading of external replacement assets."
 msgstr ""
 
-#: engines/stark/detection.cpp:377
+#: engines/stark/detection.cpp:331
 msgid "Enable linear filtering of the backgrounds images"
 msgstr ""
 
-#: engines/stark/detection.cpp:378
+#: engines/stark/detection.cpp:332
 msgid ""
 "When linear filtering is enabled the background graphics are smoother in "
 "full screen mode, at the cost of some details."
 msgstr ""
 
-#: engines/stark/detection.cpp:386
+#: engines/stark/detection.cpp:340
 #, fuzzy
 msgid "Enable font anti-aliasing"
 msgstr "Aktiver flytende muspekere"
 
-#: engines/stark/detection.cpp:387
+#: engines/stark/detection.cpp:341
 msgid "When font anti-aliasing is enabled, the text is smoother."
 msgstr ""
 
@@ -6845,6 +6963,11 @@ msgstr ""
 "teenagent.dat-fila er komprimert og zlib har ikke blitt inkludert i denne "
 "programfilen. Vennligst pakk den ut"
 
+#: engines/tinsel/detection_tables.h:466
+#, fuzzy
+msgid "Saturn CD version is not yet supported"
+msgstr "Spill-ID ikke støttet"
+
 #: engines/tony/tony.cpp:257
 #, c-format
 msgid "Font variant not present in '%s' engine data file."
@@ -6858,9 +6981,9 @@ msgstr ""
 "\n"
 
 #: engines/toon/toon.cpp:229
-#, c-format
+#, fuzzy, c-format
 msgid "Could not quick save into slot #%d"
-msgstr ""
+msgstr "Vil du laste et lagret spill?"
 
 #: engines/toon/toon.cpp:242
 #, fuzzy, c-format
@@ -6875,9 +6998,14 @@ msgid "Could not quick load the saved game #%d"
 msgstr "Vil du laste et lagret spill?"
 
 #: engines/toon/toon.cpp:1528
-#, c-format
+#, fuzzy, c-format
 msgid "Unable to locate the '%s' data file."
-msgstr ""
+msgstr "Klarte ikke å slette fil."
+
+#: engines/tsage/detection_tables.h:150
+#, fuzzy
+msgid "Spanish CD version is not yet supported"
+msgstr "Spill-ID ikke støttet"
 
 #: engines/twine/metaengine.cpp:68
 msgid "Enable wall collisions"
@@ -6966,128 +7094,139 @@ msgid "Enable the cutscenes for the game"
 msgstr "Aktiver Venus hjelpesystemet"
 
 #: engines/twine/metaengine.cpp:132
+#, fuzzy
+msgid "Enable mouse"
+msgstr "Aktiver Venus"
+
+#: engines/twine/metaengine.cpp:133
+#, fuzzy
+msgid "Enable the mouse for the UI"
+msgstr "Full spilltittel"
+
+#: engines/twine/metaengine.cpp:139
 msgid "Use the USA version"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:133
+#: engines/twine/metaengine.cpp:140
 msgid "Enable the USA specific version flags"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:166
+#: engines/twine/metaengine.cpp:174
 msgid "Debug Next Room"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:171
+#: engines/twine/metaengine.cpp:179
 msgid "Debug Previous Room"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:176
+#: engines/twine/metaengine.cpp:184
 msgid "Debug Apply Celling Grid"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:181
+#: engines/twine/metaengine.cpp:189
 msgid "Debug Increase Celling Grid Index"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:186
+#: engines/twine/metaengine.cpp:194
 msgid "Debug Decrease Celling Grid Index"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:191
+#: engines/twine/metaengine.cpp:199
 msgid "Debug Grid Camera Up"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:196
+#: engines/twine/metaengine.cpp:204
 msgid "Debug Grid Camera Down"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:201
+#: engines/twine/metaengine.cpp:209
 msgid "Debug Grid Camera Left"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:207
+#: engines/twine/metaengine.cpp:215
 msgid "Debug Grid Camera Right"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:212
+#: engines/twine/metaengine.cpp:220
 #, fuzzy
 msgid "Debug Menu"
 msgstr "Debugger"
 
-#: engines/twine/metaengine.cpp:217
+#: engines/twine/metaengine.cpp:225
+#, fuzzy
 msgid "Debug Menu Execute"
-msgstr ""
+msgstr "Debugger"
 
-#: engines/twine/metaengine.cpp:222
+#: engines/twine/metaengine.cpp:230 engines/twine/metaengine.cpp:250
 msgid "Normal Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:227
+#: engines/twine/metaengine.cpp:235 engines/twine/metaengine.cpp:255
 msgid "Athletic Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:232
+#: engines/twine/metaengine.cpp:240 engines/twine/metaengine.cpp:260
 msgid "Aggressive Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:237
+#: engines/twine/metaengine.cpp:245 engines/twine/metaengine.cpp:265
 msgid "Discreet Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:242
+#: engines/twine/metaengine.cpp:270
 #, fuzzy
 msgid "Behaviour Action"
 msgstr "~F~orrige"
 
-#: engines/twine/metaengine.cpp:248
+#: engines/twine/metaengine.cpp:276
 msgid "Change Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:254
+#: engines/twine/metaengine.cpp:282
 #, fuzzy
 msgid "Options Menu"
 msgstr "Valg"
 
-#: engines/twine/metaengine.cpp:265
+#: engines/twine/metaengine.cpp:293
 msgid "Use Selected Object"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:271
+#: engines/twine/metaengine.cpp:299
 msgid "Throw Magic Ball"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:283
+#: engines/twine/metaengine.cpp:311
 #, fuzzy
 msgid "Move Backward"
 msgstr "Beveg Bakover"
 
-#: engines/twine/metaengine.cpp:301
+#: engines/twine/metaengine.cpp:329
 msgid "Use Protopack"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:306
+#: engines/twine/metaengine.cpp:334
 msgid "Open Holomap"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:318
+#: engines/twine/metaengine.cpp:346
 #, fuzzy
 msgid "Special Action"
 msgstr "Aktiv"
 
-#: engines/twine/metaengine.cpp:323 engines/wintermute/keymapper_tables.h:61
+#: engines/twine/metaengine.cpp:351 engines/wintermute/keymapper_tables.h:61
 #, fuzzy
 msgid "Escape"
 msgstr "ESC-tast"
 
-#: engines/twine/metaengine.cpp:334
+#: engines/twine/metaengine.cpp:362
 msgid "Accept"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:340 engines/twine/metaengine.cpp:381
+#: engines/twine/metaengine.cpp:369 engines/twine/metaengine.cpp:413
 msgid "Abort"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:369
+#: engines/twine/metaengine.cpp:401
 #, fuzzy
 msgid "Next Page"
 msgstr "Neste"
@@ -7097,9 +7236,9 @@ msgid "Could not find correct ultima.dat datafile"
 msgstr ""
 
 #: engines/ultima/shared/engine/data_archive.cpp:81
-#, c-format
+#, fuzzy, c-format
 msgid "Could not locate engine data %s"
-msgstr ""
+msgstr "Vil du laste et lagret spill?"
 
 #: engines/ultima/shared/engine/data_archive.cpp:99
 #, c-format
@@ -7112,9 +7251,9 @@ msgid "loading quick save %d"
 msgstr ""
 
 #: engines/ultima/nuvie/nuvie.cpp:387
-#, c-format
+#, fuzzy, c-format
 msgid "saving quick save %d"
-msgstr ""
+msgstr "Klikkmodus"
 
 #: engines/ultima/nuvie/meta_engine.cpp:39
 msgid "Original Save"
@@ -7172,9 +7311,25 @@ msgstr ""
 msgid "Apply bilinear filtering to individual sprites"
 msgstr ""
 
+#: engines/wintermute/metaengine.cpp:67
+#, fuzzy
+msgid "FoxTail support is not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/wintermute/metaengine.cpp:74
+#, fuzzy
+msgid "Hero Craft support is not compiled in"
+msgstr "Funksjoner innkompilert:"
+
+#: engines/wintermute/metaengine.cpp:81
+#, fuzzy
+msgid "Wintermute3D support is not compiled in"
+msgstr "Funksjoner innkompilert:"
+
 #: engines/wintermute/wintermute.cpp:176
+#, fuzzy
 msgid "This game requires PNG, JPEG and Vorbis support."
-msgstr ""
+msgstr "Spill-ID ikke støttet"
 
 #: engines/wintermute/wintermute.cpp:187
 msgid "This game requires the FoxTail subengine, which is not compiled in."
@@ -7292,8 +7447,9 @@ msgstr ""
 #: engines/wintermute/keymapper_tables.h:281
 #: engines/wintermute/keymapper_tables.h:357
 #: engines/wintermute/keymapper_tables.h:871
+#, fuzzy
 msgid "Phone up button"
-msgstr ""
+msgstr "Simuler venstre mustast"
 
 #: engines/wintermute/keymapper_tables.h:287
 #: engines/wintermute/keymapper_tables.h:363
@@ -7303,63 +7459,75 @@ msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:369
 #: engines/wintermute/keymapper_tables.h:883
+#, fuzzy
 msgid "Phone 0 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:374
 #: engines/wintermute/keymapper_tables.h:888
+#, fuzzy
 msgid "Phone 1 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:379
 #: engines/wintermute/keymapper_tables.h:893
+#, fuzzy
 msgid "Phone 2 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:384
 #: engines/wintermute/keymapper_tables.h:898
+#, fuzzy
 msgid "Phone 3 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:389
 #: engines/wintermute/keymapper_tables.h:903
+#, fuzzy
 msgid "Phone 4 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:394
 #: engines/wintermute/keymapper_tables.h:908
+#, fuzzy
 msgid "Phone 5 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:399
 #: engines/wintermute/keymapper_tables.h:913
+#, fuzzy
 msgid "Phone 6 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:404
 #: engines/wintermute/keymapper_tables.h:918
+#, fuzzy
 msgid "Phone 7 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:409
 #: engines/wintermute/keymapper_tables.h:923
+#, fuzzy
 msgid "Phone 8 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:414
 #: engines/wintermute/keymapper_tables.h:928
+#, fuzzy
 msgid "Phone 9 button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:419
 #: engines/wintermute/keymapper_tables.h:933
+#, fuzzy
 msgid "Phone * button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:424
 #: engines/wintermute/keymapper_tables.h:938
+#, fuzzy
 msgid "Phone # button"
-msgstr ""
+msgstr "Simuler høyre mustast"
 
 #: engines/wintermute/keymapper_tables.h:448
 #: engines/wintermute/keymapper_tables.h:1073
@@ -7955,10 +8123,6 @@ msgstr ""
 
 #~ msgid "[ Shared ]"
 #~ msgstr "[ Delt ]"
-
-#, fuzzy
-#~ msgid "Return to main menu"
-#~ msgstr "~T~ilbake til oppstarter"
 
 #, fuzzy
 #~ msgid "C-Pad Sensitivity:"

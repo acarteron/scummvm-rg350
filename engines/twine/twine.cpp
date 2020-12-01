@@ -35,6 +35,7 @@
 #include "engines/metaengine.h"
 #include "engines/util.h"
 #include "graphics/colormasks.h"
+#include "graphics/cursorman.h"
 #include "graphics/fontman.h"
 #include "graphics/font.h"
 #include "graphics/managed_surface.h"
@@ -79,6 +80,14 @@ ScopedEngineFreeze::ScopedEngineFreeze(TwinEEngine* engine) : _engine(engine) {
 
 ScopedEngineFreeze::~ScopedEngineFreeze() {
 	_engine->unfreezeTime();
+}
+
+ScopedCursor::ScopedCursor(TwinEEngine* engine) : _engine(engine) {
+	_engine->pushMouseCursorVisible();
+}
+
+ScopedCursor::~ScopedCursor() {
+	_engine->popMouseCursorVisible();
 }
 
 TwinEEngine::TwinEEngine(OSystem *system, Common::Language language, uint32 flags, TwineGameType gameType)
@@ -144,6 +153,23 @@ TwinEEngine::~TwinEEngine() {
 	delete _input;
 	delete _debug;
 	delete _debugScene;
+}
+
+void TwinEEngine::pushMouseCursorVisible() {
+	++_mouseCursorState;
+	if (!cfgfile.Mouse) {
+		return;
+	}
+	if (_mouseCursorState == 1) {
+		CursorMan.showMouse(cfgfile.Mouse);
+	}
+}
+
+void TwinEEngine::popMouseCursorVisible() {
+	--_mouseCursorState;
+	if (_mouseCursorState == 0) {
+		CursorMan.showMouse(false);
+	}
 }
 
 Common::Error TwinEEngine::run() {
@@ -292,6 +318,7 @@ static int getLanguageTypeIndex(const char *languageName) {
 
 #define ConfGetOrDefault(key, defaultVal) (ConfMan.hasKey(key) ? ConfMan.get(key) : Common::String(defaultVal))
 #define ConfGetIntOrDefault(key, defaultVal) (ConfMan.hasKey(key) ? atoi(ConfMan.get(key).c_str()) : (defaultVal))
+#define ConfGetBoolOrDefault(key, defaultVal) (ConfMan.hasKey(key) ? ConfMan.get(key) == "true" || atoi(ConfMan.get(key).c_str()) == 1 : (defaultVal))
 
 void TwinEEngine::initConfigurations() {
 	// TODO: use existing entries for some of the settings - like volume and so on.
@@ -317,20 +344,34 @@ void TwinEEngine::initConfigurations() {
 		}
 	}
 	cfgfile.Version = ConfGetIntOrDefault("version", EUROPE_VERSION);
-	cfgfile.UseCD = ConfGetIntOrDefault("usecd", 0) == 1;
-	cfgfile.Sound = ConfGetIntOrDefault("sound", 1) == 1;
+	cfgfile.UseCD = ConfGetBoolOrDefault("usecd", false);
+	cfgfile.Sound = ConfGetBoolOrDefault("sound", true);
 	cfgfile.Movie = ConfGetIntOrDefault("movie", CONF_MOVIE_FLA);
 	cfgfile.Fps = ConfGetIntOrDefault("fps", DEFAULT_FRAMES_PER_SECOND);
-	cfgfile.Debug = ConfGetIntOrDefault("debug", 0) == 1;
+	cfgfile.Debug = ConfGetBoolOrDefault("debug", false);
+	cfgfile.Mouse = ConfGetIntOrDefault("mouse", true);
 
-	cfgfile.UseAutoSaving = ConfGetIntOrDefault("useautosaving", 0);
-	cfgfile.CrossFade = ConfGetIntOrDefault("crossfade", 0);
-	cfgfile.WallCollision = ConfGetIntOrDefault("wallcollision", 0);
+	cfgfile.UseAutoSaving = ConfGetBoolOrDefault("useautosaving", false);
+	cfgfile.CrossFade = ConfGetBoolOrDefault("crossfade", false);
+	cfgfile.WallCollision = ConfGetBoolOrDefault("wallcollision", false);
 
-	_actor->autoAgressive = ConfGetIntOrDefault("combatauto", 1) == 1;
+	_actor->autoAgressive = ConfGetBoolOrDefault("combatauto", true);
 	cfgfile.ShadowMode = ConfGetIntOrDefault("shadow", 2);
-	cfgfile.SceZoom = ConfGetIntOrDefault("scezoom", 0) == 0;
+	cfgfile.SceZoom = ConfGetBoolOrDefault("scezoom", false);
 	cfgfile.PolygonDetails = ConfGetIntOrDefault("polygondetails", 2);
+
+	debug("UseCD:          %s", (cfgfile.UseCD ? "true" : "false"));
+	debug("Sound:          %s", (cfgfile.Sound ? "true" : "false"));
+	debug("Movie:          %i", cfgfile.Movie);
+	debug("Fps:            %i", cfgfile.Fps);
+	debug("Debug:          %s", (cfgfile.Debug ? "true" : "false"));
+	debug("UseAutoSaving:  %s", (cfgfile.UseAutoSaving ? "true" : "false"));
+	debug("CrossFade:      %s", (cfgfile.CrossFade ? "true" : "false"));
+	debug("WallCollision:  %s", (cfgfile.WallCollision ? "true" : "false"));
+	debug("AutoAgressive:  %s", (_actor->autoAgressive ? "true" : "false"));
+	debug("ShadowMode:     %i", cfgfile.ShadowMode);
+	debug("PolygonDetails: %i", cfgfile.PolygonDetails);
+	debug("SceZoom:        %s", (cfgfile.SceZoom ? "true" : "false"));
 }
 
 void TwinEEngine::initEngine() {
@@ -390,8 +431,8 @@ void TwinEEngine::initAll() {
 
 	_scene->sceneHero = _scene->getActor(OWN_ACTOR_SCENE_INDEX);
 
-	_redraw->renderRight = SCREEN_TEXTLIMIT_RIGHT;
-	_redraw->renderBottom = SCREEN_TEXTLIMIT_BOTTOM;
+	_redraw->renderRect.right = SCREEN_TEXTLIMIT_RIGHT;
+	_redraw->renderRect.bottom = SCREEN_TEXTLIMIT_BOTTOM;
 	// Set clip to fullscreen by default, allows main menu to render properly after load
 	_interface->resetClip();
 
@@ -513,7 +554,7 @@ void TwinEEngine::processInventoryAction() {
 	}
 	case kiBonusList: {
 		unfreezeTime();
-		_redraw->redrawEngineActions(1);
+		_redraw->redrawEngineActions(true);
 		freezeTime();
 		_text->initTextBank(TextBankId::Inventory_Intro_and_Holomap);
 		_text->textClipFull();
@@ -535,7 +576,7 @@ void TwinEEngine::processInventoryAction() {
 		break;
 	}
 
-	_redraw->redrawEngineActions(1);
+	_redraw->redrawEngineActions(true);
 }
 
 void TwinEEngine::processOptionsMenu() {
@@ -544,7 +585,7 @@ void TwinEEngine::processOptionsMenu() {
 	_menu->inGameOptionsMenu();
 	// TODO: play music
 	_sound->resumeSamples();
-	_redraw->redrawEngineActions(1);
+	_redraw->redrawEngineActions(true);
 }
 
 void TwinEEngine::centerScreenOnActor() {
@@ -599,14 +640,14 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 			}
 			if (giveUp == 1) {
 				unfreezeTime();
-				_redraw->redrawEngineActions(1);
+				_redraw->redrawEngineActions(true);
 				ScopedEngineFreeze freeze(this);
 				autoSave();
 				quitGame = 0;
 				return 0;
 			}
 			unfreezeTime();
-			_redraw->redrawEngineActions(1);
+			_redraw->redrawEngineActions(true);
 		}
 
 		if (_input->toggleActionIfActive(TwinEActionType::OptionsMenu)) {
@@ -617,6 +658,16 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 		loopInventoryItem = -1;
 		if (_input->isActionActive(TwinEActionType::InventoryMenu) && _scene->sceneHero->entity != -1 && _scene->sceneHero->controlMode == ControlMode::kManual) {
 			processInventoryAction();
+		}
+
+		if (_input->toggleActionIfActive(TwinEActionType::ChangeBehaviourNormal)) {
+			_actor->setBehaviour(HeroBehaviourType::kNormal);
+		} else if (_input->toggleActionIfActive(TwinEActionType::ChangeBehaviourAthletic)) {
+			_actor->setBehaviour(HeroBehaviourType::kAthletic);
+		} else if (_input->toggleActionIfActive(TwinEActionType::ChangeBehaviourAggressive)) {
+			_actor->setBehaviour(HeroBehaviourType::kAggressive);
+		} else if (_input->toggleActionIfActive(TwinEActionType::ChangeBehaviourDiscreet)) {
+			_actor->setBehaviour(HeroBehaviourType::kDiscrete);
 		}
 
 		// Process behaviour menu
@@ -638,7 +689,7 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 			freezeTime();
 			_menu->processBehaviourMenu();
 			unfreezeTime();
-			_redraw->redrawEngineActions(1);
+			_redraw->redrawEngineActions(true);
 		}
 
 		// use Proto-Pack
@@ -672,7 +723,7 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 			_holomap->processHolomap();
 			_screens->lockPalette = true;
 			unfreezeTime();
-			_redraw->redrawEngineActions(1);
+			_redraw->redrawEngineActions(true);
 		}
 
 		// Process Pause
@@ -689,7 +740,7 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 				g_system->delayMillis(10);
 			} while (!_input->toggleActionIfActive(TwinEActionType::Pause));
 			unfreezeTime();
-			_redraw->redrawEngineActions(1);
+			_redraw->redrawEngineActions(true);
 		}
 	}
 
@@ -722,7 +773,7 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 				_animations->initAnim(AnimationTypes::kLandDeath, 4, AnimationTypes::kStanding, 0);
 				actor->controlMode = ControlMode::kNoMove;
 			} else {
-				_sound->playSample(Samples::Explode, getRandomNumber(2000) + 3096, 1, actor->x, actor->y, actor->z, a);
+				_sound->playSample(Samples::Explode, 1, actor->x, actor->y, actor->z, a);
 
 				if (a == _scene->mecaPinguinIdx) {
 					_extra->addExtraExplode(actor->x, actor->y, actor->z);
@@ -780,8 +831,7 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 							actor->staticFlags.bCanDrown |= 0x10; // TODO: doesn't make sense
 						}
 					} else {
-						const int32 rnd = getRandomNumber(2000) + 3096;
-						_sound->playSample(Samples::Explode, rnd, 1, actor->x, actor->y, actor->z, a);
+						_sound->playSample(Samples::Explode, 1, actor->x, actor->y, actor->z, a);
 						if (actor->bonusParameter.cloverleaf || actor->bonusParameter.kashes || actor->bonusParameter.key || actor->bonusParameter.lifepoints || actor->bonusParameter.magicpoints) {
 							if (!actor->bonusParameter.unk1) {
 								_actor->processActorExtraBonus(a);
@@ -857,7 +907,7 @@ int32 TwinEEngine::runGameEngine() { // mainLoopInteration
 	// workaround to fix hero redraw after drowning
 	if (_actor->cropBottomScreen && _redraw->reqBgRedraw) {
 		_scene->sceneHero->staticFlags.bIsHidden = 1;
-		_redraw->redrawEngineActions(1);
+		_redraw->redrawEngineActions(true);
 		_scene->sceneHero->staticFlags.bIsHidden = 0;
 	}
 
@@ -879,7 +929,7 @@ bool TwinEEngine::gameEngineLoop() {
 			if (runGameEngine()) {
 				return true;
 			}
-			g_system->delayMillis(10);
+			g_system->delayMillis(1);
 		}
 		lbaTime++;
 		if (shouldQuit()) {
@@ -925,6 +975,10 @@ void TwinEEngine::setPalette(const uint32 *palette) {
 void TwinEEngine::flip() {
 	g_system->copyRectToScreen(frontVideoBuffer.getPixels(), frontVideoBuffer.pitch, 0, 0, frontVideoBuffer.w, frontVideoBuffer.h);
 	g_system->updateScreen();
+}
+
+void TwinEEngine::copyBlockPhys(const Common::Rect &rect) {
+	copyBlockPhys(rect.left, rect.top, rect.right, rect.bottom);
 }
 
 void TwinEEngine::copyBlockPhys(int32 left, int32 top, int32 right, int32 bottom) {

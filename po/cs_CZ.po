@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.7.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2020-11-23 16:13+0000\n"
+"POT-Creation-Date: 2020-11-29 20:25+0000\n"
 "PO-Revision-Date: 2020-09-26 12:37+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Czech <https://translations.scummvm.org/projects/scummvm/"
@@ -597,7 +597,7 @@ msgstr "Zavřít"
 #: backends/platform/symbian/src/SymbianActions.cpp:40
 #: engines/dragons/metaengine.cpp:165 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:98 engines/grim/grim.cpp:451
-#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:345
+#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:375
 #: engines/wintermute/keymapper_tables.h:1011
 #: engines/wintermute/keymapper_tables.h:1100
 #: engines/wintermute/keymapper_tables.h:1474
@@ -609,7 +609,7 @@ msgstr "Nahoru"
 #: backends/platform/symbian/src/SymbianActions.cpp:41
 #: engines/dragons/metaengine.cpp:171 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:104 engines/grim/grim.cpp:456
-#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:351
+#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:381
 #: engines/wintermute/keymapper_tables.h:1017
 #: engines/wintermute/keymapper_tables.h:1107
 #: engines/wintermute/keymapper_tables.h:1480
@@ -621,7 +621,7 @@ msgstr "Dolů"
 #: backends/platform/symbian/src/SymbianActions.cpp:42
 #: engines/dragons/metaengine.cpp:177 engines/griffon/metaengine.cpp:110
 #: engines/grim/grim.cpp:461 engines/grim/grim.cpp:538
-#: engines/twine/metaengine.cpp:363 engines/wintermute/keymapper_tables.h:1023
+#: engines/twine/metaengine.cpp:394 engines/wintermute/keymapper_tables.h:1023
 #: engines/wintermute/keymapper_tables.h:1462
 #: engines/wintermute/keymapper_tables.h:1570
 #: engines/wintermute/keymapper_tables.h:1692
@@ -632,7 +632,7 @@ msgstr "Doleva"
 #: backends/platform/symbian/src/SymbianActions.cpp:43
 #: engines/dragons/metaengine.cpp:183 engines/griffon/metaengine.cpp:116
 #: engines/grim/grim.cpp:466 engines/grim/grim.cpp:543
-#: engines/twine/metaengine.cpp:357 engines/wintermute/keymapper_tables.h:1029
+#: engines/twine/metaengine.cpp:387 engines/wintermute/keymapper_tables.h:1029
 #: engines/wintermute/keymapper_tables.h:1468
 #: engines/wintermute/keymapper_tables.h:1578
 #: engines/wintermute/keymapper_tables.h:1698
@@ -2190,7 +2190,6 @@ msgstr "Nelze použít nastavení filtrování."
 
 #: engines/engine.cpp:420
 #, fuzzy
-#| msgid "No error"
 msgid "Error"
 msgstr "Žádná chyba"
 
@@ -2321,7 +2320,7 @@ msgstr "Pravé kliknutí"
 #: backends/platform/symbian/src/SymbianActions.cpp:52
 #: engines/hdb/metaengine.cpp:238 engines/mohawk/myst.cpp:593
 #: engines/mohawk/riven.cpp:863 engines/sky/metaengine.cpp:113
-#: engines/twine/metaengine.cpp:161 engines/wintermute/keymapper_tables.h:1255
+#: engines/twine/metaengine.cpp:169 engines/wintermute/keymapper_tables.h:1255
 msgid "Pause"
 msgstr "Pauza"
 
@@ -2391,7 +2390,7 @@ msgstr "OPL2LPT"
 msgid "OPL3LPT"
 msgstr "OPL3LPT"
 
-#: audio/mididrv.cpp:259
+#: audio/mididrv.cpp:220
 #, c-format
 msgid ""
 "The selected audio device '%s' was not found (e.g. might be turned off or "
@@ -2400,12 +2399,12 @@ msgstr ""
 "Zvolené zvukové zařízení '%s' nebylo nalezeno (např. může být vypnuto nebo "
 "odpojeno)."
 
-#: audio/mididrv.cpp:260 audio/mididrv.cpp:274 audio/mididrv.cpp:312
-#: audio/mididrv.cpp:329
+#: audio/mididrv.cpp:221 audio/mididrv.cpp:235 audio/mididrv.cpp:273
+#: audio/mididrv.cpp:290
 msgid "Attempting to fall back to the next available device..."
 msgstr "Pokus o navrácení na nejbližší dostupné zařízení..."
 
-#: audio/mididrv.cpp:273
+#: audio/mididrv.cpp:234
 #, c-format
 msgid ""
 "The selected audio device '%s' cannot be used. See log file for more "
@@ -2414,7 +2413,7 @@ msgstr ""
 "Zvolené zvukové zařízení '%s' nelze použít. Podívejte se na záznam pro více "
 "informací."
 
-#: audio/mididrv.cpp:311
+#: audio/mididrv.cpp:272
 #, c-format
 msgid ""
 "The preferred audio device '%s' was not found (e.g. might be turned off or "
@@ -2423,7 +2422,7 @@ msgstr ""
 "Upřednostňované zvukové zařízení '%s' nebylo nalezeno (např. může být "
 "vypnuto nebo odpojeno)."
 
-#: audio/mididrv.cpp:328
+#: audio/mididrv.cpp:289
 #, c-format
 msgid ""
 "The preferred audio device '%s' cannot be used. See log file for more "
@@ -2432,7 +2431,7 @@ msgstr ""
 "Upřednostňované zvukové zařízení '%s' nelze použít. Podívejte se na záznam "
 "pro více informací."
 
-#: audio/mididrv.cpp:725
+#: audio/mididrv.cpp:454
 msgid "Starting MIDI dump"
 msgstr ""
 
@@ -2626,7 +2625,7 @@ msgstr "Chcete ukončit ?"
 
 #: backends/graphics/opengl/opengl-graphics.cpp:244
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:83
-#: engines/twine/metaengine.cpp:259
+#: engines/twine/metaengine.cpp:287
 msgid "Center"
 msgstr "Vystředit"
 
@@ -2677,8 +2676,9 @@ msgstr "Filtrování zakázáno"
 
 #: backends/graphics/openglsdl/openglsdl-graphics.cpp:666
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:2553
+#, fuzzy
 msgid "Stretch mode"
-msgstr ""
+msgstr "Režim protažení:"
 
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:62
 msgid "Normal (no scaling)"
@@ -2759,20 +2759,24 @@ msgid "Switch to 2xSai scaling"
 msgstr "Přepnout na škálování 2xSai"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:440
+#, fuzzy
 msgid "Switch to Super2xSai scaling"
-msgstr ""
+msgstr "Přepnout na škálování 2xSai"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:441
+#, fuzzy
 msgid "Switch to SuperEagle scaling"
-msgstr ""
+msgstr "Přepnout na škálování 2xSai"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:442
+#, fuzzy
 msgid "Switch to TV 2x scaling"
-msgstr ""
+msgstr "Přepnout na škálování 2xSai"
 
 #: backends/graphics/sdl/sdl-graphics.cpp:443
+#, fuzzy
 msgid "Switch to DotMatrix scaling"
-msgstr ""
+msgstr "Přepnout na škálování 2xSai"
 
 #: backends/keymapper/hardware-input.cpp:245
 #, fuzzy
@@ -2808,20 +2812,24 @@ msgid "X2 Mouse Button"
 msgstr "Napodobit levé tlačítko myši"
 
 #: backends/keymapper/hardware-input.cpp:256
+#, fuzzy
 msgid "Joy A"
-msgstr ""
+msgstr "Vzad"
 
 #: backends/keymapper/hardware-input.cpp:257
+#, fuzzy
 msgid "Joy B"
-msgstr ""
+msgstr "Vzad"
 
 #: backends/keymapper/hardware-input.cpp:258
+#, fuzzy
 msgid "Joy X"
-msgstr ""
+msgstr "Vzad"
 
 #: backends/keymapper/hardware-input.cpp:259
+#, fuzzy
 msgid "Joy Y"
-msgstr ""
+msgstr "Vzad"
 
 #: backends/keymapper/hardware-input.cpp:260
 #, fuzzy
@@ -2859,15 +2867,17 @@ msgstr ""
 #: backends/platform/3ds/osystem-events.cpp:58
 #: backends/platform/sdl/ps3/ps3.cpp:52 backends/platform/sdl/psp2/psp2.cpp:53
 #: backends/platform/sdl/switch/switch.cpp:49
+#, fuzzy
 msgid "D-pad Up"
-msgstr ""
+msgstr "Přesunout se Doleva"
 
 #: backends/keymapper/hardware-input.cpp:268
 #: backends/platform/3ds/osystem-events.cpp:59
 #: backends/platform/sdl/ps3/ps3.cpp:53 backends/platform/sdl/psp2/psp2.cpp:54
 #: backends/platform/sdl/switch/switch.cpp:50
+#, fuzzy
 msgid "D-pad Down"
-msgstr ""
+msgstr "Dolů"
 
 #: backends/keymapper/hardware-input.cpp:269
 #: backends/platform/3ds/osystem-events.cpp:60
@@ -2931,8 +2941,9 @@ msgid "Clear mapping"
 msgstr ""
 
 #: backends/keymapper/virtual-mouse.cpp:157
+#, fuzzy
 msgid "Virtual mouse up"
-msgstr ""
+msgstr "Zrušit stahování"
 
 #: backends/keymapper/virtual-mouse.cpp:162
 #, fuzzy
@@ -2940,8 +2951,9 @@ msgid "Virtual mouse down"
 msgstr "Zrušit stahování"
 
 #: backends/keymapper/virtual-mouse.cpp:167
+#, fuzzy
 msgid "Virtual mouse left"
-msgstr ""
+msgstr "Přesunout se doprava"
 
 #: backends/keymapper/virtual-mouse.cpp:172
 #, fuzzy
@@ -2983,8 +2995,9 @@ msgid "Parent directory doesn't exists!"
 msgstr "Cesta neexistuje"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:88
+#, fuzzy
 msgid "Can't create a directory within a file!"
-msgstr ""
+msgstr "Cesta není adresář"
 
 #: backends/networking/sdl_net/handlers/createdirectoryhandler.cpp:98
 #: backends/networking/sdl_net/uploadfileclienthandler.cpp:141
@@ -3047,8 +3060,9 @@ msgstr "Načíst soubor"
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:71
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:229
+#, fuzzy
 msgid "Type new directory name:"
-msgstr ""
+msgstr "Cesta není adresář"
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:72
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:230
@@ -3067,8 +3081,9 @@ msgid "Index of "
 msgstr ""
 
 #: backends/networking/sdl_net/handlers/filesajaxpagehandler.cpp:76
+#, fuzzy
 msgid "Error occurred"
-msgstr ""
+msgstr "Při ukládání se vyskytla chyba"
 
 #: backends/networking/sdl_net/handlers/filespagehandler.cpp:81
 #: backends/networking/sdl_net/handlers/listajaxhandler.cpp:45
@@ -3106,8 +3121,9 @@ msgid "Open Files manager"
 msgstr "Otevřít dialogové okno správce stahovaní"
 
 #: backends/networking/sdl_net/handlers/uploadfilehandler.cpp:67
+#, fuzzy
 msgid "The parent directory doesn't exist!"
-msgstr ""
+msgstr "Cesta neexistuje"
 
 #: backends/networking/sdl_net/handlers/uploadfilehandler.cpp:71
 #, fuzzy
@@ -3115,8 +3131,9 @@ msgid "Can't upload into a file!"
 msgstr "Cesta není soubor"
 
 #: backends/networking/sdl_net/handlerutils.cpp:198
+#, fuzzy
 msgid "Back to the files manager"
-msgstr ""
+msgstr "Otevřít dialogové okno správce stahovaní"
 
 #: backends/networking/sdl_net/localwebserver.cpp:123
 msgid ""
@@ -3160,8 +3177,9 @@ msgid "Snap to edges"
 msgstr "Přichytit k okrajům"
 
 #: backends/platform/3ds/options-dialog.cpp:54
+#, fuzzy
 msgid "Stretch to fit"
-msgstr ""
+msgstr "Roztáhnout do okna"
 
 #: backends/platform/3ds/options-dialog.cpp:57
 #, fuzzy
@@ -3260,8 +3278,9 @@ msgid "Toggle Drag Mode"
 msgstr "Povolit násilné scény"
 
 #: backends/platform/3ds/osystem-events.cpp:317
+#, fuzzy
 msgid "Toggle Magnify Mode"
-msgstr ""
+msgstr "Povolit násilné scény"
 
 #: backends/platform/3ds/osystem-events.cpp:322
 msgid "Open 3DS Settings"
@@ -3444,8 +3463,9 @@ msgstr "Dolů"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:45
 #: backends/platform/ds/arm9/source/scummhelp.cpp:62
+#, fuzzy
 msgid "Skip dialog line (some games)"
-msgstr ""
+msgstr "Přeskočit řádek"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:46
 #: backends/platform/ds/arm9/source/scummhelp.cpp:63
@@ -3524,8 +3544,9 @@ msgid "High guard"
 msgstr ""
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:79
+#, fuzzy
 msgid "Guard down"
-msgstr ""
+msgstr "Udeřit doprostřed"
 
 #: backends/platform/ds/arm9/source/scummhelp.cpp:80
 #, fuzzy
@@ -4080,8 +4101,9 @@ msgstr ""
 "některé stopy nebudou znít správně."
 
 #: engines/bladerunner/bladerunner.cpp:363
+#, fuzzy
 msgid "Failed to initialize resources"
-msgstr ""
+msgstr "Připojení úložiště selhalo."
 
 #: engines/bladerunner/bladerunner.cpp:1067
 msgid "A required game resource was not found"
@@ -4161,11 +4183,18 @@ msgid ""
 "ScummVM."
 msgstr ""
 
-#: engines/cge/detection.cpp:113
+#: engines/cge/detection.cpp:48 engines/cge/detection.cpp:54
+#: engines/saga/detection_tables.h:187 engines/saga/detection_tables.h:608
+#: engines/sci/detection_tables.h:4808 engines/sci/detection_tables.h:4816
+#, fuzzy
+msgid "Missing game code"
+msgstr "Hlavní ovládací prvky:"
+
+#: engines/cge/detection.cpp:99
 msgid "Color Blind Mode"
 msgstr "Režim pro barvoslepé"
 
-#: engines/cge/detection.cpp:114
+#: engines/cge/detection.cpp:100
 msgid "Enable Color Blind Mode by default"
 msgstr "Standardně zapínat režim pro barvoslepé"
 
@@ -4239,7 +4268,7 @@ msgstr ""
 #: engines/grim/grim.cpp:491 engines/grim/grim.cpp:583
 #: engines/hdb/metaengine.cpp:231 engines/scumm/help.cpp:225
 #: engines/scumm/help.cpp:234 engines/scumm/help.cpp:241
-#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:311
+#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:339
 #: engines/zvision/metaengine.cpp:164
 msgid "Inventory"
 msgstr "Inventář"
@@ -4296,12 +4325,14 @@ msgid "Use TTS to read the text"
 msgstr "Nelze smazat soubor."
 
 #: engines/glk/detection.cpp:231
+#, fuzzy
 msgid "Also read input text"
-msgstr ""
+msgstr "Nelze smazat soubor."
 
 #: engines/glk/detection.cpp:232
+#, fuzzy
 msgid "Use TTS to read the input text"
-msgstr ""
+msgstr "Nelze smazat soubor."
 
 #: engines/glk/glk_api.cpp:63
 msgid "[ press any key to exit ]"
@@ -4392,12 +4423,14 @@ msgid "I can't do that yet. "
 msgstr ""
 
 #: engines/glk/scott/scott.cpp:119
+#, fuzzy
 msgid "Light has run out! "
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/glk/scott/scott.cpp:121
+#, fuzzy
 msgid "Your light has run out. "
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/glk/scott/scott.cpp:130
 #, fuzzy
@@ -4489,8 +4522,9 @@ msgid "I've too much to carry! "
 msgstr ""
 
 #: engines/glk/scott/scott.cpp:807
+#, fuzzy
 msgid "You are dead.\n"
-msgstr ""
+msgstr "Obnovit"
 
 #: engines/glk/scott/scott.cpp:809
 msgid "I am dead.\n"
@@ -4775,13 +4809,18 @@ msgid ""
 "Alternatively, a Steam or GOG copy has a combined FullMonkeyMap.imt"
 msgstr ""
 
-#: engines/groovie/detection.cpp:320
+#: engines/groovie/detection.cpp:297
 msgid "Fast movie speed"
 msgstr "Zvýšená rychlost videa"
 
-#: engines/groovie/detection.cpp:321
+#: engines/groovie/detection.cpp:298
 msgid "Play movies at an increased speed"
 msgstr "Přehrát videa se zvýšenou rychlostí"
+
+#: engines/groovie/metaengine.cpp:53
+#, fuzzy
+msgid "GroovieV2 support is not compiled in"
+msgstr "Zakompilované funkce:"
 
 #: engines/groovie/script.cpp:484
 msgid "Failed to save game"
@@ -4862,134 +4901,150 @@ msgstr "Zapnout héliový režim"
 
 #. I18N: When enabled, this option makes scrolling smoother when
 #. changing from one screen to another.
-#: engines/kyra/detection.cpp:82
+#: engines/kyra/detection.cpp:81
 msgid "Smooth scrolling"
 msgstr "Plynulé posunování"
 
-#: engines/kyra/detection.cpp:83
+#: engines/kyra/detection.cpp:82
 msgid "Enable smooth scrolling when walking"
 msgstr "Povolit plynulé posunování při chůzi"
 
 #. I18N: When enabled, this option changes the cursor when it floats to the
 #. edge of the screen to a directional arrow. The player can then click to
 #. walk towards that direction.
-#: engines/kyra/detection.cpp:95
+#: engines/kyra/detection.cpp:94
 msgid "Floating cursors"
 msgstr "Plovoucí kurzory"
 
-#: engines/kyra/detection.cpp:96
+#: engines/kyra/detection.cpp:95
 msgid "Enable floating cursors"
 msgstr "Povolit plovoucí kurzory"
 
 #. I18N: When enabled, this option will fill in an autogenerated savegame
 #. description into the input prompt where.
-#: engines/kyra/detection.cpp:107
+#: engines/kyra/detection.cpp:106
 #, fuzzy
 msgid "Suggest save names"
 msgstr "Uložit hru:"
 
-#: engines/kyra/detection.cpp:108
+#: engines/kyra/detection.cpp:107
 msgid "Autogenerated naming suggestions for savegames"
 msgstr ""
 
 #. I18N: HP stands for Hit Points
-#: engines/kyra/detection.cpp:122
+#: engines/kyra/detection.cpp:119
 msgid "HP bar graphs"
 msgstr "Sloupcový indikátor zdraví"
 
-#: engines/kyra/detection.cpp:123
+#: engines/kyra/detection.cpp:120
 msgid "Enable hit point bar graphs"
 msgstr "Povolit sloupcový indikátor zdraví"
 
 #. I18N: L/R stands for Left/Right
-#: engines/kyra/detection.cpp:133
+#: engines/kyra/detection.cpp:130
 msgid "Fight Button L/R Swap"
 msgstr ""
 
-#: engines/kyra/detection.cpp:134
+#: engines/kyra/detection.cpp:131
 msgid "Left button to attack, right button to pick up items"
 msgstr ""
 
-#: engines/kyra/engine/eobcommon.cpp:366 engines/kyra/engine/lol.cpp:469
+#: engines/kyra/metaengine.cpp:116
+#, fuzzy
+msgid "Lands of Lore support is not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/kyra/metaengine.cpp:128
+msgid ""
+"EOB II FM-TOWNS requires support of 16bit color modes which has not been "
+"activated in your ScummVM build"
+msgstr ""
+
+#: engines/kyra/metaengine.cpp:137
+#, fuzzy
+msgid "Eye of Beholder support is not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:469
 #: engines/ultima/ultima4/meta_engine.cpp:233
 #: engines/ultima/ultima8/meta_engine.cpp:130
 #, fuzzy
 msgid "Interact via Left Click"
 msgstr "Levé Kliknutí"
 
-#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:470
+#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:470
 #: engines/ultima/ultima4/meta_engine.cpp:239
 #: engines/ultima/ultima8/meta_engine.cpp:136
 #, fuzzy
 msgid "Interact via Right Click"
 msgstr "Pravé kliknutí"
 
-#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:475
-#: engines/twine/metaengine.cpp:277
+#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:475
+#: engines/twine/metaengine.cpp:305
 msgid "Move Forward"
 msgstr "Vpřed"
 
-#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:476
+#: engines/kyra/engine/eobcommon.cpp:370 engines/kyra/engine/lol.cpp:476
 msgid "Move Back"
 msgstr "Vzad"
 
-#: engines/kyra/engine/eobcommon.cpp:370
+#: engines/kyra/engine/eobcommon.cpp:371
 msgid "Move Left"
 msgstr "Přesunout se doleva"
 
-#: engines/kyra/engine/eobcommon.cpp:371
+#: engines/kyra/engine/eobcommon.cpp:372
 msgid "Move Right"
 msgstr "Přesunout se doprava"
 
-#: engines/kyra/engine/eobcommon.cpp:372 engines/kyra/engine/lol.cpp:479
-#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:295
+#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:479
+#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:323
 #: engines/zvision/metaengine.cpp:141
 msgid "Turn Left"
 msgstr "Otočit se doleva"
 
-#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:480
-#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:289
+#: engines/kyra/engine/eobcommon.cpp:374 engines/kyra/engine/lol.cpp:480
+#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:317
 #: engines/zvision/metaengine.cpp:147
 msgid "Turn Right"
 msgstr "Otočit se doprava"
 
-#: engines/kyra/engine/eobcommon.cpp:374
+#: engines/kyra/engine/eobcommon.cpp:375
 msgid "Open/Close Inventory"
 msgstr "Otevřít/Zavřít Inventář"
 
-#: engines/kyra/engine/eobcommon.cpp:375
+#: engines/kyra/engine/eobcommon.cpp:376
 msgid "Switch Inventory/Character screen"
 msgstr "Zaměnit obrazovku Postavy/Inventáře"
 
-#: engines/kyra/engine/eobcommon.cpp:376
+#: engines/kyra/engine/eobcommon.cpp:377
 msgid "Camp"
 msgstr "Tábořit"
 
-#: engines/kyra/engine/eobcommon.cpp:377
+#: engines/kyra/engine/eobcommon.cpp:378
 msgid "Cast Spell"
 msgstr "Seslat kouzlo"
 
-#: engines/kyra/engine/eobcommon.cpp:380
+#: engines/kyra/engine/eobcommon.cpp:381
 msgid "Spell Level 1"
 msgstr "Kouzlo úrovně 1"
 
-#: engines/kyra/engine/eobcommon.cpp:381
+#: engines/kyra/engine/eobcommon.cpp:382
 msgid "Spell Level 2"
 msgstr "Kouzlo úrovně 2"
 
-#: engines/kyra/engine/eobcommon.cpp:382
+#: engines/kyra/engine/eobcommon.cpp:383
 msgid "Spell Level 3"
 msgstr "Kouzlo úrovně 3"
 
-#: engines/kyra/engine/eobcommon.cpp:383
+#: engines/kyra/engine/eobcommon.cpp:384
 msgid "Spell Level 4"
 msgstr "Kouzlo úrovně 4"
 
-#: engines/kyra/engine/eobcommon.cpp:384
+#: engines/kyra/engine/eobcommon.cpp:385
 msgid "Spell Level 5"
 msgstr "Kouzlo úrovně 5"
 
-#: engines/kyra/engine/eobcommon.cpp:386
+#: engines/kyra/engine/eobcommon.cpp:387
 msgid "Spell Level 6"
 msgstr "Kouzlo úrovně 6"
 
@@ -5138,6 +5193,11 @@ msgstr ""
 msgid "Use TTS to read the descriptions (if TTS is available)"
 msgstr ""
 
+#: engines/made/detection_tables.h:360
+#, fuzzy
+msgid "The game is using unsupported engine"
+msgstr "Id hry není podporováno"
+
 #: engines/mads/detection.cpp:55
 msgid "Easy mouse interface"
 msgstr "Jednoduché rozhraní myši"
@@ -5216,9 +5276,30 @@ msgstr "Nejlepší"
 msgid "The game is paused. Press any key to continue."
 msgstr "Hra je pozastavena. Pro pokračovaní stiskněte libovolnou klávesu."
 
+#: engines/mohawk/metaengine.cpp:272
+#, fuzzy
+msgid "Myst ME support not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/mohawk/metaengine.cpp:279
+#, fuzzy
+msgid "Myst support not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/mohawk/metaengine.cpp:287
+#, fuzzy
+msgid "Riven support not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/mohawk/metaengine.cpp:302
+#, fuzzy
+msgid "CSTime support not compiled in"
+msgstr "Zakompilované funkce:"
+
 #: engines/mohawk/myst.cpp:552 engines/mohawk/riven.cpp:822
+#, fuzzy
 msgid "Open main menu"
-msgstr ""
+msgstr "~N~ávrat do Spouštěče"
 
 #: engines/mohawk/myst.cpp:576 engines/mohawk/riven.cpp:846
 msgid "Load game state"
@@ -5229,8 +5310,9 @@ msgid "Save game state"
 msgstr "Uložit hru"
 
 #: engines/mohawk/myst.cpp:586 engines/mohawk/riven.cpp:856
+#, fuzzy
 msgid "Show options menu"
-msgstr ""
+msgstr "Volby"
 
 #: engines/mohawk/myst.cpp:598
 #, fuzzy
@@ -5247,10 +5329,11 @@ msgstr "~Z~obrazit mapu"
 
 #: engines/mohawk/myst_stacks/menu.cpp:283
 #: engines/mohawk/riven_stacks/aspit.cpp:349
+#, fuzzy
 msgid ""
 "Are you sure you want to load a saved game? All unsaved progress will be "
 "lost."
-msgstr ""
+msgstr "   Jste si jisti, že chcete odejít ?   "
 
 #: engines/mohawk/myst_stacks/menu.cpp:284
 #: engines/mohawk/riven_stacks/aspit.cpp:350
@@ -5261,9 +5344,10 @@ msgstr "Nahrát hru:"
 
 #: engines/mohawk/myst_stacks/menu.cpp:300
 #: engines/mohawk/riven_stacks/aspit.cpp:371
+#, fuzzy
 msgid ""
 "Are you sure you want to start a new game? All unsaved progress will be lost."
-msgstr ""
+msgstr "   Jste si jisti, že chcete odejít ?   "
 
 #: engines/mohawk/myst_stacks/menu.cpp:301
 #: engines/mohawk/riven_stacks/aspit.cpp:372
@@ -5384,6 +5468,11 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Unable to locate the '%s' engine data file"
 msgstr "Nelze najít datové soubory jádra '%s'."
+
+#: engines/myst3/detection.cpp:149 engines/myst3/detection.cpp:163
+#, fuzzy
+msgid "PS2 version is not yet supported"
+msgstr "Id hry není podporováno"
 
 #: engines/myst3/detection.cpp:182
 #, fuzzy
@@ -5547,6 +5636,16 @@ msgstr "Alternativní úvod"
 msgid "Use an alternative game intro (CD version only)"
 msgstr "Použít jinou verzi úvodu (Pouze verze CD)"
 
+#: engines/saga/metaengine.cpp:117
+#, fuzzy
+msgid "I Have No Mouth support not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/saga/metaengine.cpp:124
+#, fuzzy
+msgid "SAGA2 support not compiled in"
+msgstr "Zakompilované funkce:"
+
 #: engines/saga/saga.cpp:247
 #, fuzzy
 msgid "Error loading game resources."
@@ -5683,7 +5782,7 @@ msgstr ""
 msgid "Yamaha FB-01"
 msgstr ""
 
-#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:396
+#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:404
 msgid "(Autosave)"
 msgstr "(Autouloženo)"
 
@@ -5721,7 +5820,12 @@ msgid ""
 "Cannot play back %dbpp video on a system with maximum color depth of 8bpp"
 msgstr ""
 
-#: engines/sci/resource.cpp:845
+#: engines/sci/metaengine.cpp:325
+#, fuzzy
+msgid "SCI32 support not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/sci/resource/resource.cpp:845
 msgid ""
 "Missing or corrupt game resources have been detected. Some game features may "
 "not work properly. Please check the console for more information, and verify "
@@ -6504,6 +6608,16 @@ msgid ""
 "code."
 msgstr ""
 
+#: engines/scumm/metaengine.cpp:429
+#, fuzzy
+msgid "HE v71+ support is not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/scumm/metaengine.cpp:453
+#, fuzzy
+msgid "SCUMM v7-8 support is not compiled in"
+msgstr "Zakompilované funkce:"
+
 #: engines/scumm/scumm.cpp:1918
 #, c-format
 msgid ""
@@ -6632,31 +6746,31 @@ msgstr "Rychlý režim"
 msgid "Toggle really fast mode"
 msgstr "Spustit ve velmi rychlém režimu (*)"
 
-#: engines/stark/detection.cpp:368
+#: engines/stark/detection.cpp:322
 #, fuzzy
 msgid "Load modded assets"
 msgstr "Nahrát hru"
 
-#: engines/stark/detection.cpp:369
+#: engines/stark/detection.cpp:323
 msgid "Enable loading of external replacement assets."
 msgstr ""
 
-#: engines/stark/detection.cpp:377
+#: engines/stark/detection.cpp:331
 msgid "Enable linear filtering of the backgrounds images"
 msgstr ""
 
-#: engines/stark/detection.cpp:378
+#: engines/stark/detection.cpp:332
 msgid ""
 "When linear filtering is enabled the background graphics are smoother in "
 "full screen mode, at the cost of some details."
 msgstr ""
 
-#: engines/stark/detection.cpp:386
+#: engines/stark/detection.cpp:340
 #, fuzzy
 msgid "Enable font anti-aliasing"
 msgstr "Povolit cenzuru obsahu"
 
-#: engines/stark/detection.cpp:387
+#: engines/stark/detection.cpp:341
 msgid "When font anti-aliasing is enabled, the text is smoother."
 msgstr ""
 
@@ -6817,6 +6931,11 @@ msgstr ""
 "Soubor teenagent.dat  je komprimován a zlib není součástí spustitelného "
 "souboru. Prosím dekomprimujte ho"
 
+#: engines/tinsel/detection_tables.h:466
+#, fuzzy
+msgid "Saturn CD version is not yet supported"
+msgstr "Id hry není podporováno"
+
 #: engines/tony/tony.cpp:257
 #, c-format
 msgid "Font variant not present in '%s' engine data file."
@@ -6846,6 +6965,11 @@ msgstr "Uloženou pozici #%d nelze rychle načíst"
 #, fuzzy, c-format
 msgid "Unable to locate the '%s' data file."
 msgstr "Nelze najít datové soubory jádra '%s'."
+
+#: engines/tsage/detection_tables.h:150
+#, fuzzy
+msgid "Spanish CD version is not yet supported"
+msgstr "Id hry není podporováno"
 
 #: engines/twine/metaengine.cpp:68
 msgid "Enable wall collisions"
@@ -6934,128 +7058,139 @@ msgid "Enable the cutscenes for the game"
 msgstr "Povolit systém nápovědy Venus"
 
 #: engines/twine/metaengine.cpp:132
+#, fuzzy
+msgid "Enable mouse"
+msgstr "Povolit Venus"
+
+#: engines/twine/metaengine.cpp:133
+#, fuzzy
+msgid "Enable the mouse for the UI"
+msgstr "Úplný název hry"
+
+#: engines/twine/metaengine.cpp:139
 msgid "Use the USA version"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:133
+#: engines/twine/metaengine.cpp:140
 msgid "Enable the USA specific version flags"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:166
+#: engines/twine/metaengine.cpp:174
 msgid "Debug Next Room"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:171
+#: engines/twine/metaengine.cpp:179
 msgid "Debug Previous Room"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:176
+#: engines/twine/metaengine.cpp:184
 msgid "Debug Apply Celling Grid"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:181
+#: engines/twine/metaengine.cpp:189
 msgid "Debug Increase Celling Grid Index"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:186
+#: engines/twine/metaengine.cpp:194
 msgid "Debug Decrease Celling Grid Index"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:191
+#: engines/twine/metaengine.cpp:199
 msgid "Debug Grid Camera Up"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:196
+#: engines/twine/metaengine.cpp:204
 msgid "Debug Grid Camera Down"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:201
+#: engines/twine/metaengine.cpp:209
 msgid "Debug Grid Camera Left"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:207
+#: engines/twine/metaengine.cpp:215
 msgid "Debug Grid Camera Right"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:212
+#: engines/twine/metaengine.cpp:220
 #, fuzzy
 msgid "Debug Menu"
 msgstr "Ladící program"
 
-#: engines/twine/metaengine.cpp:217
+#: engines/twine/metaengine.cpp:225
+#, fuzzy
 msgid "Debug Menu Execute"
-msgstr ""
+msgstr "Ladící program"
 
-#: engines/twine/metaengine.cpp:222
+#: engines/twine/metaengine.cpp:230 engines/twine/metaengine.cpp:250
 msgid "Normal Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:227
+#: engines/twine/metaengine.cpp:235 engines/twine/metaengine.cpp:255
 msgid "Athletic Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:232
+#: engines/twine/metaengine.cpp:240 engines/twine/metaengine.cpp:260
 msgid "Aggressive Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:237
+#: engines/twine/metaengine.cpp:245 engines/twine/metaengine.cpp:265
 msgid "Discreet Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:242
+#: engines/twine/metaengine.cpp:270
 #, fuzzy
 msgid "Behaviour Action"
 msgstr "~P~ředchozí"
 
-#: engines/twine/metaengine.cpp:248
+#: engines/twine/metaengine.cpp:276
 msgid "Change Behaviour"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:254
+#: engines/twine/metaengine.cpp:282
 #, fuzzy
 msgid "Options Menu"
 msgstr "Volby"
 
-#: engines/twine/metaengine.cpp:265
+#: engines/twine/metaengine.cpp:293
 msgid "Use Selected Object"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:271
+#: engines/twine/metaengine.cpp:299
 msgid "Throw Magic Ball"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:283
+#: engines/twine/metaengine.cpp:311
 #, fuzzy
 msgid "Move Backward"
 msgstr "Vzad"
 
-#: engines/twine/metaengine.cpp:301
+#: engines/twine/metaengine.cpp:329
 msgid "Use Protopack"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:306
+#: engines/twine/metaengine.cpp:334
 msgid "Open Holomap"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:318
+#: engines/twine/metaengine.cpp:346
 #, fuzzy
 msgid "Special Action"
 msgstr "Aktivní"
 
-#: engines/twine/metaengine.cpp:323 engines/wintermute/keymapper_tables.h:61
+#: engines/twine/metaengine.cpp:351 engines/wintermute/keymapper_tables.h:61
 #, fuzzy
 msgid "Escape"
 msgstr "Klávesa Escape"
 
-#: engines/twine/metaengine.cpp:334
+#: engines/twine/metaengine.cpp:362
 msgid "Accept"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:340 engines/twine/metaengine.cpp:381
+#: engines/twine/metaengine.cpp:369 engines/twine/metaengine.cpp:413
 msgid "Abort"
 msgstr ""
 
-#: engines/twine/metaengine.cpp:369
+#: engines/twine/metaengine.cpp:401
 #, fuzzy
 msgid "Next Page"
 msgstr "Další"
@@ -7080,9 +7215,9 @@ msgid "loading quick save %d"
 msgstr "Nelze rychle uložit do pozice #%d"
 
 #: engines/ultima/nuvie/nuvie.cpp:387
-#, c-format
+#, fuzzy, c-format
 msgid "saving quick save %d"
-msgstr ""
+msgstr "Nelze rychle uložit do pozice #%d"
 
 #: engines/ultima/nuvie/meta_engine.cpp:39
 msgid "Original Save"
@@ -7138,9 +7273,25 @@ msgstr "Bilineární filtrování spritů (POMALÉ)"
 msgid "Apply bilinear filtering to individual sprites"
 msgstr "U každého spritu použít bilineární filtrování"
 
+#: engines/wintermute/metaengine.cpp:67
+#, fuzzy
+msgid "FoxTail support is not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/wintermute/metaengine.cpp:74
+#, fuzzy
+msgid "Hero Craft support is not compiled in"
+msgstr "Zakompilované funkce:"
+
+#: engines/wintermute/metaengine.cpp:81
+#, fuzzy
+msgid "Wintermute3D support is not compiled in"
+msgstr "Zakompilované funkce:"
+
 #: engines/wintermute/wintermute.cpp:176
+#, fuzzy
 msgid "This game requires PNG, JPEG and Vorbis support."
-msgstr ""
+msgstr "Id hry není podporováno"
 
 #: engines/wintermute/wintermute.cpp:187
 msgid "This game requires the FoxTail subengine, which is not compiled in."
@@ -7258,8 +7409,9 @@ msgstr ""
 #: engines/wintermute/keymapper_tables.h:281
 #: engines/wintermute/keymapper_tables.h:357
 #: engines/wintermute/keymapper_tables.h:871
+#, fuzzy
 msgid "Phone up button"
-msgstr ""
+msgstr "Napodobit levé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:287
 #: engines/wintermute/keymapper_tables.h:363
@@ -7269,63 +7421,75 @@ msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:369
 #: engines/wintermute/keymapper_tables.h:883
+#, fuzzy
 msgid "Phone 0 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:374
 #: engines/wintermute/keymapper_tables.h:888
+#, fuzzy
 msgid "Phone 1 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:379
 #: engines/wintermute/keymapper_tables.h:893
+#, fuzzy
 msgid "Phone 2 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:384
 #: engines/wintermute/keymapper_tables.h:898
+#, fuzzy
 msgid "Phone 3 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:389
 #: engines/wintermute/keymapper_tables.h:903
+#, fuzzy
 msgid "Phone 4 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:394
 #: engines/wintermute/keymapper_tables.h:908
+#, fuzzy
 msgid "Phone 5 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:399
 #: engines/wintermute/keymapper_tables.h:913
+#, fuzzy
 msgid "Phone 6 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:404
 #: engines/wintermute/keymapper_tables.h:918
+#, fuzzy
 msgid "Phone 7 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:409
 #: engines/wintermute/keymapper_tables.h:923
+#, fuzzy
 msgid "Phone 8 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:414
 #: engines/wintermute/keymapper_tables.h:928
+#, fuzzy
 msgid "Phone 9 button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:419
 #: engines/wintermute/keymapper_tables.h:933
+#, fuzzy
 msgid "Phone * button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:424
 #: engines/wintermute/keymapper_tables.h:938
+#, fuzzy
 msgid "Phone # button"
-msgstr ""
+msgstr "Napodobit pravé tlačítko myši"
 
 #: engines/wintermute/keymapper_tables.h:448
 #: engines/wintermute/keymapper_tables.h:1073
@@ -7390,8 +7554,9 @@ msgid "Exit"
 msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:505
+#, fuzzy
 msgid "Light helper window"
-msgstr ""
+msgstr "Přizpůsobit oknu"
 
 #: engines/wintermute/keymapper_tables.h:530
 #, fuzzy
@@ -7488,32 +7653,39 @@ msgid "Select next music record"
 msgstr ""
 
 #: engines/wintermute/keymapper_tables.h:758
+#, fuzzy
 msgid "Play note 1: A"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:763
+#, fuzzy
 msgid "Play note 2: F#"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:768
+#, fuzzy
 msgid "Play note 3: D#"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:773
+#, fuzzy
 msgid "Play note 4: C#"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:778
+#, fuzzy
 msgid "Play note 5: E"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:783
+#, fuzzy
 msgid "Play note 6: G#"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:788
+#, fuzzy
 msgid "Play note 7: B"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:801
 msgid "Ability: Telekinesis"
@@ -7648,8 +7820,9 @@ msgid "Show journal"
 msgstr "Zobrazit Vše"
 
 #: engines/wintermute/keymapper_tables.h:1439
+#, fuzzy
 msgid "Bezier window"
-msgstr ""
+msgstr "Přizpůsobit oknu"
 
 #: engines/wintermute/keymapper_tables.h:1455
 #, fuzzy
@@ -7657,8 +7830,9 @@ msgid "Droid action"
 msgstr "~P~ředchozí"
 
 #: engines/wintermute/keymapper_tables.h:1517
+#, fuzzy
 msgid "Music menu"
-msgstr ""
+msgstr "Hlasitost hudby:"
 
 #: engines/wintermute/keymapper_tables.h:1561
 msgid "Rotate"
@@ -7675,12 +7849,14 @@ msgid "Player 1: Up"
 msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:1599
+#, fuzzy
 msgid "Player 1: Left"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:1604
+#, fuzzy
 msgid "Player 1: Down"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:1609
 #, fuzzy
@@ -7693,12 +7869,14 @@ msgid "Player 2: Up"
 msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:1619
+#, fuzzy
 msgid "Player 2: Left"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:1624
+#, fuzzy
 msgid "Player 2: Down"
-msgstr ""
+msgstr "Doba hraní: "
 
 #: engines/wintermute/keymapper_tables.h:1629
 #, fuzzy
@@ -7923,10 +8101,6 @@ msgstr ""
 
 #~ msgid "[ Shared ]"
 #~ msgstr "[ Sdílené ]"
-
-#, fuzzy
-#~ msgid "Return to main menu"
-#~ msgstr "~N~ávrat do Spouštěče"
 
 #, fuzzy
 #~ msgid "C-Pad Sensitivity:"

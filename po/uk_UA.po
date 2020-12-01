@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.9.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2020-11-23 16:13+0000\n"
-"PO-Revision-Date: 2020-11-23 12:17+0000\n"
+"POT-Creation-Date: 2020-11-29 20:25+0000\n"
+"PO-Revision-Date: 2020-11-29 16:04+0000\n"
 "Last-Translator: Eugene Sandulenko <sev@scummvm.org>\n"
 "Language-Team: Ukrainian <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/uk/>\n"
@@ -600,7 +600,7 @@ msgstr "Закрити"
 #: backends/platform/symbian/src/SymbianActions.cpp:40
 #: engines/dragons/metaengine.cpp:165 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:98 engines/grim/grim.cpp:451
-#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:345
+#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:375
 #: engines/wintermute/keymapper_tables.h:1011
 #: engines/wintermute/keymapper_tables.h:1100
 #: engines/wintermute/keymapper_tables.h:1474
@@ -612,7 +612,7 @@ msgstr "Догори"
 #: backends/platform/symbian/src/SymbianActions.cpp:41
 #: engines/dragons/metaengine.cpp:171 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:104 engines/grim/grim.cpp:456
-#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:351
+#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:381
 #: engines/wintermute/keymapper_tables.h:1017
 #: engines/wintermute/keymapper_tables.h:1107
 #: engines/wintermute/keymapper_tables.h:1480
@@ -624,7 +624,7 @@ msgstr "Донизу"
 #: backends/platform/symbian/src/SymbianActions.cpp:42
 #: engines/dragons/metaengine.cpp:177 engines/griffon/metaengine.cpp:110
 #: engines/grim/grim.cpp:461 engines/grim/grim.cpp:538
-#: engines/twine/metaengine.cpp:363 engines/wintermute/keymapper_tables.h:1023
+#: engines/twine/metaengine.cpp:394 engines/wintermute/keymapper_tables.h:1023
 #: engines/wintermute/keymapper_tables.h:1462
 #: engines/wintermute/keymapper_tables.h:1570
 #: engines/wintermute/keymapper_tables.h:1692
@@ -635,7 +635,7 @@ msgstr "Наліво"
 #: backends/platform/symbian/src/SymbianActions.cpp:43
 #: engines/dragons/metaengine.cpp:183 engines/griffon/metaengine.cpp:116
 #: engines/grim/grim.cpp:466 engines/grim/grim.cpp:543
-#: engines/twine/metaengine.cpp:357 engines/wintermute/keymapper_tables.h:1029
+#: engines/twine/metaengine.cpp:387 engines/wintermute/keymapper_tables.h:1029
 #: engines/wintermute/keymapper_tables.h:1468
 #: engines/wintermute/keymapper_tables.h:1578
 #: engines/wintermute/keymapper_tables.h:1698
@@ -2175,7 +2175,7 @@ msgstr "~К~лавіші"
 #: engines/engine.cpp:319
 #, c-format
 msgid "Could not switch to resolution '%dx%d'."
-msgstr "Не вдалося переключитися до відеорежиму  '%dx%d'."
+msgstr "Не вдалося переключитися до відеорежиму '%dx%d'."
 
 #: engines/engine.cpp:328
 msgid "Could not initialize color format."
@@ -2189,7 +2189,7 @@ msgstr "Не вдалося переключитися до відеорежим
 #: engines/engine.cpp:345
 #, c-format
 msgid "Could not switch to stretch mode '%s'."
-msgstr "Не вдалося переключитися до відеорежиму з розтягуванням  '%s'."
+msgstr "Не вдалося переключитися до відеорежиму з розтягуванням '%s'."
 
 #: engines/engine.cpp:352
 msgid "Could not apply aspect ratio setting."
@@ -2334,7 +2334,7 @@ msgstr "Правий клік"
 #: backends/platform/symbian/src/SymbianActions.cpp:52
 #: engines/hdb/metaengine.cpp:238 engines/mohawk/myst.cpp:593
 #: engines/mohawk/riven.cpp:863 engines/sky/metaengine.cpp:113
-#: engines/twine/metaengine.cpp:161 engines/wintermute/keymapper_tables.h:1255
+#: engines/twine/metaengine.cpp:169 engines/wintermute/keymapper_tables.h:1255
 msgid "Pause"
 msgstr "Пауза"
 
@@ -2404,7 +2404,7 @@ msgstr "OPL2LPT"
 msgid "OPL3LPT"
 msgstr "OPL3LPT"
 
-#: audio/mididrv.cpp:259
+#: audio/mididrv.cpp:220
 #, c-format
 msgid ""
 "The selected audio device '%s' was not found (e.g. might be turned off or "
@@ -2413,12 +2413,12 @@ msgstr ""
 "Вибраний звуковий пристрій '%s' не було знайдено (тобто, його може бути "
 "вимкнено або не підключено)."
 
-#: audio/mididrv.cpp:260 audio/mididrv.cpp:274 audio/mididrv.cpp:312
-#: audio/mididrv.cpp:329
+#: audio/mididrv.cpp:221 audio/mididrv.cpp:235 audio/mididrv.cpp:273
+#: audio/mididrv.cpp:290
 msgid "Attempting to fall back to the next available device..."
 msgstr "Намагаюся використати наступний доступний пристрій..."
 
-#: audio/mididrv.cpp:273
+#: audio/mididrv.cpp:234
 #, c-format
 msgid ""
 "The selected audio device '%s' cannot be used. See log file for more "
@@ -2427,7 +2427,7 @@ msgstr ""
 "Вибраний звуковий пристрій '%s' не може бути використано. Дивіться файл "
 "протоколу для додаткової інформації."
 
-#: audio/mididrv.cpp:311
+#: audio/mididrv.cpp:272
 #, c-format
 msgid ""
 "The preferred audio device '%s' was not found (e.g. might be turned off or "
@@ -2436,7 +2436,7 @@ msgstr ""
 "Уподобаний звуковий пристрій '%s' не було знайдено (тобто, його може бути "
 "вимкнено або не підключено)."
 
-#: audio/mididrv.cpp:328
+#: audio/mididrv.cpp:289
 #, c-format
 msgid ""
 "The preferred audio device '%s' cannot be used. See log file for more "
@@ -2445,7 +2445,7 @@ msgstr ""
 "Уподобаний звуковий пристрій '%s' не може бути використано. Дивіться файл "
 "протоколу для додаткової інформації."
 
-#: audio/mididrv.cpp:725
+#: audio/mididrv.cpp:454
 msgid "Starting MIDI dump"
 msgstr "Починаю створення дампу MIDI"
 
@@ -2638,7 +2638,7 @@ msgstr "Ви дійсно хочете вийти?"
 
 #: backends/graphics/opengl/opengl-graphics.cpp:244
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:83
-#: engines/twine/metaengine.cpp:259
+#: engines/twine/metaengine.cpp:287
 msgid "Center"
 msgstr "По центру"
 
@@ -4133,11 +4133,17 @@ msgid ""
 "ScummVM."
 msgstr "Автор перекладу проти того, щоб його переклад був у ScummVM."
 
-#: engines/cge/detection.cpp:113
+#: engines/cge/detection.cpp:48 engines/cge/detection.cpp:54
+#: engines/saga/detection_tables.h:187 engines/saga/detection_tables.h:608
+#: engines/sci/detection_tables.h:4808 engines/sci/detection_tables.h:4816
+msgid "Missing game code"
+msgstr "Відсутній код для гри"
+
+#: engines/cge/detection.cpp:99
 msgid "Color Blind Mode"
 msgstr "Режим без кольору"
 
-#: engines/cge/detection.cpp:114
+#: engines/cge/detection.cpp:100
 msgid "Enable Color Blind Mode by default"
 msgstr "Вмикає режим для людей з погіршенним сприяттям кольору"
 
@@ -4222,7 +4228,7 @@ msgstr "Змінити команду"
 #: engines/grim/grim.cpp:491 engines/grim/grim.cpp:583
 #: engines/hdb/metaengine.cpp:231 engines/scumm/help.cpp:225
 #: engines/scumm/help.cpp:234 engines/scumm/help.cpp:241
-#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:311
+#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:339
 #: engines/zvision/metaengine.cpp:164
 msgid "Inventory"
 msgstr "Інвентар"
@@ -4772,13 +4778,17 @@ msgstr ""
 "Також, копії гри з Steam та GOG містить вже скомбіновану версію "
 "FullMonkeyMap.imt"
 
-#: engines/groovie/detection.cpp:320
+#: engines/groovie/detection.cpp:297
 msgid "Fast movie speed"
 msgstr "Режим швидкого відео"
 
-#: engines/groovie/detection.cpp:321
+#: engines/groovie/detection.cpp:298
 msgid "Play movies at an increased speed"
 msgstr "Програвати відео з підвищенною швидкістю"
+
+#: engines/groovie/metaengine.cpp:53
+msgid "GroovieV2 support is not compiled in"
+msgstr "Підтримку для версії GroovieV2 не скомпільовано"
 
 #: engines/groovie/script.cpp:484
 msgid "Failed to save game"
@@ -4855,131 +4865,147 @@ msgstr "Ввімкнути режим гелієвих голосів"
 
 #. I18N: When enabled, this option makes scrolling smoother when
 #. changing from one screen to another.
-#: engines/kyra/detection.cpp:82
+#: engines/kyra/detection.cpp:81
 msgid "Smooth scrolling"
 msgstr "Плавна прокрутка"
 
-#: engines/kyra/detection.cpp:83
+#: engines/kyra/detection.cpp:82
 msgid "Enable smooth scrolling when walking"
 msgstr "Ввімкнути плавну прокрутку під час ходіння"
 
 #. I18N: When enabled, this option changes the cursor when it floats to the
 #. edge of the screen to a directional arrow. The player can then click to
 #. walk towards that direction.
-#: engines/kyra/detection.cpp:95
+#: engines/kyra/detection.cpp:94
 msgid "Floating cursors"
 msgstr "Плаваючі курсори"
 
-#: engines/kyra/detection.cpp:96
+#: engines/kyra/detection.cpp:95
 msgid "Enable floating cursors"
 msgstr "Ввімкнути плаваючі курсори"
 
 #. I18N: When enabled, this option will fill in an autogenerated savegame
 #. description into the input prompt where.
-#: engines/kyra/detection.cpp:107
+#: engines/kyra/detection.cpp:106
 msgid "Suggest save names"
 msgstr "Герерувати назви для збережень гри"
 
-#: engines/kyra/detection.cpp:108
+#: engines/kyra/detection.cpp:107
 msgid "Autogenerated naming suggestions for savegames"
 msgstr "Автоматично сгенеровані назви для збережень гри"
 
 #. I18N: HP stands for Hit Points
-#: engines/kyra/detection.cpp:122
+#: engines/kyra/detection.cpp:119
 msgid "HP bar graphs"
 msgstr "Стовпчики здоров'я"
 
-#: engines/kyra/detection.cpp:123
+#: engines/kyra/detection.cpp:120
 msgid "Enable hit point bar graphs"
 msgstr "Ввімкнути графічні стовпчики здоров'я"
 
 #. I18N: L/R stands for Left/Right
-#: engines/kyra/detection.cpp:133
+#: engines/kyra/detection.cpp:130
 msgid "Fight Button L/R Swap"
 msgstr "Кнопка боротьби L / R Swap"
 
-#: engines/kyra/detection.cpp:134
+#: engines/kyra/detection.cpp:131
 msgid "Left button to attack, right button to pick up items"
 msgstr "Ліва кнопка для атаки, права кнопка для підбору предметів"
 
-#: engines/kyra/engine/eobcommon.cpp:366 engines/kyra/engine/lol.cpp:469
+#: engines/kyra/metaengine.cpp:116
+msgid "Lands of Lore support is not compiled in"
+msgstr "Підтримку для Lands of Lore не скомпільовано"
+
+#: engines/kyra/metaengine.cpp:128
+msgid ""
+"EOB II FM-TOWNS requires support of 16bit color modes which has not been "
+"activated in your ScummVM build"
+msgstr ""
+"EOB II FM-TOWNS потребує підтримки режимів 16-бітних кольорів, які не було "
+"активовано у вашому білді ScummVM"
+
+#: engines/kyra/metaengine.cpp:137
+msgid "Eye of Beholder support is not compiled in"
+msgstr "Підтримку для Eye of Beholder не скомпільовано"
+
+#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:469
 #: engines/ultima/ultima4/meta_engine.cpp:233
 #: engines/ultima/ultima8/meta_engine.cpp:130
 msgid "Interact via Left Click"
 msgstr "Взаємодія через лівий клік"
 
-#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:470
+#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:470
 #: engines/ultima/ultima4/meta_engine.cpp:239
 #: engines/ultima/ultima8/meta_engine.cpp:136
 msgid "Interact via Right Click"
 msgstr "Взаємодія через правий клік"
 
-#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:475
-#: engines/twine/metaengine.cpp:277
+#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:475
+#: engines/twine/metaengine.cpp:305
 msgid "Move Forward"
 msgstr "Рухатись уперед"
 
-#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:476
+#: engines/kyra/engine/eobcommon.cpp:370 engines/kyra/engine/lol.cpp:476
 msgid "Move Back"
 msgstr "Рухатись назад"
 
-#: engines/kyra/engine/eobcommon.cpp:370
+#: engines/kyra/engine/eobcommon.cpp:371
 msgid "Move Left"
 msgstr "Рухатись наліво"
 
-#: engines/kyra/engine/eobcommon.cpp:371
+#: engines/kyra/engine/eobcommon.cpp:372
 msgid "Move Right"
 msgstr "Рухатись направо"
 
-#: engines/kyra/engine/eobcommon.cpp:372 engines/kyra/engine/lol.cpp:479
-#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:295
+#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:479
+#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:323
 #: engines/zvision/metaengine.cpp:141
 msgid "Turn Left"
 msgstr "Повернутися наліво"
 
-#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:480
-#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:289
+#: engines/kyra/engine/eobcommon.cpp:374 engines/kyra/engine/lol.cpp:480
+#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:317
 #: engines/zvision/metaengine.cpp:147
 msgid "Turn Right"
 msgstr "Повернутися направо"
 
-#: engines/kyra/engine/eobcommon.cpp:374
+#: engines/kyra/engine/eobcommon.cpp:375
 msgid "Open/Close Inventory"
 msgstr "Відкрити/закрити інвентар"
 
-#: engines/kyra/engine/eobcommon.cpp:375
+#: engines/kyra/engine/eobcommon.cpp:376
 msgid "Switch Inventory/Character screen"
 msgstr "Переключити екран Інвентар/Герой"
 
-#: engines/kyra/engine/eobcommon.cpp:376
+#: engines/kyra/engine/eobcommon.cpp:377
 msgid "Camp"
 msgstr "Табір"
 
-#: engines/kyra/engine/eobcommon.cpp:377
+#: engines/kyra/engine/eobcommon.cpp:378
 msgid "Cast Spell"
 msgstr "Використати закляття"
 
-#: engines/kyra/engine/eobcommon.cpp:380
+#: engines/kyra/engine/eobcommon.cpp:381
 msgid "Spell Level 1"
 msgstr "Закляття 1-го рівня"
 
-#: engines/kyra/engine/eobcommon.cpp:381
+#: engines/kyra/engine/eobcommon.cpp:382
 msgid "Spell Level 2"
 msgstr "Закляття 2-го рівня"
 
-#: engines/kyra/engine/eobcommon.cpp:382
+#: engines/kyra/engine/eobcommon.cpp:383
 msgid "Spell Level 3"
 msgstr "Закляття 3-го рівня"
 
-#: engines/kyra/engine/eobcommon.cpp:383
+#: engines/kyra/engine/eobcommon.cpp:384
 msgid "Spell Level 4"
 msgstr "Закляття 4-го рівня"
 
-#: engines/kyra/engine/eobcommon.cpp:384
+#: engines/kyra/engine/eobcommon.cpp:385
 msgid "Spell Level 5"
 msgstr "Закляття 5-го рівня"
 
-#: engines/kyra/engine/eobcommon.cpp:386
+#: engines/kyra/engine/eobcommon.cpp:387
 msgid "Spell Level 6"
 msgstr "Закляття 6-го рівня"
 
@@ -5158,6 +5184,10 @@ msgstr "Ведучий TTS"
 msgid "Use TTS to read the descriptions (if TTS is available)"
 msgstr "Використовувати автоматичний читач текста (якщо TTS доступне)"
 
+#: engines/made/detection_tables.h:360
+msgid "The game is using unsupported engine"
+msgstr "Ця гра використовує двигун, який не підтримується"
+
 #: engines/mads/detection.cpp:55
 msgid "Easy mouse interface"
 msgstr "Простий інтерфейс для миші"
@@ -5235,6 +5265,22 @@ msgstr "Найкраще"
 #: engines/mohawk/mohawk.cpp:52
 msgid "The game is paused. Press any key to continue."
 msgstr "Ігру призупинено. Натисніть будь-яку клавішу для продовження."
+
+#: engines/mohawk/metaengine.cpp:272
+msgid "Myst ME support not compiled in"
+msgstr "Підтримку для Myst ME не скомпільовано"
+
+#: engines/mohawk/metaengine.cpp:279
+msgid "Myst support not compiled in"
+msgstr "Підтримку для Myst не скомпільовано"
+
+#: engines/mohawk/metaengine.cpp:287
+msgid "Riven support not compiled in"
+msgstr "Підтримку для Riven не скомпільовано"
+
+#: engines/mohawk/metaengine.cpp:302
+msgid "CSTime support not compiled in"
+msgstr "Підтримку для CSTime не скомпільовано"
 
 #: engines/mohawk/myst.cpp:552 engines/mohawk/riven.cpp:822
 msgid "Open main menu"
@@ -5375,7 +5421,9 @@ msgstr "Грати вступні відео"
 msgid ""
 "Exploration beyond this point available only within the full version of\n"
 "the game."
-msgstr "Дослідування поза цією межою доступне тільки у повнії версії гри."
+msgstr ""
+"Дослідування поза цією межою доступне тільки у повній\n"
+"версії гри."
 
 #: engines/mohawk/riven_stacks/aspit.cpp:429
 msgid ""
@@ -5395,6 +5443,10 @@ msgstr ""
 #, c-format
 msgid "Unable to locate the '%s' engine data file"
 msgstr "Не вдалося знайти файл даних движка '%s'"
+
+#: engines/myst3/detection.cpp:149 engines/myst3/detection.cpp:163
+msgid "PS2 version is not yet supported"
+msgstr "Версія для PS2 ще не підтримується"
 
 #: engines/myst3/detection.cpp:182
 msgid "Widescreen mod"
@@ -5561,6 +5613,14 @@ msgstr "Альтернативний вступ"
 msgid "Use an alternative game intro (CD version only)"
 msgstr "Використовувати альтернативний вступ гри (тільки в CD версії)"
 
+#: engines/saga/metaengine.cpp:117
+msgid "I Have No Mouth support not compiled in"
+msgstr "Підтримку для I Have no Mouth не скомпільовано"
+
+#: engines/saga/metaengine.cpp:124
+msgid "SAGA2 support not compiled in"
+msgstr "Підтримку для SAGA2 не скомпільовано"
+
 #: engines/saga/saga.cpp:247
 msgid "Error loading game resources."
 msgstr "Помилка читання файлу ресурсів гри."
@@ -5702,7 +5762,7 @@ msgstr "Roland D-110 / D-10 / D-20"
 msgid "Yamaha FB-01"
 msgstr "Yamaha FB-01"
 
-#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:396
+#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:404
 msgid "(Autosave)"
 msgstr "(Автозбереження)"
 
@@ -5745,7 +5805,11 @@ msgid ""
 "Cannot play back %dbpp video on a system with maximum color depth of 8bpp"
 msgstr "Не можу програти %dbpp відео на системі з кольоровою роздільністю 8bpp"
 
-#: engines/sci/resource.cpp:845
+#: engines/sci/metaengine.cpp:325
+msgid "SCI32 support not compiled in"
+msgstr "Підтримку для SCI32 не скомпільовано"
+
+#: engines/sci/resource/resource.cpp:845
 msgid ""
 "Missing or corrupt game resources have been detected. Some game features may "
 "not work properly. Please check the console for more information, and verify "
@@ -6550,6 +6614,14 @@ msgstr ""
 "Російська версія \"Пижама Сэм 2\" не підтримуюється через неповний "
 "програмний код."
 
+#: engines/scumm/metaengine.cpp:429
+msgid "HE v71+ support is not compiled in"
+msgstr "Підтримку для версії HE v71+ не скомпільовано"
+
+#: engines/scumm/metaengine.cpp:453
+msgid "SCUMM v7-8 support is not compiled in"
+msgstr "Підтримку для SCUMM v7-8 не скомпільовано"
+
 #: engines/scumm/scumm.cpp:1918
 #, c-format
 msgid ""
@@ -6679,19 +6751,19 @@ msgstr "Перемикання швидкого режиму"
 msgid "Toggle really fast mode"
 msgstr "Перемикання дуже швидкого режиму"
 
-#: engines/stark/detection.cpp:368
+#: engines/stark/detection.cpp:322
 msgid "Load modded assets"
 msgstr "Завантажити дані для моду"
 
-#: engines/stark/detection.cpp:369
+#: engines/stark/detection.cpp:323
 msgid "Enable loading of external replacement assets."
 msgstr "Ввімкнути заванатження додаткових даних для заміни."
 
-#: engines/stark/detection.cpp:377
+#: engines/stark/detection.cpp:331
 msgid "Enable linear filtering of the backgrounds images"
 msgstr "Ввімкнути лінійну фільтрацію фонових зображень"
 
-#: engines/stark/detection.cpp:378
+#: engines/stark/detection.cpp:332
 msgid ""
 "When linear filtering is enabled the background graphics are smoother in "
 "full screen mode, at the cost of some details."
@@ -6699,11 +6771,11 @@ msgstr ""
 "Лінійна фільтрація згладжує фонові зображення у повноекранному режимі за "
 "рахунок втрати деяких деталей."
 
-#: engines/stark/detection.cpp:386
+#: engines/stark/detection.cpp:340
 msgid "Enable font anti-aliasing"
 msgstr "Ввімкнути згладжування шрифтів"
 
-#: engines/stark/detection.cpp:387
+#: engines/stark/detection.cpp:341
 msgid "When font anti-aliasing is enabled, the text is smoother."
 msgstr "Якщо згладжування увімкнено, текст стає гладкішим."
 
@@ -6876,6 +6948,10 @@ msgstr ""
 "Файл teenagent.dat запаковано, але zlib не було включено в цю программу. "
 "Будь-ласка розпакуйте його"
 
+#: engines/tinsel/detection_tables.h:466
+msgid "Saturn CD version is not yet supported"
+msgstr "Saturn CD версія ще не підтримується"
+
 #: engines/tony/tony.cpp:257
 #, c-format
 msgid "Font variant not present in '%s' engine data file."
@@ -6905,6 +6981,10 @@ msgstr "Не вдалося завантажити збережену гру №
 #, c-format
 msgid "Unable to locate the '%s' data file."
 msgstr "Не вдалося знайти файл даних '%s'."
+
+#: engines/tsage/detection_tables.h:150
+msgid "Spanish CD version is not yet supported"
+msgstr "Spanish CD версія ще не підтримується"
 
 #: engines/twine/metaengine.cpp:68
 msgid "Enable wall collisions"
@@ -6982,122 +7062,130 @@ msgid "Enable the cutscenes for the game"
 msgstr "Ввімкнути відеороліки у грі"
 
 #: engines/twine/metaengine.cpp:132
+msgid "Enable mouse"
+msgstr "Ввімкнути мишу"
+
+#: engines/twine/metaengine.cpp:133
+msgid "Enable the mouse for the UI"
+msgstr "Ввімкнути мишу для інтерфейса користувача"
+
+#: engines/twine/metaengine.cpp:139
 msgid "Use the USA version"
 msgstr "Використовувати версію USA"
 
-#: engines/twine/metaengine.cpp:133
+#: engines/twine/metaengine.cpp:140
 msgid "Enable the USA specific version flags"
 msgstr "Ввімкнути опції гри, специфічні для USA версії"
 
-#: engines/twine/metaengine.cpp:166
+#: engines/twine/metaengine.cpp:174
 msgid "Debug Next Room"
 msgstr "Відладка: Наступна кімната"
 
-#: engines/twine/metaengine.cpp:171
+#: engines/twine/metaengine.cpp:179
 msgid "Debug Previous Room"
 msgstr "Відладка: Попередня кімната"
 
-#: engines/twine/metaengine.cpp:176
+#: engines/twine/metaengine.cpp:184
 msgid "Debug Apply Celling Grid"
 msgstr "Відладка: Накласти сітку стелі"
 
-#: engines/twine/metaengine.cpp:181
+#: engines/twine/metaengine.cpp:189
 msgid "Debug Increase Celling Grid Index"
 msgstr "Відладка: Збільшити індекс сітки стелі"
 
-#: engines/twine/metaengine.cpp:186
+#: engines/twine/metaengine.cpp:194
 msgid "Debug Decrease Celling Grid Index"
 msgstr "Відладка: Зменшити індекс сітки стелі"
 
-#: engines/twine/metaengine.cpp:191
+#: engines/twine/metaengine.cpp:199
 msgid "Debug Grid Camera Up"
 msgstr "Відладка: Камеру сітки вгору"
 
-#: engines/twine/metaengine.cpp:196
+#: engines/twine/metaengine.cpp:204
 msgid "Debug Grid Camera Down"
 msgstr "Відладка: Камеру сітки донизу"
 
-#: engines/twine/metaengine.cpp:201
+#: engines/twine/metaengine.cpp:209
 msgid "Debug Grid Camera Left"
 msgstr "Відладка: Камеру сітки вліво"
 
-#: engines/twine/metaengine.cpp:207
+#: engines/twine/metaengine.cpp:215
 msgid "Debug Grid Camera Right"
 msgstr "Відладка: Камеру сітки вправо"
 
-#: engines/twine/metaengine.cpp:212
+#: engines/twine/metaengine.cpp:220
 msgid "Debug Menu"
 msgstr "Меню відладки"
 
-#: engines/twine/metaengine.cpp:217
+#: engines/twine/metaengine.cpp:225
 msgid "Debug Menu Execute"
 msgstr "Виконати меню відладки"
 
-#: engines/twine/metaengine.cpp:222
+#: engines/twine/metaengine.cpp:230 engines/twine/metaengine.cpp:250
 msgid "Normal Behaviour"
 msgstr "Нормальна поведінка"
 
-#: engines/twine/metaengine.cpp:227
+#: engines/twine/metaengine.cpp:235 engines/twine/metaengine.cpp:255
 msgid "Athletic Behaviour"
 msgstr "Атлетична поведінка"
 
-#: engines/twine/metaengine.cpp:232
+#: engines/twine/metaengine.cpp:240 engines/twine/metaengine.cpp:260
 msgid "Aggressive Behaviour"
 msgstr "Агресивна поведінка"
 
-#: engines/twine/metaengine.cpp:237
+#: engines/twine/metaengine.cpp:245 engines/twine/metaengine.cpp:265
 msgid "Discreet Behaviour"
 msgstr "Розсудлива поведінка"
 
-#: engines/twine/metaengine.cpp:242
+#: engines/twine/metaengine.cpp:270
 msgid "Behaviour Action"
 msgstr "Дія поведінки"
 
-#: engines/twine/metaengine.cpp:248
+#: engines/twine/metaengine.cpp:276
 msgid "Change Behaviour"
 msgstr "Змінити поведінку"
 
-#: engines/twine/metaengine.cpp:254
+#: engines/twine/metaengine.cpp:282
 msgid "Options Menu"
 msgstr "Меню налаштування"
 
-#: engines/twine/metaengine.cpp:265
+#: engines/twine/metaengine.cpp:293
 msgid "Use Selected Object"
 msgstr "Використати обраний об'єкт"
 
-#: engines/twine/metaengine.cpp:271
+#: engines/twine/metaengine.cpp:299
 msgid "Throw Magic Ball"
 msgstr "Кинути магічну кулю"
 
-#: engines/twine/metaengine.cpp:283
+#: engines/twine/metaengine.cpp:311
 msgid "Move Backward"
 msgstr "Рухатись назад"
 
-#: engines/twine/metaengine.cpp:301
+#: engines/twine/metaengine.cpp:329
 msgid "Use Protopack"
 msgstr "Ужити протопак"
 
-#: engines/twine/metaengine.cpp:306
+#: engines/twine/metaengine.cpp:334
 msgid "Open Holomap"
 msgstr "Відкрити голомапу"
 
-#: engines/twine/metaengine.cpp:318
+#: engines/twine/metaengine.cpp:346
 msgid "Special Action"
 msgstr "Спеціальна дія"
 
-#: engines/twine/metaengine.cpp:323 engines/wintermute/keymapper_tables.h:61
+#: engines/twine/metaengine.cpp:351 engines/wintermute/keymapper_tables.h:61
 msgid "Escape"
 msgstr "Втікти"
 
-#: engines/twine/metaengine.cpp:334
+#: engines/twine/metaengine.cpp:362
 msgid "Accept"
 msgstr "Прийняти"
 
-#: engines/twine/metaengine.cpp:340 engines/twine/metaengine.cpp:381
+#: engines/twine/metaengine.cpp:369 engines/twine/metaengine.cpp:413
 msgid "Abort"
 msgstr "Перервати"
 
-#: engines/twine/metaengine.cpp:369
+#: engines/twine/metaengine.cpp:401
 msgid "Next Page"
 msgstr "Наступна сторінка"
 
@@ -7177,6 +7265,18 @@ msgstr "Білінійна фільтрація спрайтів (повільн
 #: engines/wintermute/detection.cpp:53
 msgid "Apply bilinear filtering to individual sprites"
 msgstr "Застосувати білінійну фільтрацію до окремих спрайтів"
+
+#: engines/wintermute/metaengine.cpp:67
+msgid "FoxTail support is not compiled in"
+msgstr "Підтримку для FoxTail не скомпільовано"
+
+#: engines/wintermute/metaengine.cpp:74
+msgid "Hero Craft support is not compiled in"
+msgstr "Підтримку для Hero Craft не скомпільовано"
+
+#: engines/wintermute/metaengine.cpp:81
+msgid "Wintermute3D support is not compiled in"
+msgstr "Підтримку для Wintermute3D не скомпільовано"
 
 #: engines/wintermute/wintermute.cpp:176
 msgid "This game requires PNG, JPEG and Vorbis support."
@@ -7828,6 +7928,18 @@ msgstr ""
 "завантажити Liberation Fonts, або пакет GNU FreeFont. Вам будуть потрібні "
 "всі шрифти з пакету, який ви оберете, тобто, LiberationMono, LiberationSans "
 "та LiberationSerif, або FreeMono, FreeSans та FreeSerif відповідно."
+
+#~ msgid "Normal Behaviour UI"
+#~ msgstr "Нормальна поведінка UI"
+
+#~ msgid "Athletic Behaviour UI"
+#~ msgstr "Атлетична поведінка UI"
+
+#~ msgid "Aggressive Behaviour UI"
+#~ msgstr "Агресивна поведінка UI"
+
+#~ msgid "Discreet Behaviour UI"
+#~ msgstr "Розсудлива поведінка UI"
 
 #~ msgid "Look At"
 #~ msgstr "Глянути на"

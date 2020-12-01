@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.4.0svn\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2020-11-23 16:13+0000\n"
-"PO-Revision-Date: 2020-11-22 21:32+0000\n"
+"POT-Creation-Date: 2020-11-29 20:25+0000\n"
+"PO-Revision-Date: 2020-11-30 17:44+0000\n"
 "Last-Translator: IlDucci <pajaroloco_2@hotmail.com>\n"
 "Language-Team: Spanish <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/es/>\n"
@@ -597,7 +597,7 @@ msgstr "Cerrar"
 #: backends/platform/symbian/src/SymbianActions.cpp:40
 #: engines/dragons/metaengine.cpp:165 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:98 engines/grim/grim.cpp:451
-#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:345
+#: engines/grim/grim.cpp:528 engines/twine/metaengine.cpp:375
 #: engines/wintermute/keymapper_tables.h:1011
 #: engines/wintermute/keymapper_tables.h:1100
 #: engines/wintermute/keymapper_tables.h:1474
@@ -609,7 +609,7 @@ msgstr "Arriba"
 #: backends/platform/symbian/src/SymbianActions.cpp:41
 #: engines/dragons/metaengine.cpp:171 engines/glk/scott/scott.cpp:412
 #: engines/griffon/metaengine.cpp:104 engines/grim/grim.cpp:456
-#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:351
+#: engines/grim/grim.cpp:533 engines/twine/metaengine.cpp:381
 #: engines/wintermute/keymapper_tables.h:1017
 #: engines/wintermute/keymapper_tables.h:1107
 #: engines/wintermute/keymapper_tables.h:1480
@@ -621,7 +621,7 @@ msgstr "Abajo"
 #: backends/platform/symbian/src/SymbianActions.cpp:42
 #: engines/dragons/metaengine.cpp:177 engines/griffon/metaengine.cpp:110
 #: engines/grim/grim.cpp:461 engines/grim/grim.cpp:538
-#: engines/twine/metaengine.cpp:363 engines/wintermute/keymapper_tables.h:1023
+#: engines/twine/metaengine.cpp:394 engines/wintermute/keymapper_tables.h:1023
 #: engines/wintermute/keymapper_tables.h:1462
 #: engines/wintermute/keymapper_tables.h:1570
 #: engines/wintermute/keymapper_tables.h:1692
@@ -632,7 +632,7 @@ msgstr "Izquierda"
 #: backends/platform/symbian/src/SymbianActions.cpp:43
 #: engines/dragons/metaengine.cpp:183 engines/griffon/metaengine.cpp:116
 #: engines/grim/grim.cpp:466 engines/grim/grim.cpp:543
-#: engines/twine/metaengine.cpp:357 engines/wintermute/keymapper_tables.h:1029
+#: engines/twine/metaengine.cpp:387 engines/wintermute/keymapper_tables.h:1029
 #: engines/wintermute/keymapper_tables.h:1468
 #: engines/wintermute/keymapper_tables.h:1578
 #: engines/wintermute/keymapper_tables.h:1698
@@ -2348,7 +2348,7 @@ msgstr "Clic derecho"
 #: backends/platform/symbian/src/SymbianActions.cpp:52
 #: engines/hdb/metaengine.cpp:238 engines/mohawk/myst.cpp:593
 #: engines/mohawk/riven.cpp:863 engines/sky/metaengine.cpp:113
-#: engines/twine/metaengine.cpp:161 engines/wintermute/keymapper_tables.h:1255
+#: engines/twine/metaengine.cpp:169 engines/wintermute/keymapper_tables.h:1255
 msgid "Pause"
 msgstr "Pausar"
 
@@ -2418,7 +2418,7 @@ msgstr "OPL2LPT"
 msgid "OPL3LPT"
 msgstr "OPL3LPT"
 
-#: audio/mididrv.cpp:259
+#: audio/mididrv.cpp:220
 #, c-format
 msgid ""
 "The selected audio device '%s' was not found (e.g. might be turned off or "
@@ -2427,12 +2427,12 @@ msgstr ""
 "El dispositivo de sonido seleccionado, '%s', no se ha podido encontrar "
 "(puede estar apagado o desconectado)."
 
-#: audio/mididrv.cpp:260 audio/mididrv.cpp:274 audio/mididrv.cpp:312
-#: audio/mididrv.cpp:329
+#: audio/mididrv.cpp:221 audio/mididrv.cpp:235 audio/mididrv.cpp:273
+#: audio/mididrv.cpp:290
 msgid "Attempting to fall back to the next available device..."
 msgstr "Pasando al siguiente dispositivo disponible..."
 
-#: audio/mididrv.cpp:273
+#: audio/mididrv.cpp:234
 #, c-format
 msgid ""
 "The selected audio device '%s' cannot be used. See log file for more "
@@ -2441,7 +2441,7 @@ msgstr ""
 "El dispositivo de sonido seleccionado, '%s', no se puede utilizar. Consulta "
 "el registro para más información."
 
-#: audio/mididrv.cpp:311
+#: audio/mididrv.cpp:272
 #, c-format
 msgid ""
 "The preferred audio device '%s' was not found (e.g. might be turned off or "
@@ -2450,7 +2450,7 @@ msgstr ""
 "El dispositivo de sonido preferido, '%s', no se ha podido encontrar (puede "
 "estar apagado o desconectado)."
 
-#: audio/mididrv.cpp:328
+#: audio/mididrv.cpp:289
 #, c-format
 msgid ""
 "The preferred audio device '%s' cannot be used. See log file for more "
@@ -2459,7 +2459,7 @@ msgstr ""
 "El dispositivo de sonido preferido, '%s', no se puede utilizar. Consulta el "
 "registro para más información."
 
-#: audio/mididrv.cpp:725
+#: audio/mididrv.cpp:454
 msgid "Starting MIDI dump"
 msgstr "Iniciando volcado de MIDI"
 
@@ -2655,7 +2655,7 @@ msgstr "¿Quieres salir?"
 
 #: backends/graphics/opengl/opengl-graphics.cpp:244
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:83
-#: engines/twine/metaengine.cpp:259
+#: engines/twine/metaengine.cpp:287
 msgid "Center"
 msgstr "Centrar"
 
@@ -4151,11 +4151,17 @@ msgid ""
 "ScummVM."
 msgstr "El fantraductor desea que su traducción no sea incorporada en ScummVM."
 
-#: engines/cge/detection.cpp:113
+#: engines/cge/detection.cpp:48 engines/cge/detection.cpp:54
+#: engines/saga/detection_tables.h:187 engines/saga/detection_tables.h:608
+#: engines/sci/detection_tables.h:4808 engines/sci/detection_tables.h:4816
+msgid "Missing game code"
+msgstr "Código del juego desconocido"
+
+#: engines/cge/detection.cpp:99
 msgid "Color Blind Mode"
 msgstr "Modo para daltónicos"
 
-#: engines/cge/detection.cpp:114
+#: engines/cge/detection.cpp:100
 msgid "Enable Color Blind Mode by default"
 msgstr "Activar el modo para daltónicos por defecto"
 
@@ -4241,7 +4247,7 @@ msgstr "Cambiar orden"
 #: engines/grim/grim.cpp:491 engines/grim/grim.cpp:583
 #: engines/hdb/metaengine.cpp:231 engines/scumm/help.cpp:225
 #: engines/scumm/help.cpp:234 engines/scumm/help.cpp:241
-#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:311
+#: engines/scumm/help.cpp:249 engines/twine/metaengine.cpp:339
 #: engines/zvision/metaengine.cpp:164
 msgid "Inventory"
 msgstr "Inventario"
@@ -4800,13 +4806,17 @@ msgstr ""
 "Por otro lado, las versiones de Steam o GOG tienen un archivo\n"
 "FullMonkeyMap.imt precombinado."
 
-#: engines/groovie/detection.cpp:320
+#: engines/groovie/detection.cpp:297
 msgid "Fast movie speed"
 msgstr "Acelerar velocidad de vídeos"
 
-#: engines/groovie/detection.cpp:321
+#: engines/groovie/detection.cpp:298
 msgid "Play movies at an increased speed"
 msgstr "Reproduce los vídeos a una mayor velocidad"
+
+#: engines/groovie/metaengine.cpp:53
+msgid "GroovieV2 support is not compiled in"
+msgstr "No se ha incluido el soporte de GroovieV2."
 
 #: engines/groovie/script.cpp:484
 msgid "Failed to save game"
@@ -4883,132 +4893,148 @@ msgstr "Activa el modo helio"
 
 #. I18N: When enabled, this option makes scrolling smoother when
 #. changing from one screen to another.
-#: engines/kyra/detection.cpp:82
+#: engines/kyra/detection.cpp:81
 msgid "Smooth scrolling"
 msgstr "Desplazamiento suave"
 
-#: engines/kyra/detection.cpp:83
+#: engines/kyra/detection.cpp:82
 msgid "Enable smooth scrolling when walking"
 msgstr "Activar el desplazamiento de pantalla suave al caminar"
 
 #. I18N: When enabled, this option changes the cursor when it floats to the
 #. edge of the screen to a directional arrow. The player can then click to
 #. walk towards that direction.
-#: engines/kyra/detection.cpp:95
+#: engines/kyra/detection.cpp:94
 msgid "Floating cursors"
 msgstr "Cursores flotantes"
 
-#: engines/kyra/detection.cpp:96
+#: engines/kyra/detection.cpp:95
 msgid "Enable floating cursors"
 msgstr "Activar cursores flotantes"
 
 #. I18N: When enabled, this option will fill in an autogenerated savegame
 #. description into the input prompt where.
-#: engines/kyra/detection.cpp:107
+#: engines/kyra/detection.cpp:106
 msgid "Suggest save names"
 msgstr "Sugerir nombres de partidas guardadas"
 
-#: engines/kyra/detection.cpp:108
+#: engines/kyra/detection.cpp:107
 msgid "Autogenerated naming suggestions for savegames"
 msgstr ""
 "Genera automáticamente sugerencias para los nombres de las partidas guardadas"
 
 #. I18N: HP stands for Hit Points
-#: engines/kyra/detection.cpp:122
+#: engines/kyra/detection.cpp:119
 msgid "HP bar graphs"
 msgstr "Barras de energía"
 
-#: engines/kyra/detection.cpp:123
+#: engines/kyra/detection.cpp:120
 msgid "Enable hit point bar graphs"
 msgstr "Activar las barras de energía"
 
 #. I18N: L/R stands for Left/Right
-#: engines/kyra/detection.cpp:133
+#: engines/kyra/detection.cpp:130
 msgid "Fight Button L/R Swap"
 msgstr "Intercambiar I/D para luchar"
 
-#: engines/kyra/detection.cpp:134
+#: engines/kyra/detection.cpp:131
 msgid "Left button to attack, right button to pick up items"
 msgstr "Botón izquierdo para atacar, botón derecho para coger objetos"
 
-#: engines/kyra/engine/eobcommon.cpp:366 engines/kyra/engine/lol.cpp:469
+#: engines/kyra/metaengine.cpp:116
+msgid "Lands of Lore support is not compiled in"
+msgstr "No se ha incluido el soporte para Lands of Lore."
+
+#: engines/kyra/metaengine.cpp:128
+msgid ""
+"EOB II FM-TOWNS requires support of 16bit color modes which has not been "
+"activated in your ScummVM build"
+msgstr ""
+"EOB II para FM-TOWNS necesita el soporte de modos de color en 16 bits, que "
+"no ha sido activado en tu compilación de ScummVM."
+
+#: engines/kyra/metaengine.cpp:137
+msgid "Eye of Beholder support is not compiled in"
+msgstr "No se ha incluido el soporte para Eye of Beholder."
+
+#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:469
 #: engines/ultima/ultima4/meta_engine.cpp:233
 #: engines/ultima/ultima8/meta_engine.cpp:130
 msgid "Interact via Left Click"
 msgstr "Interactuar con clic izquierdo"
 
-#: engines/kyra/engine/eobcommon.cpp:367 engines/kyra/engine/lol.cpp:470
+#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:470
 #: engines/ultima/ultima4/meta_engine.cpp:239
 #: engines/ultima/ultima8/meta_engine.cpp:136
 msgid "Interact via Right Click"
 msgstr "Interactuar con clic derecho"
 
-#: engines/kyra/engine/eobcommon.cpp:368 engines/kyra/engine/lol.cpp:475
-#: engines/twine/metaengine.cpp:277
+#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:475
+#: engines/twine/metaengine.cpp:305
 msgid "Move Forward"
 msgstr "Avanzar"
 
-#: engines/kyra/engine/eobcommon.cpp:369 engines/kyra/engine/lol.cpp:476
+#: engines/kyra/engine/eobcommon.cpp:370 engines/kyra/engine/lol.cpp:476
 msgid "Move Back"
 msgstr "Retroceder"
 
-#: engines/kyra/engine/eobcommon.cpp:370
+#: engines/kyra/engine/eobcommon.cpp:371
 msgid "Move Left"
 msgstr "Mover a la izquierda"
 
-#: engines/kyra/engine/eobcommon.cpp:371
+#: engines/kyra/engine/eobcommon.cpp:372
 msgid "Move Right"
 msgstr "Mover a la derecha"
 
-#: engines/kyra/engine/eobcommon.cpp:372 engines/kyra/engine/lol.cpp:479
-#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:295
+#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:479
+#: engines/pegasus/pegasus.cpp:2497 engines/twine/metaengine.cpp:323
 #: engines/zvision/metaengine.cpp:141
 msgid "Turn Left"
 msgstr "Girar a la izquierda"
 
-#: engines/kyra/engine/eobcommon.cpp:373 engines/kyra/engine/lol.cpp:480
-#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:289
+#: engines/kyra/engine/eobcommon.cpp:374 engines/kyra/engine/lol.cpp:480
+#: engines/pegasus/pegasus.cpp:2504 engines/twine/metaengine.cpp:317
 #: engines/zvision/metaengine.cpp:147
 msgid "Turn Right"
 msgstr "Girar a la derecha"
 
-#: engines/kyra/engine/eobcommon.cpp:374
+#: engines/kyra/engine/eobcommon.cpp:375
 msgid "Open/Close Inventory"
 msgstr "Abrir/Cerrar inventario"
 
-#: engines/kyra/engine/eobcommon.cpp:375
+#: engines/kyra/engine/eobcommon.cpp:376
 msgid "Switch Inventory/Character screen"
 msgstr "Cambiar pantalla de inventario/personaje"
 
-#: engines/kyra/engine/eobcommon.cpp:376
+#: engines/kyra/engine/eobcommon.cpp:377
 msgid "Camp"
 msgstr "Acampar"
 
-#: engines/kyra/engine/eobcommon.cpp:377
+#: engines/kyra/engine/eobcommon.cpp:378
 msgid "Cast Spell"
 msgstr "Invocar hechizo"
 
-#: engines/kyra/engine/eobcommon.cpp:380
+#: engines/kyra/engine/eobcommon.cpp:381
 msgid "Spell Level 1"
 msgstr "Nivel de hechizo 1"
 
-#: engines/kyra/engine/eobcommon.cpp:381
+#: engines/kyra/engine/eobcommon.cpp:382
 msgid "Spell Level 2"
 msgstr "Nivel de hechizo 2"
 
-#: engines/kyra/engine/eobcommon.cpp:382
+#: engines/kyra/engine/eobcommon.cpp:383
 msgid "Spell Level 3"
 msgstr "Nivel de hechizo 3"
 
-#: engines/kyra/engine/eobcommon.cpp:383
+#: engines/kyra/engine/eobcommon.cpp:384
 msgid "Spell Level 4"
 msgstr "Nivel de hechizo 4"
 
-#: engines/kyra/engine/eobcommon.cpp:384
+#: engines/kyra/engine/eobcommon.cpp:385
 msgid "Spell Level 5"
 msgstr "Nivel de hechizo 5"
 
-#: engines/kyra/engine/eobcommon.cpp:386
+#: engines/kyra/engine/eobcommon.cpp:387
 msgid "Spell Level 6"
 msgstr "Nivel de hechizo 6"
 
@@ -5190,6 +5216,10 @@ msgstr ""
 "Utiliza un narrador TTS para leer las descripciones (si el conversor texto-"
 "voz está disponible)"
 
+#: engines/made/detection_tables.h:360
+msgid "The game is using unsupported engine"
+msgstr "El juego utiliza un motor no compatible."
+
 #: engines/mads/detection.cpp:55
 msgid "Easy mouse interface"
 msgstr "Interfaz de ratón sencilla"
@@ -5267,6 +5297,22 @@ msgstr "Mejor"
 #: engines/mohawk/mohawk.cpp:52
 msgid "The game is paused. Press any key to continue."
 msgstr "Juego pausado. Pulsa cualquier tecla para continuar."
+
+#: engines/mohawk/metaengine.cpp:272
+msgid "Myst ME support not compiled in"
+msgstr "No se ha incluido el soporte para Myst ME."
+
+#: engines/mohawk/metaengine.cpp:279
+msgid "Myst support not compiled in"
+msgstr "No se ha incluido el soporte para Myst."
+
+#: engines/mohawk/metaengine.cpp:287
+msgid "Riven support not compiled in"
+msgstr "No se ha incluido el soporte para Riven."
+
+#: engines/mohawk/metaengine.cpp:302
+msgid "CSTime support not compiled in"
+msgstr "No se ha incluido el soporte para CSTime."
 
 #: engines/mohawk/myst.cpp:552 engines/mohawk/riven.cpp:822
 msgid "Open main menu"
@@ -5429,6 +5475,10 @@ msgstr ""
 #, c-format
 msgid "Unable to locate the '%s' engine data file"
 msgstr "No se puede localizar el archivo de datos del motor '%s'"
+
+#: engines/myst3/detection.cpp:149 engines/myst3/detection.cpp:163
+msgid "PS2 version is not yet supported"
+msgstr "La versión de PS2 todavía no es compatible."
 
 #: engines/myst3/detection.cpp:182
 msgid "Widescreen mod"
@@ -5598,6 +5648,14 @@ msgstr "Introducción alternativa"
 msgid "Use an alternative game intro (CD version only)"
 msgstr "Utiliza una introducción alternativa (solo en la versión CD)"
 
+#: engines/saga/metaengine.cpp:117
+msgid "I Have No Mouth support not compiled in"
+msgstr "No se ha incluido el soporte para I Have No Mouth."
+
+#: engines/saga/metaengine.cpp:124
+msgid "SAGA2 support not compiled in"
+msgstr "No se ha incluido el soporte para SAGA2."
+
 #: engines/saga/saga.cpp:247
 msgid "Error loading game resources."
 msgstr "Error al cargar los recursos del juego."
@@ -5743,7 +5801,7 @@ msgstr "Roland D-110/D-10/D-20"
 msgid "Yamaha FB-01"
 msgstr "Yamaha FB-01"
 
-#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:396
+#: engines/sci/engine/kfile.cpp:485 engines/sci/metaengine.cpp:404
 msgid "(Autosave)"
 msgstr "(Autoguardado)"
 
@@ -5789,7 +5847,11 @@ msgstr ""
 "No se puede reproducir un vídeo a %d bpp en un sistema con un límite de "
 "profundidad de color de 8 bpp"
 
-#: engines/sci/resource.cpp:845
+#: engines/sci/metaengine.cpp:325
+msgid "SCI32 support not compiled in"
+msgstr "No se ha incluido el soporte para SCI32."
+
+#: engines/sci/resource/resource.cpp:845
 msgid ""
 "Missing or corrupt game resources have been detected. Some game features may "
 "not work properly. Please check the console for more information, and verify "
@@ -6596,6 +6658,14 @@ msgstr ""
 "La versión rusa de Pajama Sam 2 aún no es compatible, ya que el código no "
 "está acabado."
 
+#: engines/scumm/metaengine.cpp:429
+msgid "HE v71+ support is not compiled in"
+msgstr "No se ha incluido el soporte de HE v71+."
+
+#: engines/scumm/metaengine.cpp:453
+msgid "SCUMM v7-8 support is not compiled in"
+msgstr "No se ha incluido el soporte para SCUMM v7-8."
+
 #: engines/scumm/scumm.cpp:1918
 #, c-format
 msgid ""
@@ -6728,19 +6798,19 @@ msgstr "Modo rápido"
 msgid "Toggle really fast mode"
 msgstr "Modo muy rápido"
 
-#: engines/stark/detection.cpp:368
+#: engines/stark/detection.cpp:322
 msgid "Load modded assets"
 msgstr "Cargar archivos modificados"
 
-#: engines/stark/detection.cpp:369
+#: engines/stark/detection.cpp:323
 msgid "Enable loading of external replacement assets."
 msgstr "Permite cargar archivos externos como sustitutos."
 
-#: engines/stark/detection.cpp:377
+#: engines/stark/detection.cpp:331
 msgid "Enable linear filtering of the backgrounds images"
 msgstr "Filtrado lineal de los fondos"
 
-#: engines/stark/detection.cpp:378
+#: engines/stark/detection.cpp:332
 msgid ""
 "When linear filtering is enabled the background graphics are smoother in "
 "full screen mode, at the cost of some details."
@@ -6748,11 +6818,11 @@ msgstr ""
 "Al aplicar un filtro lineal, los gráficos de los fondos se mostrarán más "
 "suaves a pantalla completa, pero se perderán algunos detalles."
 
-#: engines/stark/detection.cpp:386
+#: engines/stark/detection.cpp:340
 msgid "Enable font anti-aliasing"
 msgstr "Suavizar bordes de fuentes"
 
-#: engines/stark/detection.cpp:387
+#: engines/stark/detection.cpp:341
 msgid "When font anti-aliasing is enabled, the text is smoother."
 msgstr "Al activar esta opción, los textos se mostrarán más suavizados."
 
@@ -6932,6 +7002,10 @@ msgstr ""
 "El archivo teenagent.dat está comprimido y este ejecutable no incluye zlib. "
 "Es necesario que lo descomprimas"
 
+#: engines/tinsel/detection_tables.h:466
+msgid "Saturn CD version is not yet supported"
+msgstr "La versión de Saturn en CD aún no es compatible."
+
 #: engines/tony/tony.cpp:257
 #, c-format
 msgid "Font variant not present in '%s' engine data file."
@@ -6961,6 +7035,10 @@ msgstr "No se pudo cargar rápidamente la partida %d"
 #, c-format
 msgid "Unable to locate the '%s' data file."
 msgstr "No se puede localizar el archivo de datos «%s»."
+
+#: engines/tsage/detection_tables.h:150
+msgid "Spanish CD version is not yet supported"
+msgstr "La versión española en CD aún no es compatible."
 
 #: engines/twine/metaengine.cpp:68
 msgid "Enable wall collisions"
@@ -7038,122 +7116,130 @@ msgid "Enable the cutscenes for the game"
 msgstr "Activa las escenas cinemáticas del juego"
 
 #: engines/twine/metaengine.cpp:132
+msgid "Enable mouse"
+msgstr "Activar ratón"
+
+#: engines/twine/metaengine.cpp:133
+msgid "Enable the mouse for the UI"
+msgstr "Activa el ratón en la interfaz"
+
+#: engines/twine/metaengine.cpp:139
 msgid "Use the USA version"
 msgstr "Utilizar la versión estadounidense"
 
-#: engines/twine/metaengine.cpp:133
+#: engines/twine/metaengine.cpp:140
 msgid "Enable the USA specific version flags"
 msgstr "Activa los parámetros específicos de la versión estadounidense"
 
-#: engines/twine/metaengine.cpp:166
+#: engines/twine/metaengine.cpp:174
 msgid "Debug Next Room"
 msgstr "Depuración: siguiente sala"
 
-#: engines/twine/metaengine.cpp:171
+#: engines/twine/metaengine.cpp:179
 msgid "Debug Previous Room"
 msgstr "Depuración: sala anterior"
 
-#: engines/twine/metaengine.cpp:176
+#: engines/twine/metaengine.cpp:184
 msgid "Debug Apply Celling Grid"
 msgstr "Depuración: aplicar cuadrícula de terrenos"
 
-#: engines/twine/metaengine.cpp:181
+#: engines/twine/metaengine.cpp:189
 msgid "Debug Increase Celling Grid Index"
 msgstr "Depuración: aumentar índice de cuadrícula de terrenos"
 
-#: engines/twine/metaengine.cpp:186
+#: engines/twine/metaengine.cpp:194
 msgid "Debug Decrease Celling Grid Index"
 msgstr "Depuración: disminuir índice de cuadrícula de terrenos"
 
-#: engines/twine/metaengine.cpp:191
+#: engines/twine/metaengine.cpp:199
 msgid "Debug Grid Camera Up"
 msgstr "Depuración: subir cámara de cuadrícula"
 
-#: engines/twine/metaengine.cpp:196
+#: engines/twine/metaengine.cpp:204
 msgid "Debug Grid Camera Down"
 msgstr "Depuración: bajar cámara de cuadrícula"
 
-#: engines/twine/metaengine.cpp:201
+#: engines/twine/metaengine.cpp:209
 msgid "Debug Grid Camera Left"
 msgstr "Depuración: mover cámara de cuadrícula a la izda."
 
-#: engines/twine/metaengine.cpp:207
+#: engines/twine/metaengine.cpp:215
 msgid "Debug Grid Camera Right"
 msgstr "Depuración: mover cámara de cuadrícula a la dcha."
 
-#: engines/twine/metaengine.cpp:212
+#: engines/twine/metaengine.cpp:220
 msgid "Debug Menu"
 msgstr "Menú de depuración"
 
-#: engines/twine/metaengine.cpp:217
+#: engines/twine/metaengine.cpp:225
 msgid "Debug Menu Execute"
 msgstr "Ejecutar menú de depuración"
 
-#: engines/twine/metaengine.cpp:222
+#: engines/twine/metaengine.cpp:230 engines/twine/metaengine.cpp:250
 msgid "Normal Behaviour"
 msgstr "Comportamiento normal"
 
-#: engines/twine/metaengine.cpp:227
+#: engines/twine/metaengine.cpp:235 engines/twine/metaengine.cpp:255
 msgid "Athletic Behaviour"
 msgstr "Comportamiento deportivo"
 
-#: engines/twine/metaengine.cpp:232
+#: engines/twine/metaengine.cpp:240 engines/twine/metaengine.cpp:260
 msgid "Aggressive Behaviour"
 msgstr "Comportamiento agresivo"
 
-#: engines/twine/metaengine.cpp:237
+#: engines/twine/metaengine.cpp:245 engines/twine/metaengine.cpp:265
 msgid "Discreet Behaviour"
 msgstr "Comportamiento discreto"
 
-#: engines/twine/metaengine.cpp:242
+#: engines/twine/metaengine.cpp:270
 msgid "Behaviour Action"
 msgstr "Acción de comportamiento"
 
-#: engines/twine/metaengine.cpp:248
+#: engines/twine/metaengine.cpp:276
 msgid "Change Behaviour"
 msgstr "Cambiar comportamiento"
 
-#: engines/twine/metaengine.cpp:254
+#: engines/twine/metaengine.cpp:282
 msgid "Options Menu"
 msgstr "Menú de opciones"
 
-#: engines/twine/metaengine.cpp:265
+#: engines/twine/metaengine.cpp:293
 msgid "Use Selected Object"
 msgstr "Usar objeto seleccionado"
 
-#: engines/twine/metaengine.cpp:271
+#: engines/twine/metaengine.cpp:299
 msgid "Throw Magic Ball"
 msgstr "Lanzar bola mágica"
 
-#: engines/twine/metaengine.cpp:283
+#: engines/twine/metaengine.cpp:311
 msgid "Move Backward"
 msgstr "Retroceder"
 
-#: engines/twine/metaengine.cpp:301
+#: engines/twine/metaengine.cpp:329
 msgid "Use Protopack"
 msgstr "Usar proto-pack"
 
-#: engines/twine/metaengine.cpp:306
+#: engines/twine/metaengine.cpp:334
 msgid "Open Holomap"
 msgstr "Abrir holomapa"
 
-#: engines/twine/metaengine.cpp:318
+#: engines/twine/metaengine.cpp:346
 msgid "Special Action"
 msgstr "Acción especial"
 
-#: engines/twine/metaengine.cpp:323 engines/wintermute/keymapper_tables.h:61
+#: engines/twine/metaengine.cpp:351 engines/wintermute/keymapper_tables.h:61
 msgid "Escape"
 msgstr "Escapar"
 
-#: engines/twine/metaengine.cpp:334
+#: engines/twine/metaengine.cpp:362
 msgid "Accept"
 msgstr "Aceptar"
 
-#: engines/twine/metaengine.cpp:340 engines/twine/metaengine.cpp:381
+#: engines/twine/metaengine.cpp:369 engines/twine/metaengine.cpp:413
 msgid "Abort"
 msgstr "Abortar"
 
-#: engines/twine/metaengine.cpp:369
+#: engines/twine/metaengine.cpp:401
 msgid "Next Page"
 msgstr "Página siguiente"
 
@@ -7233,6 +7319,18 @@ msgstr "Filtrado bilineal de sprites (LENTO)"
 #: engines/wintermute/detection.cpp:53
 msgid "Apply bilinear filtering to individual sprites"
 msgstr "Aplica un filtrado bilineal a cada sprite individual"
+
+#: engines/wintermute/metaengine.cpp:67
+msgid "FoxTail support is not compiled in"
+msgstr "No se ha incluido el soporte para FoxTail."
+
+#: engines/wintermute/metaengine.cpp:74
+msgid "Hero Craft support is not compiled in"
+msgstr "No se ha incluido el soporte para Hero Craft."
+
+#: engines/wintermute/metaengine.cpp:81
+msgid "Wintermute3D support is not compiled in"
+msgstr "No se ha incluido el soporte para Wintermute3D."
 
 #: engines/wintermute/wintermute.cpp:176
 msgid "This game requires PNG, JPEG and Vorbis support."
@@ -7891,6 +7989,18 @@ msgstr ""
 "Necesitarás todas las fuentes del paquete que prefieras, por ejemplo, "
 "LiberationMono, LiberationSans y LiberationSerif, o FreeMono, FreeSans y "
 "FreeSerif respectivamente."
+
+#~ msgid "Normal Behaviour UI"
+#~ msgstr "Interfaz de comportamiento normal"
+
+#~ msgid "Athletic Behaviour UI"
+#~ msgstr "Interfaz de comportamiento deportivo"
+
+#~ msgid "Aggressive Behaviour UI"
+#~ msgstr "Interfaz de comportamiento agresivo"
+
+#~ msgid "Discreet Behaviour UI"
+#~ msgstr "Interfaz de comportamiento discreto"
 
 #~ msgid "Look At"
 #~ msgstr "Mirar"

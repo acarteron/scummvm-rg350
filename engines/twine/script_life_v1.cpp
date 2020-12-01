@@ -652,7 +652,7 @@ static int32 lMESSAGE(TwinEEngine *engine, LifeScriptContext &ctx) {
 	engine->_scene->talkingActor = ctx.actorIdx;
 	engine->_text->drawTextFullscreen(textIdx);
 	engine->unfreezeTime();
-	engine->_redraw->redrawEngineActions(1);
+	engine->_redraw->redrawEngineActions(true);
 
 	return 0;
 }
@@ -917,7 +917,7 @@ static int32 lMESSAGE_OBJ(TwinEEngine *engine, LifeScriptContext &ctx) {
 	engine->_scene->talkingActor = otherActorIdx;
 	engine->_text->drawTextFullscreen(textIdx);
 	engine->unfreezeTime();
-	engine->_redraw->redrawEngineActions(1);
+	engine->_redraw->redrawEngineActions(true);
 
 	return 0;
 }
@@ -941,7 +941,7 @@ static int32 lFOUND_OBJECT(TwinEEngine *engine, LifeScriptContext &ctx) {
 	engine->freezeTime();
 	engine->_gameState->processFoundItem(item);
 	engine->unfreezeTime();
-	engine->_redraw->redrawEngineActions(1);
+	engine->_redraw->redrawEngineActions(true);
 
 	return 0;
 }
@@ -1282,7 +1282,7 @@ static int32 lASK_CHOICE(TwinEEngine *engine, LifeScriptContext &ctx) {
 	engine->_gameState->processGameChoices(choiceIdx);
 	engine->_gameState->numChoices = 0;
 	engine->unfreezeTime();
-	engine->_redraw->redrawEngineActions(1);
+	engine->_redraw->redrawEngineActions(true);
 
 	return 0;
 }
@@ -1304,7 +1304,7 @@ static int32 lBIG_MESSAGE(TwinEEngine *engine, LifeScriptContext &ctx) {
 	engine->_text->drawTextFullscreen(textIdx);
 	engine->_text->textClipSmall();
 	engine->unfreezeTime();
-	engine->_redraw->redrawEngineActions(1);
+	engine->_redraw->redrawEngineActions(true);
 
 	return 0;
 }
@@ -1442,7 +1442,7 @@ static int32 lGRM_OFF(TwinEEngine *engine, LifeScriptContext &ctx) {
 		engine->_grid->useCellingGrid = -1;
 		engine->_grid->cellingGridIdx = -1;
 		engine->_grid->createGridMap();
-		engine->_redraw->redrawEngineActions(1);
+		engine->_redraw->redrawEngineActions(true);
 	}
 
 	return 0;
@@ -1569,7 +1569,7 @@ static int32 lASK_CHOICE_OBJ(TwinEEngine *engine, LifeScriptContext &ctx) {
 	engine->_gameState->processGameChoices(choiceIdx);
 	engine->_gameState->numChoices = 0;
 	engine->unfreezeTime();
-	engine->_redraw->redrawEngineActions(1);
+	engine->_redraw->redrawEngineActions(true);
 
 	return 0;
 }
@@ -1768,8 +1768,9 @@ static int32 lTEXT(TwinEEngine *engine, LifeScriptContext &ctx) {
  */
 static int32 lCLEAR_TEXT(TwinEEngine *engine, LifeScriptContext &ctx) {
 	drawVar1 = 0;
-	engine->_interface->drawSplittedBox(0, 0, 639, 240, 0);
-	engine->copyBlockPhys(0, 0, 639, 240);
+	const Common::Rect rect(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT / 2);
+	engine->_interface->drawSplittedBox(rect, 0);
+	engine->copyBlockPhys(rect);
 	return 0;
 }
 
