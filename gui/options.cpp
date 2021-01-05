@@ -549,8 +549,11 @@ void OptionsDialog::apply() {
 					gm++;
 				}
 			}
-			if (!isSet)
+			if (!isSet) {
 				ConfMan.removeKey("gfx_mode", _domain);
+				if (g_system->getGraphicsMode() != g_system->getDefaultGraphicsMode())
+					graphicsModeChanged = true;
+			}
 
 			if ((int32)_renderModePopUp->getSelectedTag() >= 0)
 				ConfMan.set("render_mode", Common::getRenderModeCode((Common::RenderMode)_renderModePopUp->getSelectedTag()), _domain);
@@ -569,8 +572,11 @@ void OptionsDialog::apply() {
 					sm++;
 				}
 			}
-			if (!isSet)
+			if (!isSet) {
 				ConfMan.removeKey("stretch_mode", _domain);
+				if (g_system->getStretchMode() != g_system->getDefaultStretchMode())
+					graphicsModeChanged = true;
+			}				
 
 			if (_rendererTypePopUp->getSelectedTag() > 0) {
 				Graphics::RendererType selected = (Graphics::RendererType) _rendererTypePopUp->getSelectedTag();
@@ -617,8 +623,11 @@ void OptionsDialog::apply() {
 					sm++;
 				}
 			}
-			if (!isSet)
+			if (!isSet) {
 				ConfMan.removeKey("shader", _domain);
+				if (g_system->getShader() != g_system->getDefaultShader())
+					graphicsModeChanged = true;
+			}
 		} else {
 			ConfMan.removeKey("shader", _domain);
 		}
@@ -628,17 +637,16 @@ void OptionsDialog::apply() {
 	if (_domain == Common::ConfigManager::kApplicationDomain && graphicsModeChanged) {
 		g_system->beginGFXTransaction();
 		g_system->setGraphicsMode(ConfMan.get("gfx_mode", _domain).c_str());
-
-		if (ConfMan.hasKey("stretch_mode"))
-			g_system->setStretchMode(ConfMan.get("stretch_mode", _domain).c_str());
+		g_system->setStretchMode(ConfMan.get("stretch_mode", _domain).c_str());
+		
 		if (ConfMan.hasKey("aspect_ratio"))
 			g_system->setFeatureState(OSystem::kFeatureAspectRatioCorrection, ConfMan.getBool("aspect_ratio", _domain));
 		if (ConfMan.hasKey("fullscreen"))
 			g_system->setFeatureState(OSystem::kFeatureFullscreenMode, ConfMan.getBool("fullscreen", _domain));
 		if (ConfMan.hasKey("filtering"))
 			g_system->setFeatureState(OSystem::kFeatureFilteringMode, ConfMan.getBool("filtering", _domain));
-		if (ConfMan.hasKey("shader"))
-			g_system->setShader(ConfMan.get("shader", _domain).c_str());
+
+		g_system->setShader(ConfMan.get("shader", _domain).c_str());
 
 		OSystem::TransactionError gfxError = g_system->endGFXTransaction();
 
@@ -1705,6 +1713,8 @@ GlobalOptionsDialog::GlobalOptionsDialog(LauncherDialog *launcher)
 	_guiLanguagePopUp = nullptr;
 	_guiLanguageUseGameLanguageCheckbox = nullptr;
 	_useSystemDialogsCheckbox = nullptr;
+	_guiReturnToLauncherAtExit = nullptr;
+	_guiConfirmExit = nullptr;
 #ifdef USE_UPDATES
 	_updatesPopUpDesc = nullptr;
 	_updatesPopUp = nullptr;
@@ -2095,12 +2105,27 @@ void GlobalOptionsDialog::addMiscControls(GuiObject *boss, const Common::String 
 		_autosavePeriodPopUp->appendEntry(_(savePeriodLabels[i]), savePeriodValues[i]);
 	}
 
+	if (!g_system->hasFeature(OSystem::kFeatureNoQuit)) {
+		_guiReturnToLauncherAtExit = new CheckboxWidget(boss, prefix + "ReturnToLauncherAtExit",
+			_("Always return to the launcher when leaving a game"),
+			_("Always return to the launcher when leaving a game instead of closing ScummVM.")
+		);
+
+		_guiReturnToLauncherAtExit->setState(ConfMan.getBool("gui_return_to_launcher_at_exit", _domain));
+	}
+
+	_guiConfirmExit = new CheckboxWidget(boss, prefix + "ConfirmExit",
+		_("Ask for confirmation on exit"),
+		_("Ask for permission when closing ScummVM or leaving a game.")
+	);
+
+	_guiConfirmExit->setState(ConfMan.getBool("confirm_exit", _domain));
+
 #ifdef GUI_ENABLE_KEYSDIALOG
 	new ButtonWidget(boss, prefix + "KeysButton", _("Keys"), Common::U32String(), kChooseKeyMappingCmd);
 #endif
 
 	// TODO: joystick setting
-
 
 #ifdef USE_TRANSLATION
 	_guiLanguagePopUpDesc = new StaticTextWidget(boss, prefix + "GuiLanguagePopupDesc", _("GUI language:"), _("Language of ScummVM GUI"));
@@ -2400,6 +2425,14 @@ void GlobalOptionsDialog::apply() {
 
 	if (_useSystemDialogsCheckbox) {
 		ConfMan.setBool("gui_browser_native", _useSystemDialogsCheckbox->getState(), _domain);
+	}
+
+	if (_guiReturnToLauncherAtExit) {
+		ConfMan.setBool("gui_return_to_launcher_at_exit", _guiReturnToLauncherAtExit->getState(), _domain);
+	}
+
+	if (_guiConfirmExit) {
+		ConfMan.setBool("confirm_exit", _guiConfirmExit->getState(), _domain);
 	}
 
 	GUI::ThemeEngine::GraphicsMode gfxMode = (GUI::ThemeEngine::GraphicsMode)_rendererPopUp->getSelectedTag();

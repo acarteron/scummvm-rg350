@@ -95,7 +95,7 @@ MainMenuDialog::MainMenuDialog(Engine *engine)
 		_returnToLauncherButton = new GUI::ButtonWidget(this, "GlobalMenu.ReturnToLauncher", _c("~R~eturn to Launcher", "lowres"), Common::U32String(), kLauncherCmd);
 	_returnToLauncherButton->setEnabled(_engine->hasFeature(Engine::kSupportsReturnToLauncher));
 
-	if (!g_system->hasFeature(OSystem::kFeatureNoQuit))
+	if (!g_system->hasFeature(OSystem::kFeatureNoQuit) && !(ConfMan.getBool("gui_return_to_launcher_at_exit")))
 		new GUI::ButtonWidget(this, "GlobalMenu.Quit", _("~Q~uit"), Common::U32String(), kQuitCmd);
 
 	_aboutDialog = new GUI::AboutDialog();
@@ -360,7 +360,7 @@ ConfigDialog::ConfigDialog() :
 	new GUI::ButtonWidget(this, "GlobalConfig.Cancel", _("~C~ancel"), Common::U32String(), GUI::kCloseCmd);
 
 #ifdef GUI_ENABLE_KEYSDIALOG
-	new GUI::ButtonWidget(this, "GlobalConfig.Keys", _("~K~eys"), 0, kKeysCmd);
+	new GUI::ButtonWidget(this, "GlobalConfig.Keys", _("~K~eys"), Common::U32String(), kKeysCmd);
 	_keysDialog = NULL;
 #endif
 }
