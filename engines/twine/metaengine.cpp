@@ -28,8 +28,9 @@
 #include "common/system.h"
 #include "common/translation.h"
 #include "engines/advancedDetector.h"
+#include "graphics/scaler.h"
+#include "twine/achievements_tables.h"
 #include "twine/detection.h"
-
 #include "twine/input.h"
 #include "twine/twine.h"
 
@@ -38,7 +39,7 @@ namespace TwinE {
 class TwinEMetaEngine : public AdvancedMetaEngine {
 public:
 	const char *getName() const override {
-		return "TwinE";
+		return "twine";
 	}
 
 	int getMaximumSaveSlot() const override {
@@ -60,6 +61,10 @@ public:
 	Common::Array<Common::Keymap *> initKeymaps(const char *target) const override;
 
 	const ExtraGuiOptions getExtraGuiOptions(const Common::String &target) const override;
+
+	const Common::AchievementsInfo getAchievementsInfo(const Common::String &target) const override;
+
+	void getSavegameThumbnail(Graphics::Surface &thumb) override;
 };
 
 static const ExtraGuiOption OptWallCollision = {
@@ -140,20 +145,69 @@ static const ExtraGuiOption OptUSAVersion = {
 	false
 };
 
+static const ExtraGuiOption OptHighRes = {
+	_s("Enable high resolution"),
+	_s("Enable a higher resolution for the game"),
+	"usehighres",
+	false
+};
+
+#ifdef USE_TTS
+static const ExtraGuiOption OptTextToSpeech = {
+	_s("TTS Narrator"),
+	_s("Use TTS to read the descriptions (if TTS is available)"),
+	"tts_narrator",
+	false
+};
+#endif
+
 const ExtraGuiOptions TwinEMetaEngine::getExtraGuiOptions(const Common::String &target) const {
 	ExtraGuiOptions options;
 	options.push_back(OptWallCollision);
 	options.push_back(OptCrossFade);
 	options.push_back(OptDisableSaveMenu);
-	options.push_back(OptDebug);
-	options.push_back(OptUseCD);
+	options.push_back(OptMouse);
+	options.push_back(OptHighRes);
 	options.push_back(OptSound);
+	options.push_back(OptUseCD);
+	// TODO: only 7 are shown right onw - see GUI::ExtraGuiOptionsWidget
 	options.push_back(OptMovies);
 	options.push_back(OptUSAVersion);
 	options.push_back(OptVoices);
 	options.push_back(OptText);
-	options.push_back(OptMouse);
+	options.push_back(OptDebug);
+#ifdef USE_TTS
+	options.push_back(OptTextToSpeech);
+#endif
 	return options;
+}
+
+const Common::AchievementsInfo TwinEMetaEngine::getAchievementsInfo(const Common::String &target) const {
+	Common::String gameId = ConfMan.get("gameid", target);
+
+	Common::AchievementsPlatform platform = Common::UNK_ACHIEVEMENTS;
+	Common::String extra = ConfMan.get("extra", target);
+	if (extra.contains("Steam")) {
+		platform = Common::STEAM_ACHIEVEMENTS;
+	}
+
+	// "(gameId, platform) -> result" search
+	Common::AchievementsInfo result;
+	for (const TwinE::AchievementDescriptionList *i = TwinE::achievementDescriptionList; i->gameId; ++i) {
+		if (i->gameId == gameId && i->platform == platform) {
+			result.platform = i->platform;
+			result.appId = i->appId;
+			for (const Common::AchievementDescription *it = i->descriptions; it->id; ++it) {
+				result.descriptions.push_back(*it);
+			}
+			break;
+		}
+	}
+	return result;
+}
+
+void TwinEMetaEngine::getSavegameThumbnail(Graphics::Surface &thumb) {
+	thumb.copyFrom(((TwinEEngine*)g_engine)->workVideoBuffer);
 }
 
 //
@@ -455,9 +509,6 @@ Common::KeymapArray TwinEMetaEngine::initKeymaps(const char *target) const {
 	{
 		Keymap *holomapKeyMap = new Keymap(Keymap::kKeymapTypeGame, holomapKeyMapId, "Little Big Adventure Holomap");
 
-		// TODO: CTRL + cursor rotates the globe
-		// just cursor keys switch the quest locations and print the text for the current selected location.
-
 		act = new Action("ABORT", _("Abort"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapAbort);
 		act->addDefaultInputMapping("ESCAPE");
@@ -467,7 +518,7 @@ Common::KeymapArray TwinEMetaEngine::initKeymaps(const char *target) const {
 
 		act = new Action("UP", _("Up"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapUp);
-		act->addDefaultInputMapping("UP");
+		act->addDefaultInputMapping("C+UP");
 		act->addDefaultInputMapping("KP8");
 		act->addDefaultInputMapping("MOUSE_WHEEL_UP");
 		act->addDefaultInputMapping("JOY_UP");
@@ -475,7 +526,7 @@ Common::KeymapArray TwinEMetaEngine::initKeymaps(const char *target) const {
 
 		act = new Action("DOWN", _("Down"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapDown);
-		act->addDefaultInputMapping("DOWN");
+		act->addDefaultInputMapping("C+DOWN");
 		act->addDefaultInputMapping("KP2");
 		act->addDefaultInputMapping("MOUSE_WHEEL_DOWN");
 		act->addDefaultInputMapping("JOY_DOWN");
@@ -483,16 +534,26 @@ Common::KeymapArray TwinEMetaEngine::initKeymaps(const char *target) const {
 
 		act = new Action("RIGHT", _("Right"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapRight);
-		act->addDefaultInputMapping("RIGHT");
+		act->addDefaultInputMapping("C+RIGHT");
 		act->addDefaultInputMapping("KP6");
 		act->addDefaultInputMapping("JOY_RIGHT");
 		holomapKeyMap->addAction(act);
 
 		act = new Action("LEFT", _("Left"));
 		act->setCustomEngineActionEvent(TwinEActionType::HolomapLeft);
-		act->addDefaultInputMapping("LEFT");
+		act->addDefaultInputMapping("C+LEFT");
 		act->addDefaultInputMapping("KP4");
 		act->addDefaultInputMapping("JOY_LEFT");
+		holomapKeyMap->addAction(act);
+
+		act = new Action("PREV", _("Previous location"));
+		act->setCustomEngineActionEvent(TwinEActionType::HolomapPrev);
+		act->addDefaultInputMapping("LEFT");
+		holomapKeyMap->addAction(act);
+
+		act = new Action("NEXT", _("Next location"));
+		act->setCustomEngineActionEvent(TwinEActionType::HolomapNext);
+		act->addDefaultInputMapping("RIGHT");
 		holomapKeyMap->addAction(act);
 
 		array[3] = holomapKeyMap;

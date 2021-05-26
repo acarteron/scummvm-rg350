@@ -47,7 +47,6 @@ public:
 	Item();
 	~Item() override;
 
-	// p_dynamic_cast stuff
 	ENABLE_RUNTIME_CLASSTYPE()
 
 	//! Get the Container this Item is in, if any. (0 if not in a Container)
@@ -244,7 +243,7 @@ public:
 	inline const ShapeInfo *getShapeInfo() const;
 
 	//! Get the ShapeInfo object for this Item from the game instance.
-	const ShapeInfo *getShapeInfoFromGameInstance() const;
+	virtual const ShapeInfo *getShapeInfoFromGameInstance() const;
 
 	//! Get the Shape object for this Item. (The pointer will be cached.)
 	const Shape *getShapeObject() const;
@@ -285,8 +284,11 @@ public:
 	//! Check if the centre of this item is on top of another item
 	bool isCentreOn(const Item &item2) const;
 
-	//! Check if the item is currently visible on screen
+	//! Check if the item is currently entirely visible on screen
 	bool isOnScreen() const;
+
+	//! Check if the item is currently partly visible on screen
+	bool isPartlyOnScreen() const;
 
 	//! Check if this item can exist at the given coordinates
 	bool canExistAt(int32 x, int32 y, int32 z, bool needsupport = false) const;
@@ -351,8 +353,9 @@ public:
 	//! Hurl the item in the given direction
 	void hurl(int xs, int ys, int zs, int grav);
 
-	//! Set the PID of the GravityProcess for this Item
+	//! Set the PID of the GravityProcess for this Item.  There should be only one.
 	void setGravityPID(ProcId pid) {
+		assert(_gravityPid == 0 || pid == 0);
 		_gravityPid = pid;
 	}
 
@@ -388,11 +391,11 @@ public:
 	virtual void receiveHit(ObjId other, Direction dir, int damage, uint16 type);
 
 	//! fire the given weapon type in the given direction from location x, y, z.
-	uint16 fireWeapon(int32 x, int32 y, int32 z, Direction dir, int firetype, char findtarget);
+	uint16 fireWeapon(int32 x, int32 y, int32 z, Direction dir, int firetype, bool findtarget);
 
 	//! get the distance (in map tiles) if we were to fire in this direction to "other"
 	//! and could hit, otherwise return 0.
-	uint16 fireDistance(Item *other, Direction dir, int16 xoff, int16 yoff, int16 zoff);
+	uint16 fireDistance(const Item *other, Direction dir, int16 xoff, int16 yoff, int16 zoff);
 
 	//! get damage points, used in Crusader for item damage.
 	uint8 getDamagePoints() const {
@@ -512,6 +515,7 @@ public:
 	INTRINSIC(I_setFrame);
 	INTRINSIC(I_getQuality);
 	INTRINSIC(I_getUnkEggType);
+	INTRINSIC(I_setUnkEggType);
 	INTRINSIC(I_getQuantity);
 	INTRINSIC(I_getContainer);
 	INTRINSIC(I_getRootContainer);
@@ -594,7 +598,7 @@ public:
 	INTRINSIC(I_equip);
 	INTRINSIC(I_unequip);
 	INTRINSIC(I_avatarStoleSomething);
-	INTRINSIC(I_isOnScreen);
+	INTRINSIC(I_isPartlyOnScreen);
 	INTRINSIC(I_fireWeapon);
 	INTRINSIC(I_fireDistance);
 
@@ -659,7 +663,7 @@ private:
 
 	//! Get the right Z which an attacker should aim for, given the attacker's z.
 	//! (Crusader only)
-	int32 getTargetZRelativeToAttackerZ(int32 attackerz);
+	int32 getTargetZRelativeToAttackerZ(int32 attackerz) const;
 
 public:
 	enum statusflags {

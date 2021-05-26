@@ -363,9 +363,9 @@ int ResourceManager::readAudioMapSCI11(IntMapResourceSource *map) {
 
 	uint32 offset = 0;
 	const ResourceId mapResId(kResourceTypeMap, map->_mapNumber);
-	Resource *mapRes = _resMap.getVal(mapResId, nullptr);
+	Resource *mapRes = nullptr;
 
-	if (!mapRes) {
+	if (!_resMap.tryGetVal(mapResId,mapRes)) {
 		warning("Failed to open %s", mapResId.toString().c_str());
 		return SCI_ERROR_RESMAP_NOT_FOUND;
 	}
@@ -574,7 +574,7 @@ int ResourceManager::readAudioMapSCI11(IntMapResourceSource *map) {
 				continue;
 			}
 
-			// GK2 has invalid audio36 map entries on CD 1 of the German 
+			// GK2 has invalid audio36 map entries on CD 1 of the German
 			//  version and CDs 5-6 of all versions. All are safe to ignore
 			//  because their content doesn't apply to the disc's chapter.
 			if (g_sci->getGameId() == GID_GK2) {
@@ -603,7 +603,7 @@ int ResourceManager::readAudioMapSCI11(IntMapResourceSource *map) {
 					continue;
 				}
 			}
-			
+
 			// Lighthouse German has invalid audio36 map entries for
 			//  content that was cut from the game. These resources
 			//  existed in the English version even though they were
@@ -791,7 +791,7 @@ bool ResourceManager::isGMTrackIncluded() {
 	return result;
 }
 
-SoundResource::SoundResource(uint32 resourceNr, ResourceManager *resMan, SciVersion soundVersion) : 
+SoundResource::SoundResource(uint32 resourceNr, ResourceManager *resMan, SciVersion soundVersion) :
 	_resMan(resMan), _soundVersion(soundVersion), _trackCount(0), _tracks(nullptr), _soundPriority(0xFF) {
 	_resource = _resMan->findResource(ResourceId(kResourceTypeSound, resourceNr), true);
 	if (!_resource)
@@ -854,8 +854,6 @@ SoundResource::SoundResource(uint32 resourceNr, ResourceManager *resMan, SciVers
 		_tracks = new Track[_trackCount];
 		data = *_resource;
 
-		byte channelCount;
-
 		for (int trackNr = 0; trackNr < _trackCount; trackNr++) {
 			// Track info starts with track type:BYTE
 			// Then the channel information gets appended Unknown:WORD, ChannelOffset:WORD, ChannelSize:WORD
@@ -865,11 +863,10 @@ SoundResource::SoundResource(uint32 resourceNr, ResourceManager *resMan, SciVers
 			_tracks[trackNr].type = *data++;
 			// Counting # of channels used
 			SciSpan<const byte> data2 = data;
-			channelCount = 0;
+			byte channelCount = 0;
 			while (*data2 != 0xFF) {
 				data2 += 6;
 				channelCount++;
-				_tracks[trackNr].channelCount++;
 			}
 			_tracks[trackNr].channels = new Channel[channelCount];
 			_tracks[trackNr].channelCount = 0;
@@ -895,6 +892,12 @@ SoundResource::SoundResource(uint32 resourceNr, ResourceManager *resMan, SciVers
 					if ((uint32)dataOffset + size > _resource->size()) {
 						warning("Invalid size inside sound resource %d: track %d, channel %d", resourceNr, trackNr, channelNr);
 						size = _resource->size() - dataOffset;
+					}
+
+					if (size == 0) {
+						warning("Empty channel in sound resource %d: track %d, channel %d", resourceNr, trackNr, channelNr);
+						data += 6;
+						continue;
 					}
 
 					channel->data = _resource->subspan(dataOffset, size);

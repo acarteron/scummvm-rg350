@@ -134,7 +134,7 @@ public:
 	// into account!
 	bool isValidPosition(int32 x, int32 y, int32 z, uint32 shape,
 	                     ObjId item, const Item **support = 0,
-                         ObjId *roof = 0, const Item **blocker = 0) const;
+						 ObjId *roof = 0, const Item **blocker = 0) const;
 
 	//! Scan for a valid position for item in directions orthogonal to movedir
 	bool scanForValidPosition(int32 x, int32 y, int32 z, const Item *item,
@@ -221,7 +221,7 @@ private:
 	void createEggHatcher();
 
 	//! clip the given map chunk numbers to iterate over them safely
-	void clipMapChunks(int &minx, int &maxx, int &miny, int &maxy) const;
+	static void clipMapChunks(int &minx, int &maxx, int &miny, int &maxy);
 
 	Map *_currentMap;
 

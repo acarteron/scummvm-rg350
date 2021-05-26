@@ -20,7 +20,6 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/gumps/cru_pickup_gump.h"
 
 #include "ultima/ultima8/gumps/translucent_gump.h"
@@ -30,8 +29,6 @@
 #include "ultima/ultima8/graphics/shape.h"
 #include "ultima/ultima8/graphics/shape_frame.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
-#include "ultima/ultima8/graphics/render_surface.h"
-#include "ultima/ultima8/world/get_object.h"
 #include "ultima/ultima8/gumps/widgets/text_widget.h"
 
 namespace Ultima {
@@ -47,10 +44,11 @@ static const int COUNT_TEXT_INDEX = 0x100;
 
 DEFINE_RUNTIME_CLASSTYPE_CODE(CruPickupGump)
 CruPickupGump::CruPickupGump() : Gump(), _startFrame(0), _itemShapeNo(0), _q(0),
-	_gumpShapeNo(0), _gumpFrameNo(0) {
+	_gumpShapeNo(0), _gumpFrameNo(0), _showCount(false) {
 }
 
-CruPickupGump::CruPickupGump(const Item *item, int y) : Gump(0, y, 5, 5, 0), _startFrame(0) {
+CruPickupGump::CruPickupGump(const Item *item, int y, bool showCount) : Gump(0, y, 5, 5, 0),
+	_startFrame(0), _showCount(showCount) {
 	const WeaponInfo *weaponInfo = item->getShapeInfo()->_weaponInfo;
 	if (weaponInfo) {
 		_itemShapeNo = item->getShape();
@@ -58,6 +56,9 @@ CruPickupGump::CruPickupGump(const Item *item, int y) : Gump(0, y, 5, 5, 0), _st
 		_itemName = weaponInfo->_name;
 		_gumpShapeNo = weaponInfo->_displayGumpShape;
 		_gumpFrameNo = weaponInfo->_displayGumpFrame;
+		// Special case for keycard - display depends on the card type
+		if (_itemShapeNo == 0x111)
+			_gumpFrameNo += item->getFrame();
 	} else {
 		_itemShapeNo = 0;
 		_q = 0;
@@ -122,22 +123,28 @@ void CruPickupGump::InitGump(Gump *newparent, bool take_focus) {
 	itemgump->Move(ITEM_AREA_WIDTH / 2 - itemframe->_width / 2, _dims.height() / 2 - itemframe->_height / 2);
 }
 
-void CruPickupGump::updateForNewItem(const Item *item) {
+void CruPickupGump::updateForNewItem(const Item *item, bool showCount) {
 	assert(item);
 	assert(item->getShape() == _itemShapeNo);
 	TextWidget *oldtext = dynamic_cast<TextWidget *>(FindGump(&FindByIndex<COUNT_TEXT_INDEX>));
-	if (oldtext)
+	if (oldtext) {
+		RemoveChild(oldtext);
 		oldtext->Close();
-	// TODO: should we add current q? + currentq;
-	// It seems like the items are hacked to give the right "q" for
-	// this gump from the last item, which is why the add process
-	// uses q + 1 instead of adding the new q.
-	_q = item->getQuality();
+	}
+
+	_showCount = showCount;
+
+	// If we're updating the existing count, add 1 or special-case credits
+	if (_itemShapeNo == 0x4ed)
+		_q += item->getQuality();
+	else
+		_q++;
+
 	addCountText();
 }
 
 void CruPickupGump::addCountText() {
-	if (_q <= 1)
+	if (_q <= 1 || !_showCount)
 		return;
 	Std::string qstr = Std::string::format("%d", _q);
 	TextWidget *count = new TextWidget(ITEM_AREA_WIDTH / 2 + 22, _dims.height() / 2 + 3, qstr, true, COUNT_TEXT_FONT);

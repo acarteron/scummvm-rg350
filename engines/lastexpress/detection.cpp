@@ -21,6 +21,7 @@
  */
 
 #include "engines/advancedDetector.h"
+#include "lastexpress/lastexpress.h"
 
 namespace LastExpress {
 
@@ -28,6 +29,19 @@ static const PlainGameDescriptor lastExpressGames[] = {
 	// Games
 	{"lastexpress", "The Last Express"},
 	{0, 0}
+};
+
+static const DebugChannelDef debugFlagList[] = {
+	{LastExpress::kLastExpressDebugGraphics, "Graphics", "Debug graphics & animation/sequence playback"},
+	{LastExpress::kLastExpressDebugResource, "Resource", "Debug resource management"},
+	{LastExpress::kLastExpressDebugCursor, "Cursor", "Debug cursor handling"},
+	{LastExpress::kLastExpressDebugSound, "Sound", "Debug sound playback"},
+	{LastExpress::kLastExpressDebugSubtitle, "Subtitle", "Debug subtitles"},
+	{LastExpress::kLastExpressDebugSavegame, "Savegame", "Debug savegames"},
+	{LastExpress::kLastExpressDebugLogic, "Logic", "Debug logic"},
+	{LastExpress::kLastExpressDebugScenes, "Scenes", "Debug scenes & hotspots"},
+	{LastExpress::kLastExpressDebugUnknown, "Unknown", "Debug unknown data"},
+	DEBUG_CHANNEL_END
 };
 
 static const ADGameDescription gameDescriptions[] = {
@@ -204,8 +218,8 @@ static const ADGameDescription gameDescriptions[] = {
 };
 
 static const char *const directoryGlobs[] = {
-        "data", // GOG release
-        0
+		"data", // GOG release
+		0
 };
 
 class LastExpressMetaEngineDetection : public AdvancedMetaEngineDetection {
@@ -226,6 +240,10 @@ public:
 
 	const char *getOriginalCopyright() const override {
 		return "The Last Express (C) 1997 Smoking Car Productions";
+	}
+
+	const DebugChannelDef *getDebugChannels() const override {
+		return debugFlagList;
 	}
 };
 

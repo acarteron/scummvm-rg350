@@ -24,6 +24,31 @@
 #include "engines/grim/detection.h"
 
 #include "common/translation.h"
+#include "engines/grim/debug.h"
+
+static const DebugChannelDef debugFlagList[] = {
+	{Grim::Debug::Info, "info", ""},
+	{Grim::Debug::Warning, "warning", ""},
+	{Grim::Debug::Error, "error", ""},
+	{Grim::Debug::Engine, "engine", ""},
+	{Grim::Debug::Lua, "lua", ""},
+	{Grim::Debug::Bitmaps, "bitmaps", ""},
+	{Grim::Debug::Models, "models", ""},
+	{Grim::Debug::Actors, "actors", ""},
+	{Grim::Debug::Costumes, "costumes", ""},
+	{Grim::Debug::Chores, "chores", ""},
+	{Grim::Debug::Fonts, "fonts", ""},
+	{Grim::Debug::Keyframes, "keyframes", ""},
+	{Grim::Debug::Movie, "movie", ""},
+	{Grim::Debug::Sound, "sound", ""},
+	{Grim::Debug::Scripts, "scripts", ""},
+	{Grim::Debug::Sets, "sets", ""},
+	{Grim::Debug::TextObjects, "textobjects", ""},
+	{Grim::Debug::Patchr, "patchr", ""},
+	{Grim::Debug::Lipsync, "lipsync", ""},
+	{Grim::Debug::Sprites, "sprites", ""},
+	DEBUG_CHANNEL_END
+};
 
 namespace Grim {
 
@@ -147,6 +172,20 @@ static const GrimGameDescription gameDescriptions[] = {
 			"",
 			AD_ENTRY1s("VOX0001.LAB", "d304aa402098de5966816c0a11e45816", 66829347),
 			Common::DE_DEU,
+			Common::kPlatformWindows,
+			ADGF_NO_FLAGS,
+			GUI_OPTIONS_GRIME
+		},
+		GType_GRIM
+	},
+	{
+		// Grim Fandango Hebrew Fan translation (patched)
+		{
+			"grim",
+			"",
+			AD_ENTRY2s("LOCAL.LAB", "d22648d6787c2f8f0a789ee3ed0c08f7", 608,
+					   "VOX0001.LAB", "444f05f2af689c1bffd179b8b6a632bd", 57993159),
+			Common::HE_ISR,
 			Common::kPlatformWindows,
 			ADGF_NO_FLAGS,
 			GUI_OPTIONS_GRIME
@@ -582,6 +621,10 @@ public:
 
 	const char *getOriginalCopyright() const override {
 		return "LucasArts GrimE Games (C) LucasArts";
+	}
+
+	const DebugChannelDef *getDebugChannels() const override {
+		return debugFlagList;
 	}
 
 };

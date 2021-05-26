@@ -22,24 +22,14 @@
 
 #include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/kernel/object_manager.h"
-#include "ultima/shared/std/containers.h"
 #include "ultima/ultima8/misc/id_man.h"
-#include "ultima/ultima8/kernel/object.h"
-#include "ultima/ultima8/world/item.h"
-#include "ultima/ultima8/world/actors/actor.h"
-#include "ultima/ultima8/gumps/gump.h"
-#include "ultima/ultima8/world/item_factory.h"
 #include "ultima/ultima8/ultima8.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
-#include "ultima/ultima8/world/egg.h"
 #include "ultima/ultima8/world/monster_egg.h"
 #include "ultima/ultima8/world/teleport_egg.h"
 #include "ultima/ultima8/world/glob_egg.h"
-#include "ultima/ultima8/gumps/game_map_gump.h"
-#include "ultima/ultima8/gumps/desktop_gump.h"
 #include "ultima/ultima8/gumps/ask_gump.h"
 #include "ultima/ultima8/gumps/bark_gump.h"
-#include "ultima/ultima8/gumps/container_gump.h"
 #include "ultima/ultima8/gumps/paperdoll_gump.h"
 #include "ultima/ultima8/gumps/widgets/text_widget.h"
 #include "ultima/ultima8/gumps/widgets/button_widget.h"
@@ -233,7 +223,7 @@ void ObjectManager::save(Common::WriteStream *ws) {
 
 		saveObject(ws, object);
 	}
- 
+
 	ws->writeUint16LE(0);
 }
 
@@ -290,6 +280,28 @@ bool ObjectManager::load(Common::ReadStream *rs, uint32 version) {
 	}
 	pout << "Reclaimed " << count << " _objIDs on load." << Std::endl;
 
+	// Integrity check items - their ids should match, and if they have
+	// parents, those should be valid.
+	for (unsigned int i = 0; i < _objects.size(); i++) {
+		if (!_objects[i])
+			continue;
+		const Object *obj = _objects[i];
+		ObjId oid = obj->getObjId();
+		if (oid != i) {
+			warning("Corrupt save? Object %d thinks its id is %d", i, oid);
+			return false;
+		}
+
+		const Item *it = dynamic_cast<const Item *>(obj);
+		if (it) {
+			ObjId parent = it->getParent();
+			if (parent && !_objects[parent]) {
+				warning("Corrupt save? Object %d has parent %d which no longer exists", i, parent);
+				return false;
+			}
+		}
+	}
+
 	return true;
 }
 
@@ -320,7 +332,7 @@ Object *ObjectManager::loadObject(Common::ReadStream *rs, uint32 version) {
 }
 
 Object *ObjectManager::loadObject(Common::ReadStream *rs, Std::string classname,
-                                  uint32 version) {
+								  uint32 version) {
 	Std::map<Common::String, ObjectLoadFunc>::iterator iter;
 	iter = _objectLoaders.find(classname);
 

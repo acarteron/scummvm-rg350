@@ -165,6 +165,7 @@ static const DirectorGameDescription gameDescriptions[] = {
 	MACGAME("kyoto", "v1.01", "Cosmology of KYOTO", "f5277c53bacd27936158dd3867e587e2", 392505, 300),
 
 	MACGAME("lzone", "", "L-ZONE", "f5277c53bacd27936158dd3867e587e2", 392484, 300),
+	MACGAME("lzone", "MacintoshII", "L-ZONE", "9f0bb7ec7720e4f680ee3aa3d22c1c9d", 384968, 300),
 	MACGAME("lzone", "v2", "L-ZONE", "276bee761e48a6fd709df77d5c2f60dd", 395344, 300),
 	{
 		{
@@ -333,7 +334,7 @@ static const DirectorGameDescription gameDescriptions[] = {
 
 	WINDEMO("c64pack", "Demo", "C64DEMO.EXE", "0458e44d9ad4ae0d3a583ac4141d21ae", 1007517, 400), // full game is not Director
 
-	WINGAME("chopsuey", "", "CHOPSUEY.EXE", "785e26240153a028549e8a66c2e904bf", 772382, 400),
+	WINGAME("chopsuey", "", "CHOPSUEY.EXE", "785e26240153a028549e8a66c2e904bf", 772382, 404),
 
 	MACGAME_l("chuteng", "", "ChuTeng", "ea646eccc9a53f44ce082459d4809a06", 484351, Common::JA_JPN, 400), // executable file name is in Japanese characters
 	WINGAME_l("chuteng", "", "CHUTENG.EXE", "aaef7b33829ff7b0243412c89869e011", 746971, Common::JA_JPN, 400),
@@ -659,6 +660,9 @@ static const DirectorGameDescription gameDescriptions[] = {
 		400
 	},
 
+	WINGAME("paws", "", "STARTDOG.EXE", "5c9a56c88b4bb8732377f93f62a885a4", 818961, 404),
+	WINGAME("paws", "Making Of", "MAKEPAWS.EXE", "559f4c728a348c18b96cddaf102e3413", 874293, 404),
+
 	MACGAME_l("phantasplanet", "", "phantasmagoria_PPC", "602e61f10c158183218405dd30a09b3f", 60352, Common::JA_JPN, 400),
 	WINGAME_l("phantasplanet", "", "PHANTAS.EXE", "c2dd62dd0f9488ae8102970553eff170", 690449, Common::JA_JPN, 400),
 
@@ -681,6 +685,9 @@ static const DirectorGameDescription gameDescriptions[] = {
 	WINGAME("sciencesmart", "", "SCIENCE.EXE", "23e748085b255870650ae18b15dd986b", 759951, 404),
 
 	WINDEMO("shanghai", "Demo", "SHGMDEMO.EXE", "4a8fd0d74faef305bc935e1aac94d3e8", 712817, 400), // full game is not Director
+
+	WINGAME("simpsons", "", "SIMPSONS.EXE", "358af28ffe3fa515a9b9a03149483cb1", 3368957, 404),
+	WINGAME("splayer", "", "SPLAYER.EXE", "8966c096c5718316fddc7b238dd9df94", 884843, 404), // standalone player for simpsons cartoons
 
 	MACGAME("skyborg", "", "SkyBorg 1.0", "bcd3c718db258701496b3c5bcb827ef2", 486954, 400),
 	WINGAME("skyborg", "", "BORG.EXE", "855f305ba8ae70d5e5a53a9085b83d5b", 1887499, 400),

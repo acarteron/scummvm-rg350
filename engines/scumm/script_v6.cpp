@@ -718,7 +718,7 @@ void ScummEngine_v6::o6_jump() {
 			_scummVars[202] = 35;
 	}
 
-	// WORKAROUND bug #2826144: Talking to the guard at the bigfoot party, after
+	// WORKAROUND bug #4464: Talking to the guard at the bigfoot party, after
 	// he's let you inside, will cause the game to hang, if you end the conversation.
 	// This is a script bug, due to a missing jump in one segment of the script.
 	if (_game.id == GID_SAMNMAX && vm.slot[_currentScript].number == 101 && readVar(0x8000 + 97) == 1 && offset == 1) {
@@ -740,11 +740,11 @@ void ScummEngine_v6::o6_startScript() {
 	// the cannonballs in the Plunder Town Theater, during the juggling show, the game
 	// cuts from room 18 (backstage) to room 19 (stage).
 	//
-	// Usually, when loading a room script 29 handles the change of background music, 
+	// Usually, when loading a room script 29 handles the change of background music,
 	// based on which room we've just loaded.
 	// Unfortunately, during this particular cutscene, script 29 is not executing,
-	// therefore the music is unchanged from room 18 to 19 (the muffled backstage 
-	// version is played), and is not coherent with the drums fill played afterwards 
+	// therefore the music is unchanged from room 18 to 19 (the muffled backstage
+	// version is played), and is not coherent with the drums fill played afterwards
 	// (sequence 2225), which is unmuffled.
 	//
 	// This fix checks for this situation happening (and only this one), and makes a call
@@ -782,7 +782,7 @@ void ScummEngine_v6::o6_startScript() {
 		return;
 	}
 
-	// WORKAROUND bug #1878514: When turning pages in the recipe book
+	// WORKAROUND bug #3591: When turning pages in the recipe book
 	// (found on Blood Island), there is a brief moment where it displays
 	// text from two different pages at the same time.
 	//
@@ -869,7 +869,7 @@ void ScummEngine_v6::o6_drawObjectAt() {
 	int x = pop();
 	int obj = pop();
 
-	// WORKAROUND bug #1846746 : Adjust x and y position of
+	// WORKAROUND bug #3487 : Adjust x and y position of
 	// objects in credits sequence, to match other ports
 	if (_game.id == GID_PUTTMOON && _game.platform == Common::kPlatform3DO &&
 		_roomResource == 38 && vm.slot[_currentScript].number == 206) {
@@ -1243,7 +1243,7 @@ void ScummEngine_v6::o6_animateActor() {
 	}
 	if (_game.id == GID_SAMNMAX && _roomResource == 35 &&
 		vm.slot[_currentScript].number == 202 && act == 4 && anim == 14) {
-		// WORKAROUND bug #1223621 (Animation glitch at World of Fish).
+		// WORKAROUND bug #2068 (Animation glitch at World of Fish).
 		// Before starting animation 14 of the fisherman, make sure he isn't
 		// talking anymore. This appears to be a bug in the original game as well.
 		if (getTalkingActor() == 4) {
@@ -1409,7 +1409,28 @@ void ScummEngine_v6::o6_getActorAnimCounter() {
 void ScummEngine_v6::o6_getAnimateVariable() {
 	int var = pop();
 	Actor *a = derefActor(pop(), "o6_getAnimateVariable");
-	push(a->getAnimVar(var));
+
+	// WORKAROUND: In Backyard Baseball 2001 and 2003,
+	// bunting a foul ball as Pete Wheeler may softlock the game
+	// with an animation loop if the ball goes way into
+	// the left or right field line.
+	//
+	// This is a script bug because Pete's actor variable never
+	// sets to 1 in this condition and script room-4-2105
+	// (or room-3-2105 in 2003) will always break.
+	// We fix that by forcing Pete to play the return animation
+	// regardless if the ball's foul or not.
+	if ((_game.id == GID_BASEBALL2001 || _game.id == GID_BASEBALL2003) && \
+	 		_currentRoom == ((_game.id == GID_BASEBALL2001) ? 4 : 3) && \
+			vm.slot[_currentScript].number == 2105 && \
+			a->_costume == ((_game.id == GID_BASEBALL2001) ? 107 : 99) && \
+			// Room variable 5 to ensure this workaround executes only once at
+			// the beginning of the script and room variable 22 to check if we
+			// are bunting.
+			readVar(0x8000 + 5) != 0 && readVar(0x8000 + 22) == 4)
+		push(1);
+	else
+		push(a->getAnimVar(var));
 }
 
 void ScummEngine_v6::o6_isActorInBox() {
@@ -1928,7 +1949,7 @@ void ScummEngine_v6::o6_verbOps() {
 		break;
 	case 128:		// SO_VERB_AT
 		vs->curRect.top = pop();
-		vs->curRect.left = pop();
+		vs->curRect.left = vs->origLeft = pop();
 		break;
 	case 129:		// SO_VERB_ON
 		vs->curmode = 1;
@@ -2228,7 +2249,7 @@ void ScummEngine_v6::o6_soundKludge() {
 
 	_sound->soundKludge(list, num);
 
-	// WORKAROUND for bug #1398195: The room-11-2016 script contains a
+	// WORKAROUND for bug #2438: The room-11-2016 script contains a
 	// slight bug causing it to busy-wait for a sound to finish. Even under
 	// the best of circumstances, this will cause the game to hang briefly.
 	// On platforms where threading is cooperative, it will cause the game
@@ -2350,7 +2371,7 @@ void ScummEngine_v6::o6_talkActor() {
 
 	_actorToPrintStrFor = pop();
 
-	// WORKAROUND for bug #2016521: "DOTT: Bernard impersonating LaVerne"
+	// WORKAROUND for bug #3803: "DOTT: Bernard impersonating LaVerne"
 	// Original script did not check for VAR_EGO == 2 before executing
 	// a talkActor opcode.
 	if (_game.id == GID_TENTACLE && vm.slot[_currentScript].number == 307

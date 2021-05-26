@@ -24,7 +24,7 @@
 #define FORBIDDEN_SYMBOL_ALLOW_ALL
 
 // HACK to allow building with the SDL backend on MinGW
-// see bug #1800764 "TOOLS: MinGW tools building broken"
+// see bug #3412 "TOOLS: MinGW tools building broken"
 #ifdef main
 #undef main
 #endif // main
@@ -59,7 +59,7 @@ uint16 CCArchive::convertNameToId(const Common::String &resourceName) {
 
 void CCArchive::loadIndex() {
 	int count = _file.readUint16LE();
-	size_t size = count * 8;
+	long size = count * 8;
 
 	// Read in the data for the archive's index
 	byte *rawIndex = new byte[size];

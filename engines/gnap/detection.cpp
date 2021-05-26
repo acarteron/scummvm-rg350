@@ -34,6 +34,11 @@ static const PlainGameDescriptor gnapGames[] = {
 	{ 0, 0 }
 };
 
+static const DebugChannelDef debugFlagList[] = {
+	{Gnap::kDebugBasic, "basic", "Basic debug level"},
+	DEBUG_CHANNEL_END
+};
+
 namespace Gnap {
 
 static const ADGameDescription gameDescriptions[] = {
@@ -45,6 +50,11 @@ static const ADGameDescription gameDescriptions[] = {
 	{
 		"gnap", "",
 		AD_ENTRY1s("stock_n.dat", "46819043d019a2f36b727cc2bdd6980f", 13497301),
+		Common::EN_ANY, Common::kPlatformWindows, ADGF_NO_FLAGS, GUIO0()
+	},
+	{	// Bugreport #11404
+		"gnap", "",
+		AD_ENTRY1s("stock_n.dat", "46819043d019a2f36b727cc2bdd6980f", 13035286),
 		Common::EN_ANY, Common::kPlatformWindows, ADGF_NO_FLAGS, GUIO0()
 	},
 	{
@@ -84,6 +94,10 @@ public:
 
 	const char *getOriginalCopyright() const override {
 		return "Gnap (C) Artech Digital Entertainment 1997";
+	}
+
+	const DebugChannelDef *getDebugChannels() const override {
+		return debugFlagList;
 	}
 };
 

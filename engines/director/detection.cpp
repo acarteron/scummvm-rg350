@@ -27,6 +27,7 @@
 #include "common/file.h"
 
 #include "director/detection.h"
+#include "director/director.h"
 
 static const PlainGameDescriptor directorGames[] = {
 	{ "director",			"Macromedia Director Game" },
@@ -72,7 +73,7 @@ static const PlainGameDescriptor directorGames[] = {
 	{ "gundam0079",			"Gundam 0079: The War for Earth" },
 	{ "hamsterland1",		"Busy People of Hamsterland" },
 	{ "hamsterland2",		"Hamsterland: The Time Machine" },
-	{ "hhouse",				"Gahan Wilson's The Ultimate Haunted House" },	
+	{ "hhouse",				"Gahan Wilson's The Ultimate Haunted House" },
 	{ "horrortour1",		"Zeddas: Servant of Sheol"},
 	{ "horrortour2",		"Zeddas: Horror Tour 2"},
 	{ "horrortour3",		"Labyrinthe"},
@@ -120,6 +121,7 @@ static const PlainGameDescriptor directorGames[] = {
 	{ "nile",				"Nile: Passage to Egypt"},
 	{ "noir",				"Noir: A Shadowy Thriller"},
 	{ "operafatal",			"Opera Fatal"},
+	{ "paws",				"P.A.W.S.: Personal Automated Wagging System"},
 	{ "phantasplanet",		"Phantasmagoria Amusement Planet"},
 	{ "pitfall",			"Pitfall: The Mayan Adventure" },
 	{ "planetarizona",		"Escape from Planet Arizona" },
@@ -135,8 +137,10 @@ static const PlainGameDescriptor directorGames[] = {
 	{ "sciencesmart",		"Science Smart"},
 	{ "screamingmetal",		"Screaming Metal"},
 	{ "shanghai",			"Shanghai: Great Moments"},
+	{ "simpsons",			"The Simpsons: Cartoon Studio"},
 	{ "skyborg",			"SkyBorg: Into the Vortex"},
 	{ "snh",				"A Silly Noisy House"},
+	{ "splayer",			"The Simpsons: Cartoon Studio Player"},
 	{ "spyclub",			"Spy Club" },
 	{ "spycraft",			"Spycraft: The Great Game" },
 	{ "staytooned",			"Stay Tooned!" },
@@ -183,6 +187,27 @@ static const char *directoryGlobs[] = {
 	0
 };
 
+static const DebugChannelDef debugFlagList[] = {
+	{Director::kDebugCompile, "compile", "Lingo Compilation"},
+	{Director::kDebugCompileOnly, "compileonly", "Skip Lingo code execution"},
+	{Director::kDebugDesktop, "desktop", "Show the Classic Mac desktop"},
+	{Director::kDebugEndVideo, "endvideo", "Fake that the end of video is reached setting"},
+	{Director::kDebugEvents, "events", "Event processing"},
+	{Director::kDebugFast, "fast", "Fast (no delay) playback"},
+	{Director::kDebugFewFramesOnly, "fewframesonly", "Only run the first 10 frames"},
+	{Director::kDebugImages, "images", "Image drawing"},
+	{Director::kDebugLingoExec, "lingoexec", "Lingo Execution"},
+	{Director::kDebugLoading, "loading", "Loading"},
+	{Director::kDebugNoBytecode, "nobytecode", "Do not execute Lscr bytecode"},
+	{Director::kDebugNoLoop, "noloop", "Do not loop the playback"},
+	{Director::kDebugParse, "parse", "Lingo code parsing"},
+	{Director::kDebugPreprocess, "preprocess", "Lingo preprocessing"},
+	{Director::kDebugScreenshot, "screenshot", "screenshot each frame"},
+	{Director::kDebugSlow, "slow", "Slow playback"},
+	{Director::kDebugText, "text", "Text rendering"},
+	DEBUG_CHANNEL_END
+};
+
 class DirectorMetaEngineDetection : public AdvancedMetaEngineDetection {
 public:
 	DirectorMetaEngineDetection() : AdvancedMetaEngineDetection(Director::gameDescriptions, sizeof(Director::DirectorGameDescription), directorGames) {
@@ -200,6 +225,10 @@ public:
 
 	const char *getOriginalCopyright() const override {
 		return "Macromedia Director (C) 1990-1995 Macromedia";
+	}
+
+	const DebugChannelDef *getDebugChannels() const override {
+		return debugFlagList;
 	}
 
 	ADDetectedGame fallbackDetect(const FileMap &allFiles, const Common::FSList &fslist) const override;

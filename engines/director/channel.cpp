@@ -137,22 +137,22 @@ bool Channel::isDirty(Sprite *nextSprite) {
 	if (!nextSprite)
 		return false;
 
-	bool isDirty = _dirty ||
+	bool isDirtyFlag = _dirty ||
 		_delta != Common::Point(0, 0) ||
 		(_sprite->_cast && _sprite->_cast->isModified());
 
 	if (!_sprite->_puppet) {
 		// When puppet is set, the overall dirty flag should be set when sprite is
 		// modified.
-		isDirty |= _sprite->_castId != nextSprite->_castId ||
+		isDirtyFlag |= _sprite->_castId != nextSprite->_castId ||
 			_sprite->_ink != nextSprite->_ink;
 		if (!_sprite->_moveable)
-			isDirty |= _currentPoint != nextSprite->_startPoint;
+			isDirtyFlag |= _currentPoint != nextSprite->_startPoint;
 		if (!_sprite->_stretch)
-			isDirty |= _width != nextSprite->_width || _height != nextSprite->_height;
+			isDirtyFlag |= _width != nextSprite->_width || _height != nextSprite->_height;
 	}
 
-	return isDirty;
+	return isDirtyFlag;
 }
 
 bool Channel::isStretched() {
@@ -314,10 +314,16 @@ void Channel::setClean(Sprite *nextSprite, int spriteId, bool partial) {
 
 void Channel::setEditable(bool editable) {
 	if (_sprite->_cast && _sprite->_cast->_type == kCastText) {
+		if (_sprite->_cast->isEditable() == editable)
+			return;
 		_sprite->_cast->setEditable(editable);
 
 		if (_widget) {
-			_widget->_editable = editable;
+			// since this method may called after the widget is created
+			// so we better also set the attributes which may affected by editable
+			((Graphics::MacText *)_widget)->_focusable = editable;
+			((Graphics::MacText *)_widget)->setEditable(editable);
+			((Graphics::MacText *)_widget)->_selectable = editable;
 			g_director->_wm->setActiveWidget(_widget);
 		}
 	}
@@ -375,6 +381,8 @@ void Channel::replaceWidget() {
 		Common::Rect bbox(getBbox());
 		_sprite->_cast->_modified = false;
 
+//		if (_sprite->_cast->_type == kCastText)
+//			debug("%s %d\n", ((TextCastMember *)_sprite->_cast)->_ftext.c_str(), ((TextCastMember *)_sprite->_cast)->_editable);
 		_widget = _sprite->_cast->createWidget(bbox, this);
 		if (_widget) {
 			_widget->_priority = _priority;

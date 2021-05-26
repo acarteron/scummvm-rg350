@@ -52,7 +52,6 @@ MODULE_OBJS := \
 	shared/maps/map_tile.o \
 	shared/maps/map_widget.o \
 	shared/maps/creature.o \
-	shared/std/misc.o \
 	shared/std/string.o \
 	ultima0/core/resources.o \
 	ultima0/game.o \
@@ -394,14 +393,11 @@ MODULE_OBJS := \
 	ultima8/audio/speech_flex.o \
 	ultima8/audio/u8_music_process.o \
 	ultima8/conf/config_file_manager.o \
-	ultima8/conf/ini_file.o \
-	ultima8/conf/setting_manager.o \
 	ultima8/convert/convert_shape.o \
 	ultima8/convert/u8/convert_shape_u8.o \
 	ultima8/convert/crusader/convert_shape_crusader.o \
 	ultima8/filesys/archive.o \
 	ultima8/filesys/archive_file.o \
-	ultima8/filesys/data.o \
 	ultima8/filesys/file_system.o \
 	ultima8/filesys/flex_file.o \
 	ultima8/filesys/raw_archive.o \
@@ -464,6 +460,7 @@ MODULE_OBJS := \
 	ultima8/gumps/cru_status_gump.o \
 	ultima8/gumps/cru_weapon_gump.o \
 	ultima8/gumps/desktop_gump.o \
+	ultima8/gumps/difficulty_gump.o \
 	ultima8/gumps/fast_area_vis_gump.o \
 	ultima8/gumps/game_map_gump.o \
 	ultima8/gumps/gump.o \
@@ -496,18 +493,15 @@ MODULE_OBJS := \
 	ultima8/gumps/widgets/edit_widget.o \
 	ultima8/gumps/widgets/sliding_widget.o \
 	ultima8/gumps/widgets/text_widget.o \
-	ultima8/kernel/core_app.o \
 	ultima8/kernel/delay_process.o \
 	ultima8/kernel/kernel.o \
 	ultima8/kernel/mouse.o \
 	ultima8/kernel/object.o \
 	ultima8/kernel/object_manager.o \
 	ultima8/kernel/process.o \
-	ultima8/misc/args.o \
 	ultima8/misc/debugger.o \
 	ultima8/misc/encoding.o \
 	ultima8/misc/id_man.o \
-	ultima8/misc/istring.o \
 	ultima8/misc/util.o \
 	ultima8/usecode/bit_set.o \
 	ultima8/usecode/byte_set.o \
@@ -555,6 +549,7 @@ MODULE_OBJS := \
 	ultima8/world/actors/animation_tracker.o \
 	ultima8/world/actors/anim_action.o \
 	ultima8/world/actors/attack_process.o \
+	ultima8/world/actors/auto_firer_process.o \
 	ultima8/world/actors/avatar_death_process.o \
 	ultima8/world/actors/avatar_gravity_process.o \
 	ultima8/world/actors/avatar_mover_process.o \
@@ -562,6 +557,7 @@ MODULE_OBJS := \
 	ultima8/world/actors/clear_feign_death_process.o \
 	ultima8/world/actors/cru_avatar_mover_process.o \
 	ultima8/world/actors/cru_healer_process.o \
+	ultima8/world/actors/cru_pathfinder_process.o \
 	ultima8/world/actors/combat_dat.o \
 	ultima8/world/actors/combat_process.o \
 	ultima8/world/actors/grant_peace_process.o \

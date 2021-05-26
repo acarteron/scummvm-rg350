@@ -250,7 +250,7 @@ struct PointerHash {
 };
 
 template<class Key, class Val, class HashFunc = Common::Hash<Key>,
-         class EqualFunc = Common::EqualTo<Key> >
+		 class EqualFunc = Common::EqualTo<Key> >
 class map : public Common::HashMap<Key, Val, HashFunc, EqualFunc> {
 public:
 	void insert(Std::pair<Key, Val> elem) {
@@ -263,7 +263,7 @@ class deque : public Common::List<VAL> {
 public:
 	VAL operator[](uint index) {
 		for (typename Common::List<VAL>::iterator it = this->begin();
-				it != this->end() && index >= 0; ++it, --index) {
+				it != this->end(); ++it, --index) {
 			if (index == 0)
 				return *it;
 		}
@@ -309,10 +309,6 @@ public:
 
 template<class VAL>
 class stack : public Common::Stack<VAL> {
-};
-
-template<class T>
-class queue : public Common::Queue<T> {
 };
 
 /**

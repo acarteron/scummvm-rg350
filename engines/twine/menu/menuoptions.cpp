@@ -45,6 +45,7 @@ namespace TwinE {
 static const char allowedCharIndex[] = " ABCDEFGHIJKLM.NOPQRSTUVWXYZ-abcdefghijklm?nopqrstuvwxyz!0123456789\040\b\r\0";
 
 void MenuOptions::newGame() {
+	_engine->setTotalPlayTime(0);
 	_engine->_music->stopMusic();
 	_engine->_sound->stopSamples();
 
@@ -59,18 +60,18 @@ void MenuOptions::newGame() {
 
 	_engine->_text->initTextBank(TextBankId::Inventory_Intro_and_Holomap);
 	_engine->_text->textClipFull();
-	_engine->_text->setFontCrossColor(15);
+	_engine->_text->setFontCrossColor(COLOR_WHITE);
 
-	bool aborted = _engine->_text->drawTextFullscreen(TextId::kIntroText1);
+	bool aborted = _engine->_text->drawTextProgressive(TextId::kIntroText1);
 
 	// intro screen 2
 	if (!aborted) {
 		_engine->_screens->loadImage(RESSHQR_INTROSCREEN2IMG, RESSHQR_INTROSCREEN2PAL);
-		aborted |= _engine->_text->drawTextFullscreen(TextId::kIntroText2);
+		aborted |= _engine->_text->drawTextProgressive(TextId::kIntroText2);
 
 		if (!aborted) {
 			_engine->_screens->loadImage(RESSHQR_INTROSCREEN3IMG, RESSHQR_INTROSCREEN3PAL);
-			aborted |= _engine->_text->drawTextFullscreen(TextId::kIntroText3);
+			aborted |= _engine->_text->drawTextProgressive(TextId::kIntroText3);
 		}
 	}
 	_engine->cfgfile.FlagDisplayText = tmpFlagDisplayText;
@@ -86,13 +87,13 @@ void MenuOptions::newGame() {
 
 	_engine->_text->textClipSmall();
 	_engine->_screens->clearScreen();
-	_engine->flip();
 
 	_engine->_text->drawTextBoxBackground = true;
 	_engine->_text->renderTextTriangle = false;
 
 	// set main palette back
 	_engine->setPalette(_engine->_screens->paletteRGBA);
+	_engine->flip();
 }
 
 void MenuOptions::showCredits() {
@@ -120,13 +121,13 @@ void MenuOptions::showEndSequence() {
 	_engine->_flaMovies->playFlaMovie(FLA_THEEND);
 
 	_engine->_screens->clearScreen();
-	_engine->flip();
 	_engine->setPalette(_engine->_screens->paletteRGBA);
+	_engine->flip();
 }
 
 void MenuOptions::drawSelectableCharacter(int32 x, int32 y, Common::Rect &dirtyRect) {
 	const int32 borderTop = 200;
-	const int32 borderLeft = 25;
+	const int32 borderLeft = _engine->width() / 2 - 295;
 	const int32 halfButtonHeight = 25;
 	const int32 halfButtonWidth = 20;
 	const int32 buttonDistanceX = halfButtonWidth * 2 + 5;
@@ -150,7 +151,7 @@ void MenuOptions::drawSelectableCharacter(int32 x, int32 y, Common::Rect &dirtyR
 
 	const bool selected = _onScreenKeyboardX == x && _onScreenKeyboardY == y;
 	if (selected) {
-		_engine->_interface->drawSplittedBox(rect, 91);
+		_engine->_interface->drawFilledRect(rect, COLOR_91);
 	} else {
 		_engine->_interface->blitBox(rect, _engine->workVideoBuffer, _engine->frontVideoBuffer);
 		_engine->_interface->drawTransparentBox(rect, 4);
@@ -158,7 +159,7 @@ void MenuOptions::drawSelectableCharacter(int32 x, int32 y, Common::Rect &dirtyR
 
 	_engine->_menu->drawBox(rect);
 
-	_engine->_text->setFontColor(15);
+	_engine->_text->setFontColor(COLOR_WHITE);
 	const uint8 character = (uint8)allowedCharIndex[idx];
 	const int32 textX = centerX - _engine->_text->getCharWidth(character) / 2;
 	const int32 textY = centerY - _engine->_text->getCharHeight(character) / 2;
@@ -210,9 +211,9 @@ void MenuOptions::drawSelectableCharacters() {
 	_engine->copyBlockPhys(dirtyRect);
 }
 
-void MenuOptions::drawPlayerName(int32 centerx, int32 top, int32 type) {
+void MenuOptions::drawInputText(int32 centerx, int32 top, int32 type, const char *text) {
 	const int32 left = 10;
-	const int right = SCREEN_WIDTH - left;
+	const int right = _engine->width() - left;
 	const int bottom = top + PLASMA_HEIGHT;
 	const Common::Rect rect(left, top, right, bottom);
 	if (type == 1) {
@@ -224,7 +225,7 @@ void MenuOptions::drawPlayerName(int32 centerx, int32 top, int32 type) {
 	_engine->_menu->drawBox(rect);
 	_engine->_interface->drawTransparentBox(rectBox, 3);
 
-	_engine->_text->drawText(centerx - _engine->_text->getTextSize(playerName) / 2, top + 6, playerName);
+	_engine->_text->drawText(centerx - _engine->_text->getTextSize(text) / 2, top + 6, text);
 	_engine->copyBlockPhys(rect);
 }
 
@@ -248,20 +249,21 @@ public:
 	}
 };
 
-bool MenuOptions::enterPlayerName(int32 textIdx) {
-	playerName[0] = '\0'; // TODO: read from settings?
+bool MenuOptions::enterText(TextId textIdx, char *textTargetBuf, size_t bufSize) {
+	textTargetBuf[0] = '\0';
 	_engine->_text->initTextBank(TextBankId::Options_and_menus);
 	char buffer[256];
 	_engine->_text->getMenuText(textIdx, buffer, sizeof(buffer));
-	_engine->_text->setFontColor(15);
-	const int halfScreenWidth = (SCREEN_WIDTH / 2);
+	_engine->_text->setFontColor(COLOR_WHITE);
+	const int halfScreenWidth = (_engine->width() / 2);
 	_engine->_text->drawText(halfScreenWidth - (_engine->_text->getTextSize(buffer) / 2), 20, buffer);
-	_engine->copyBlockPhys(0, 0, SCREEN_WIDTH - 1, 99);
+	_engine->copyBlockPhys(0, 0, _engine->width() - 1, 99);
 	_engine->flip();
 
 	Common::fill(&_onScreenKeyboardDirty[0], &_onScreenKeyboardDirty[ARRAYSIZE(_onScreenKeyboardDirty)], 1);
 	ScopedFeatureState scopedVirtualKeyboard(OSystem::kFeatureVirtualKeyboard, true);
 	for (;;) {
+		FrameMarker frame;
 		ScopedFPS scopedFps;
 		Common::Event event;
 		while (g_system->getEventManager()->pollEvent(event)) {
@@ -275,27 +277,27 @@ bool MenuOptions::enterPlayerName(int32 textIdx) {
 				if (_engine->_input->toggleActionIfActive(TwinEActionType::UIEnter)) {
 					if (_onScreenKeyboardLeaveViaOkButton) {
 						if (_onScreenKeyboardX == ONSCREENKEYBOARD_WIDTH - 1 && _onScreenKeyboardY == ONSCREENKEYBOARD_HEIGHT - 1) {
-							if (playerName[0] == '\0') {
+							if (textTargetBuf[0] == '\0') {
 								continue;
 							}
 							return true;
 						}
-						const size_t size = strlen(playerName);
+						const size_t size = strlen(textTargetBuf);
 						if (_onScreenKeyboardX == ONSCREENKEYBOARD_WIDTH - 2 && _onScreenKeyboardY == ONSCREENKEYBOARD_HEIGHT - 1) {
 							if (size >= 1) {
-								playerName[size - 1] = '\0';
+								textTargetBuf[size - 1] = '\0';
 							}
 							continue;
 						}
 						const char chr = allowedCharIndex[_onScreenKeyboardX + _onScreenKeyboardY * ONSCREENKEYBOARD_WIDTH];
-						playerName[size] = chr;
-						playerName[size + 1] = '\0';
-						if (size + 1 >= sizeof(playerName) - 1) {
+						textTargetBuf[size] = chr;
+						textTargetBuf[size + 1] = '\0';
+						if (size + 1 >= bufSize - 1) {
 							return true;
 						}
 						continue;
 					}
-					if (playerName[0] == '\0') {
+					if (textTargetBuf[0] == '\0') {
 						continue;
 					}
 
@@ -317,22 +319,22 @@ bool MenuOptions::enterPlayerName(int32 textIdx) {
 
 				break;
 			case Common::EVENT_KEYDOWN: {
-				const size_t size = strlen(playerName);
+				const size_t size = strlen(textTargetBuf);
 				if (!Common::isPrint(event.kbd.ascii)) {
 					if (event.kbd.keycode == Common::KEYCODE_BACKSPACE) {
 						if (size >= 1) {
-							playerName[size - 1] = '\0';
+							textTargetBuf[size - 1] = '\0';
 							_onScreenKeyboardLeaveViaOkButton = false;
 						}
 					}
 					continue;
 				}
-				if (size >= sizeof(playerName) - 1) {
+				if (size >= bufSize - 1) {
 					return true;
 				}
 				if (strchr(allowedCharIndex, event.kbd.ascii)) {
-					playerName[size] = event.kbd.ascii;
-					playerName[size + 1] = '\0';
+					textTargetBuf[size] = event.kbd.ascii;
+					textTargetBuf[size + 1] = '\0';
 					_onScreenKeyboardLeaveViaOkButton = false;
 				}
 
@@ -345,7 +347,7 @@ bool MenuOptions::enterPlayerName(int32 textIdx) {
 		if (_engine->shouldQuit()) {
 			break;
 		}
-		drawPlayerName(halfScreenWidth, 100, 1);
+		drawInputText(halfScreenWidth, 100, 1, textTargetBuf);
 		drawSelectableCharacters();
 	}
 	return false;
@@ -354,7 +356,7 @@ bool MenuOptions::enterPlayerName(int32 textIdx) {
 bool MenuOptions::newGameMenu() {
 	_engine->_screens->copyScreen(_engine->workVideoBuffer, _engine->frontVideoBuffer);
 	_engine->flip();
-	if (!enterPlayerName(TextId::kEnterYourName)) {
+	if (!enterText(TextId::kEnterYourName, saveGameName, sizeof(saveGameName))) {
 		return false;
 	}
 	_engine->_gameState->initEngineVars();
@@ -362,7 +364,7 @@ bool MenuOptions::newGameMenu() {
 	return true;
 }
 
-int MenuOptions::chooseSave(int textIdx, bool showEmptySlots) {
+int MenuOptions::chooseSave(TextId textIdx, bool showEmptySlots) {
 	const SaveStateList &savegames = _engine->getSaveSlots();
 	if (savegames.empty() && !showEmptySlots) {
 		return -1;
@@ -373,7 +375,7 @@ int MenuOptions::chooseSave(int textIdx, bool showEmptySlots) {
 	MenuSettings saveFiles;
 	saveFiles.addButton(TextId::kReturnMenu);
 
-	const int maxButtons = _engine->getMetaEngine().getMaximumSaveSlot() + 1;
+	const int maxButtons = _engine->getMetaEngine()->getMaximumSaveSlot() + 1;
 	for (const SaveStateDescriptor &savegame : savegames) {
 		saveFiles.addButton(savegame.getDescription().encode().c_str(), savegame.getSaveSlot());
 		if (saveFiles.getButtonCount() >= maxButtons) {
@@ -392,7 +394,7 @@ int MenuOptions::chooseSave(int textIdx, bool showEmptySlots) {
 		const int32 id = _engine->_menu->processMenu(&saveFiles);
 		switch (id) {
 		case kQuitEngine:
-		case TextId::kReturnMenu:
+		case (int32)TextId::kReturnMenu:
 			return -1;
 		default:
 			const int16 slot = saveFiles.getButtonState(id);

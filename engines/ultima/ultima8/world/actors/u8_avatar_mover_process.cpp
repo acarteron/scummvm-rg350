@@ -20,27 +20,21 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
+#include "common/config-manager.h"
+
 #include "ultima/ultima8/world/actors/u8_avatar_mover_process.h"
-#include "ultima/ultima8/world/actors/animation.h"
-#include "ultima/ultima8/ultima8.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
 #include "ultima/ultima8/gumps/game_map_gump.h"
 #include "ultima/ultima8/kernel/kernel.h"
-#include "ultima/ultima8/world/actors/actor_anim_process.h"
 #include "ultima/ultima8/world/actors/targeted_anim_process.h"
 #include "ultima/ultima8/world/actors/avatar_gravity_process.h"
-#include "ultima/ultima8/graphics/shape_info.h"
-#include "ultima/ultima8/conf/setting_manager.h"
 #include "ultima/ultima8/audio/music_process.h"
 #include "ultima/ultima8/world/get_object.h"
-#include "ultima/ultima8/misc/direction.h"
 #include "ultima/ultima8/misc/direction_util.h"
 
 namespace Ultima {
 namespace Ultima8 {
 
-// p_dynamic_cast stuff
 DEFINE_RUNTIME_CLASSTYPE_CODE(U8AvatarMoverProcess)
 
 U8AvatarMoverProcess::U8AvatarMoverProcess() : AvatarMoverProcess(),
@@ -205,7 +199,7 @@ void U8AvatarMoverProcess::handleCombatMode() {
 
 	if (_mouseButton[1].isState(MBS_DOWN) && _mouseButton[1].isState(MBS_HANDLED)) {
 		// Note: Orginal game allowed a move animation on a single right click.
-		// This implementation needs right mouse to be held. 
+		// This implementation needs right mouse to be held.
 		setMovementFlag(MOVE_MOUSE_DIRECTION);
 
 		if (checkTurn(mousedir, true))
@@ -257,7 +251,7 @@ void U8AvatarMoverProcess::handleCombatMode() {
 			// want to run while in combat mode?
 			// first sheath weapon
 			nextanim = Animation::readyWeapon;
-		} 
+		}
 
 		if (hasMovementFlags(MOVE_RUN)) {
 			// Take a step before running
@@ -375,7 +369,7 @@ void U8AvatarMoverProcess::handleNormalMode() {
 
 	if (_mouseButton[1].isState(MBS_DOWN) && _mouseButton[1].isState(MBS_HANDLED)) {
 		// Note: Orginal game allowed a move animation on a single right click.
-		// This implementation needs right mouse to be held. 
+		// This implementation needs right mouse to be held.
 		setMovementFlag(MOVE_MOUSE_DIRECTION);
 	}
 
@@ -587,7 +581,7 @@ void U8AvatarMoverProcess::handleNormalMode() {
 		return;
 
 	// doing another animation?
-	if (Kernel::get_instance()->getNumProcesses(1, ActorAnimProcess::ACTOR_ANIM_PROC_TYPE))
+	if (avatar->isBusy())
 		return;
 
 	// if we were running, slow to a walk before stopping
@@ -597,7 +591,9 @@ void U8AvatarMoverProcess::handleNormalMode() {
 	}
 
 	// not doing anything in particular? stand
-	if (lastanim != Animation::stand && currentIdleTime == 0) {
+	// don't interrupt spells though.
+	if (lastanim != Animation::stand && !Animation::isCastAnimU8(lastanim)
+		&& currentIdleTime == 0) {
 		waitFor(avatar->doAnim(Animation::stand, direction));
 		return;
 	}
@@ -629,7 +625,7 @@ void U8AvatarMoverProcess::handleNormalMode() {
 }
 
 void U8AvatarMoverProcess::step(Animation::Sequence action, Direction direction,
-                              bool adjusted) {
+							  bool adjusted) {
 	assert(action == Animation::step || action == Animation::walk ||
 	       action == Animation::run);
 
@@ -712,9 +708,7 @@ void U8AvatarMoverProcess::jump(Animation::Sequence action, Direction direction)
 		return;
 	}
 
-	bool targeting;
-	SettingManager::get_instance()->get("targetedjump", targeting);
-
+	bool targeting = ConfMan.getBool("targetedjump");
 	if (targeting) {
 		Mouse *mouse = Mouse::get_instance();
 		int32 coords[3];
@@ -750,20 +744,15 @@ void U8AvatarMoverProcess::jump(Animation::Sequence action, Direction direction)
 
 bool U8AvatarMoverProcess::canAttack() {
 	MainActor *avatar = getMainActor();
-	return (Kernel::get_instance()->getFrameNum() > _lastAttack + (25 - avatar->getDex()));
-}
+	const uint32 frameno = Kernel::get_instance()->getFrameNum();
 
-void U8AvatarMoverProcess::tryAttack() {
-	MainActor *avatar = getMainActor();
-	Direction dir = avatar->getDir();
-	if (!avatar->isInCombat()) {
-		avatar->setInCombat(0);
-		waitFor(avatar->doAnim(Animation::readyWeapon, dir));
-	} else {
-		if (canAttack()) {
-			waitFor(avatar->doAnim(Animation::attack, dir));
-		}
+	// Sanity check in case the frame num went backwards - eg, if
+	// frame counting changed after loading a game.
+	if (_lastAttack > frameno) {
+		_lastAttack = frameno;
 	}
+
+	return (Kernel::get_instance()->getFrameNum() > _lastAttack + (25 - avatar->getDex()));
 }
 
 void U8AvatarMoverProcess::saveData(Common::WriteStream *ws) {

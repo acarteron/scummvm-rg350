@@ -15,10 +15,12 @@ MODULE_OBJS := \
 	\
 	parser/anim.o \
 	parser/body.o \
-	parser/entity.o \
 	parser/brick.o \
+	parser/entity.o \
+	parser/holomap.o \
 	parser/parser.o \
 	parser/sprite.o \
+	parser/text.o \
 	\
 	renderer/redraw.o \
 	renderer/renderer.o \
@@ -40,7 +42,6 @@ MODULE_OBJS := \
 	resources/lzss.o \
 	resources/resources.o \
 	\
-	detection.o \
 	flamovies.o \
 	holomap.o \
 	input.o \

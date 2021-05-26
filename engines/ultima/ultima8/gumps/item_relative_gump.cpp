@@ -20,12 +20,9 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/gumps/item_relative_gump.h"
 #include "ultima/ultima8/gumps/game_map_gump.h"
-#include "ultima/ultima8/world/item.h"
 #include "ultima/ultima8/world/container.h"
-#include "ultima/ultima8/graphics/shape_info.h"
 #include "ultima/ultima8/world/get_object.h"
 
 namespace Ultima {
@@ -37,7 +34,7 @@ ItemRelativeGump::ItemRelativeGump() : Gump(), _ix(0), _iy(0) {
 }
 
 ItemRelativeGump::ItemRelativeGump(int32 x, int32 y, int32 width, int32 height,
-                                   uint16 owner, uint32 flags, int32 layer)
+								   uint16 owner, uint32 flags, int32 layer)
 	: Gump(x, y, width, height, owner, flags, layer), _ix(0), _iy(0) {
 }
 

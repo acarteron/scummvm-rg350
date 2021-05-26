@@ -28,11 +28,26 @@
 #include "common/textconsole.h"
 
 #include "parallaction/detection.h"
+#include "parallaction/parallaction.h"
 
 static const PlainGameDescriptor parallactionGames[] = {
 	{"nippon", "Nippon Safes Inc."},
 	{"bra", "The Big Red Adventure"},
 	{0, 0}
+};
+
+static const DebugChannelDef debugFlagList[] = {
+	{Parallaction::kDebugDialogue, "dialogue", "Dialogues debug level"},
+	{Parallaction::kDebugParser, "parser", "Parser debug level"},
+	{Parallaction::kDebugDisk, "disk", "Disk debug level"},
+	{Parallaction::kDebugWalk, "walk", "Walk debug level"},
+	{Parallaction::kDebugGraphics, "gfx", "Gfx debug level"},
+	{Parallaction::kDebugExec, "exec", "Execution debug level"},
+	{Parallaction::kDebugInput, "input", "Input debug level"},
+	{Parallaction::kDebugAudio, "audio", "Audio debug level"},
+	{Parallaction::kDebugMenu, "menu", "Menu debug level"},
+	{Parallaction::kDebugInventory, "inventory", "Inventory debug level"},
+	DEBUG_CHANNEL_END
 };
 
 namespace Parallaction {
@@ -156,7 +171,7 @@ static const PARALLACTIONGameDescription gameDescriptions[] = {
 	{
 		{
 			"bra",
-			"Multi-lingual",
+			"En/Fr/De",
 			AD_ENTRY1s("request.win", "7a844b9518310e4cc72eabb9c0340314", 6497),
 			Common::UNK_LANG,
 			Common::kPlatformAmiga,
@@ -164,7 +179,7 @@ static const PARALLACTIONGameDescription gameDescriptions[] = {
 			GUIO1(GUIO_NOSPEECH)
 		},
 		GType_BRA,
-		GF_LANG_EN | GF_LANG_FR | GF_LANG_DE | GF_LANG_IT | GF_LANG_MULT,
+		GF_LANG_EN | GF_LANG_FR | GF_LANG_DE | GF_LANG_MULT,
 	},
 
 	{
@@ -202,6 +217,10 @@ public:
 
 	const char *getOriginalCopyright() const override {
 		return "Nippon Safes Inc. (C) Dynabyte";
+	}
+
+	const DebugChannelDef *getDebugChannels() const override {
+		return debugFlagList;
 	}
 };
 

@@ -23,6 +23,7 @@
 #ifndef TWINE_HOLOMAP_H
 #define TWINE_HOLOMAP_H
 
+#include "twine/renderer/renderer.h"
 #include "common/scummsys.h"
 #include "twine/twine.h"
 
@@ -41,21 +42,49 @@ class Holomap {
 private:
 	TwinEEngine *_engine;
 
+	bool isTriangleVisible(const Vertex *vertices) const;
+
 	struct Location {
-		uint16 x = 0;
-		uint16 y = 0;
-		uint16 z = 0;
-		uint16 textIndex = 0;
+		IVec3 angle;
+		TextId textIndex = TextId::kNone;
+		char name[30] = "";
 	};
+
+	IVec3 _holomapSurface[561];
+
+	// original game size: 2244 (lba1)
+	struct HolomapSort {
+		int16 z = 0;
+		uint16 projectedPosIdx = 0;
+	};
+	HolomapSort _holomapSort[512];
+
+	struct HolomapProjectedPos {
+		int16 x = 0;
+		int16 y = 0;
+		int16 unk1 = 0;
+		int16 unk2 = 0;
+	};
+	HolomapProjectedPos _projectedSurfacePositions[561];
+	int _projectedSurfaceIndex = 0;
 
 	int32 _numLocations = 0;
 	Location _locations[NUM_LOCATIONS];
 
-	int32 needToLoadHolomapGFX = 0;
-	uint8 paletteHolomap[NUMOFCOLORS * 3]{0};
+	int32 _holomapPaletteIndex = 0;
+	uint8 _paletteHolomap[NUMOFCOLORS * 3]{0};
 
 	void drawHolomapText(int32 centerx, int32 top, const char *title);
-	void drawHolomapLocation();
+	int32 getNextHolomapLocation(int32 currentLocation, int32 dir) const;
+
+	void renderLocations(int xRot, int yRot, int zRot, bool lower);
+
+	void renderHolomapModel(const BodyData &bodyData, int32 x, int32 y, int32 zPos);
+
+	void prepareHolomapSurface();
+	void prepareHolomapProjectedPositions();
+	void prepareHolomapPolygons();
+	void renderHolomapSurfacePolygons();
 
 public:
 	Holomap(TwinEEngine *engine);
@@ -68,6 +97,8 @@ public:
 
 	bool loadLocations();
 
+	const char *getLocationName(int index) const;
+
 	/**
 	 * Clear Holomap location position
 	 * @param locationIdx Scene where position must be cleared
@@ -76,15 +107,17 @@ public:
 
 	void drawHolomapTrajectory(int32 trajectoryIndex);
 
-	void loadGfxSub1();
-	void loadGfxSub2();
-
 	/** Load Holomap content */
 	void loadHolomapGFX();
 
 	/** Main holomap process loop */
 	void processHolomap();
 };
+
+inline const char *Holomap::getLocationName(int index) const {
+	assert(index >= 0 && index <= ARRAYSIZE(_locations));
+	return _locations[index].name;
+}
 
 } // namespace TwinE
 

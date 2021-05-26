@@ -118,7 +118,7 @@ int AgiEngine::agiInit() {
 	// some scripts expect that the game strings remain unaffected after a
 	// restart. An example is script 98 in SQ2, which is not invoked on restart
 	// to ask Ego's name again. The name is supposed to be maintained in string 1.
-	// Fixes bug #3292784.
+	// Fixes bug #5673.
 	if (!_restartGame) {
 		for (i = 0; i < MAX_STRINGS; i++)
 			_game.strings[i][0] = 0;
@@ -166,14 +166,6 @@ int AgiEngine::agiInit() {
 	// Load logic 0 into memory
 	if (ec == errOK)
 		ec = _loader->loadResource(RESOURCETYPE_LOGIC, 0);
-
-#ifdef __DS__
-	// Normally, the engine loads the predictive text dictionary when the predictive dialog
-	// is shown.  On the DS version, the word completion feature needs the dictionary too.
-
-	// FIXME - loadDict() no long exists in AGI as this has been moved to within the
-	// GUI Predictive Dialog, but DS Word Completion is probably broken due to this...
-#endif
 
 	_keyHoldMode = false;
 	_keyHoldModeLastKey = Common::KEYCODE_INVALID;
@@ -350,17 +342,6 @@ const byte *AgiBase::getFontData() {
 AgiEngine::AgiEngine(OSystem *syst, const AGIGameDescription *gameDesc) : AgiBase(syst, gameDesc) {
 	// Setup mixer
 	syncSoundSettings();
-
-	DebugMan.addDebugChannel(kDebugLevelMain, "Main", "Generic debug level");
-	DebugMan.addDebugChannel(kDebugLevelResources, "Resources", "Resources debugging");
-	DebugMan.addDebugChannel(kDebugLevelSprites, "Sprites", "Sprites debugging");
-	DebugMan.addDebugChannel(kDebugLevelInventory, "Inventory", "Inventory debugging");
-	DebugMan.addDebugChannel(kDebugLevelInput, "Input", "Input events debugging");
-	DebugMan.addDebugChannel(kDebugLevelMenu, "Menu", "Menu debugging");
-	DebugMan.addDebugChannel(kDebugLevelScripts, "Scripts", "Scripts debugging");
-	DebugMan.addDebugChannel(kDebugLevelSound, "Sound", "Sound debugging");
-	DebugMan.addDebugChannel(kDebugLevelText, "Text", "Text output debugging");
-	DebugMan.addDebugChannel(kDebugLevelSavegame, "Savegame", "Saving & restoring game debugging");
 
 	memset(&_debug, 0, sizeof(struct AgiDebug));
 

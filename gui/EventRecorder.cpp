@@ -88,8 +88,6 @@ EventRecorder::EventRecorder() {
 	_lastScreenshotTime = 0;
 	_screenshotPeriod = 0;
 	_playbackFile = nullptr;
-
-	DebugMan.addDebugChannel(kDebugLevelEventRec, "EventRec", "Event recorder debug level");
 }
 
 EventRecorder::~EventRecorder() {
@@ -259,7 +257,7 @@ Common::String EventRecorder::generateRecordFileName(const Common::String &targe
 }
 
 
-void EventRecorder::init(Common::String recordFileName, RecordMode mode) {
+void EventRecorder::init(const Common::String &recordFileName, RecordMode mode) {
 	_fakeMixerManager = new NullMixerManager();
 	_fakeMixerManager->init();
 	_fakeMixerManager->suspendAudio();
@@ -569,7 +567,7 @@ void EventRecorder::preDrawOverlayGui() {
 }
 
 void EventRecorder::postDrawOverlayGui() {
-    if ((_initialized) || (_needRedraw)) {
+	if ((_initialized) || (_needRedraw)) {
 		RecordMode oldMode = _recordMode;
 		_recordMode = kPassthrough;
 	    g_system->hideOverlay();

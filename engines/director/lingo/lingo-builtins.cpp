@@ -21,6 +21,7 @@
  */
 
 #include "common/system.h"
+#include "common/tokenizer.h"
 
 #include "gui/message.h"
 
@@ -271,6 +272,9 @@ static struct BuiltinProto {
 
 	// XCOD/XFCN (HyperCard), normally exposed
 	{ "GetVolumes", LB::b_getVolumes, 0, 0, true, 400, FBLTIN },
+
+	// Used in "Eastern Mind", normally a TheEntity
+	{ "colorQD", LB::b_colorQD, 0, 0, true, 300, FBLTIN },
 
 	{ 0, 0, 0, 0, false, 0, VOIDSYM }
 };
@@ -1080,7 +1084,26 @@ void LB::b_getNthFileNameInFolder(int nargs) {
 
 	int fileNum = g_lingo->pop().asInt() - 1;
 	Common::String path = pathMakeRelative(g_lingo->pop().asString(), true, false, true);
-	Common::FSNode d = Common::FSNode(*g_director->getGameDataDir()).getChild(path);
+	Common::StringTokenizer directory_list(path, "/");
+
+	Common::FSNode d = Common::FSNode(*g_director->getGameDataDir());
+	if (d.getChild(directory_list.nextToken()).exists()) {
+		// then this part is for the "relative to current directory"
+		// we find the child directory recursively
+		directory_list.reset();
+		while (!directory_list.empty() && d.exists())
+			d = d.getChild(directory_list.nextToken());
+	} else {
+		// we first match the path with game data dir
+		while (!directory_list.empty())
+			if (directory_list.nextToken().equalsIgnoreCase(d.getName()))
+				break;
+		// then we go deep to the end of path
+		// skip the current directory which is the game data directory
+		directory_list.nextToken();
+		while (!directory_list.empty() && d.exists())
+			d = d.getChild(directory_list.nextToken());
+	}
 
 	Datum r;
 	if (d.exists()) {
@@ -1088,8 +1111,14 @@ void LB::b_getNthFileNameInFolder(int nargs) {
 		if (!d.getChildren(f, Common::FSNode::kListAll)) {
 			warning("Cannot acces directory %s", path.c_str());
 		} else {
-			if ((uint)fileNum < f.size())
-				r = Datum(f.operator[](fileNum).getName());
+			if ((uint)fileNum < f.size()) {
+				// here, we sort all the fileNames
+				Common::Array<Common::String> fileNameList;
+				for (uint i = 0; i < f.size(); i++)
+					fileNameList.push_back(f[i].getName());
+				Common::sort(fileNameList.begin(), fileNameList.end());
+				r = Datum(fileNameList[fileNum]);
+			}
 		}
 	}
 
@@ -1845,11 +1874,20 @@ void LB::b_puppetPalette(int nargs) {
 }
 
 void LB::b_puppetSound(int nargs) {
-	ARGNUMCHECK(1);
+
+	if (nargs < 1 || nargs >= 3) {
+		warning("b_puppetSound(): needs 1 or 2 args");
+		return;
+	}
 
 	DirectorSound *sound = g_director->getSoundManager();
 	Datum castMember = g_lingo->pop();
 	Score *score = g_director->getCurrentMovie()->getScore();
+
+	int channel = 1;
+	if (nargs == 2) {
+		channel = g_lingo->pop().asInt();
+	}
 
 	if (!score) {
 		warning("b_puppetSound(): no score");
@@ -1857,7 +1895,7 @@ void LB::b_puppetSound(int nargs) {
 	}
 
 	int castId = castMember.asCastId();
-	sound->playCastMember(castId, 1);
+	sound->playCastMember(castId, channel);
 }
 
 void LB::b_puppetSprite(int nargs) {
@@ -2542,6 +2580,10 @@ void LB::b_getVolumes(int nargs) {
 	d.u.farr->push_back(Datum("Buried in Time\252 1"));
 
 	g_lingo->push(d);
+}
+
+void LB::b_colorQD(int nargs) {
+	g_lingo->push(Datum(1));
 }
 
 } // End of namespace Director

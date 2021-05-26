@@ -20,37 +20,30 @@
  *
  */
 
+#include "common/config-manager.h"
+
 #include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/games/remorse_game.h"
 #include "ultima/ultima8/games/start_crusader_process.h"
-#include "ultima/ultima8/conf/setting_manager.h"
 #include "ultima/ultima8/filesys/file_system.h"
-#include "ultima/ultima8/filesys/idata_source.h"
 #include "ultima/ultima8/graphics/palette_manager.h"
 #include "ultima/ultima8/gumps/movie_gump.h"
-#include "ultima/ultima8/gumps/cru_status_gump.h"
+#include "ultima/ultima8/gumps/gump_notify_process.h"
 #include "ultima/ultima8/kernel/object_manager.h"
-#include "ultima/ultima8/kernel/process.h"
 #include "ultima/ultima8/kernel/kernel.h"
 #include "ultima/ultima8/world/world.h"
 #include "ultima/ultima8/graphics/xform_blend.h"
 #include "ultima/ultima8/games/game_data.h"
 #include "ultima/ultima8/ultima8.h"
-#include "ultima/ultima8/filesys/raw_archive.h"
 #include "ultima/ultima8/world/item_factory.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
+#include "ultima/ultima8/world/actors/npc_dat.h"
 #include "common/memstream.h"
 
 namespace Ultima {
 namespace Ultima8 {
 
 RemorseGame::RemorseGame() : Game() {
-	// Set some defaults for gameplay-related settings
-	SettingManager *settingman = SettingManager::get_instance();
-	settingman->setDefault("skipstart", false);
-	settingman->setDefault("endgame", false);
-	settingman->setDefault("footsteps", true);
-	settingman->setDefault("textdelay", 5);
 }
 
 RemorseGame::~RemorseGame() {
@@ -60,7 +53,7 @@ RemorseGame::~RemorseGame() {
 static bool loadPalette(const char *path, PaletteManager::PalIndex index) {
 	Common::SeekableReadStream *pf = FileSystem::get_instance()->ReadFile(path);
 	if (!pf) {
-		perr << "Unable to load static/*.pal." << Std::endl;
+		perr << "Unable to load " << path << Std::endl;
 		return false;
 	}
 
@@ -75,20 +68,20 @@ bool RemorseGame::loadFiles() {
 	// Load palette
 	pout << "Load Palettes" << Std::endl;
 
-	if (!loadPalette("@game/static/gamepal.pal", PaletteManager::Pal_Game))
+	if (!loadPalette("static/gamepal.pal", PaletteManager::Pal_Game))
 		return false;
 	if (GAME_IS_REGRET) {
-		if (!loadPalette("@game/static/cred.pal", PaletteManager::Pal_Cred))
-			return false;
+		// This one is not used at the moment, so allowed to fail
+		loadPalette("static/cred.pal", PaletteManager::Pal_Cred);
 	}
-	if (!loadPalette("@game/static/diff.pal", PaletteManager::Pal_Diff))
+	if (!loadPalette("static/diff.pal", PaletteManager::Pal_Diff))
 		return false;
-	if (!loadPalette("@game/static/misc.pal", PaletteManager::Pal_Misc))
+	if (!loadPalette("static/misc.pal", PaletteManager::Pal_Misc))
 		return false;
-	if (!loadPalette("@game/static/misc2.pal", PaletteManager::Pal_Misc2))
+	if (!loadPalette("static/misc2.pal", PaletteManager::Pal_Misc2))
 		return false;
-	if (!loadPalette("@game/static/star.pal", PaletteManager::Pal_Star))
-		return false;
+	// We don't use his one at the moment, ok to fail.
+	loadPalette("static/star.pal", PaletteManager::Pal_Star);
 
 	pout << "Load GameData" << Std::endl;
 	GameData::get_instance()->loadRemorseData();
@@ -107,37 +100,34 @@ bool RemorseGame::startGame() {
 	for (uint16 i = 384; i < 512; ++i)
 		objman->reserveObjId(i);
 
-	// FIXME: fix flags and such
 	Actor *actor = ItemFactory::createActor(1, 0, 0, Item::FLG_IN_NPC_LIST,
 	                                        1, 1, Item::EXT_PERMANENT_NPC, false);
 	if (!actor)
 		error("Couldn't create MainActor");
 
-	// TODO: these should be read from DTable data.
+	const NPCDat *npcData = GameData::get_instance()->getNPCDataForShape(1);
+
 	actor->setStr(75);
-	actor->setHP(150);
-	actor->setInt(5000);
+	actor->setHP(npcData->getMaxHp());
+	actor->setInt(5000); // max mana (energy) is 2x intelligence, or 10000.
 	actor->setMana(2500);
 
 	ObjectManager::get_instance()->assignActorObjId(actor, 1);
 
-	if (GAME_IS_REMORSE) {
-		// Some useful points to warp into for testing..
-		actor->setLocation(0, 0, 0); // Map 1 (mission 1)
-		//actor->setLocation(60716, 59400, 16); // Map 1 (mission 1)
-		//actor->setLocation(42493, 26621, 16); // Map 2 (mission 1 / level 4)
-		//actor->setLocation(34302, 32254, 16); // Map 3 (mission 2)
-		//actor->setLocation(34813, 33789, 16); // Map 4
-		//actor->setLocation(37373, 30205, 16); // Map 5
-		//actor->setLocation(37373, 30205, 16); // Map 6
-		//actor->setLocation(35070, 26142, 96); // Map 7
-		//actor->setLocation(29693, 32253, 0); // Map 8 - unfinished area?
-		//actor->setLocation(2046, 2046, 0); // Map 9
-		//actor->setLocation(14845, 6141, 0); // Map 22 - debugging map
-		//actor->setLocation(34302, 32254, 16); // Map 40 (Rebel base)
-	} else {
-		actor->setLocation(58174, 56606, 16);
-	}
+	actor->setLocation(0, 0, 0); // Map 1 (mission 1)
+
+	// Some useful points to warp into for testing No Remorse
+	//actor->setLocation(60716, 59400, 16); // Map 1 (mission 1)
+	//actor->setLocation(42493, 26621, 16); // Map 2 (mission 1 / level 4)
+	//actor->setLocation(34302, 32254, 16); // Map 3 (mission 2)
+	//actor->setLocation(34813, 33789, 16); // Map 4
+	//actor->setLocation(37373, 30205, 16); // Map 5
+	//actor->setLocation(37373, 30205, 16); // Map 6
+	//actor->setLocation(35070, 26142, 96); // Map 7
+	//actor->setLocation(29693, 32253, 0); // Map 8 - unfinished area?
+	//actor->setLocation(2046, 2046, 0); // Map 9
+	//actor->setLocation(14845, 6141, 0); // Map 22 - debugging map
+	//actor->setLocation(34302, 32254, 16); // Map 40 (Rebel base)
 
 	World::get_instance()->switchMap(0);
 
@@ -145,35 +135,34 @@ bool RemorseGame::startGame() {
 }
 
 bool RemorseGame::startInitialUsecode(int saveSlot) {
-	Process* proc = new StartCrusaderProcess();
+	Process* proc = new StartCrusaderProcess(saveSlot);
 	Kernel::get_instance()->addProcess(proc);
 	return true;
 }
 
 
-static ProcId playMovie(const char *movieID, bool fade) {
-	const Std::string filename = Std::string::format("@game/flics/%s.avi", movieID);
-	FileSystem *filesys = FileSystem::get_instance();
-	Common::SeekableReadStream *rs = filesys->ReadFile(filename);
-	if (!rs) {
-		pout << "RemorseGame::playIntro: movie not found." << Std::endl;
+static ProcId playMovie(const char *movieID, bool fade, bool noScale) {
+	MovieGump *gump = MovieGump::CruMovieViewer(movieID, 640, 480, nullptr, nullptr);
+	if (!gump) {
+		pout << "RemorseGame::playIntro: movie " << movieID << " not found." << Std::endl;
 		return 0;
 	}
-	// TODO: Add support for subtitles (.txt file).  The format is very simple.
-	return MovieGump::U8MovieViewer(rs, fade);
+	gump->CreateNotifier();
+	return gump->GetNotifyProcess()->getPid();
 }
 
 ProcId RemorseGame::playIntroMovie(bool fade) {
-	return playMovie("T01", fade);
+	const char *name = (GAME_IS_REMORSE ? "T01" : "origin");
+	return playMovie(name, fade, true);
 }
 
 ProcId RemorseGame::playIntroMovie2(bool fade) {
-	return playMovie("T02", fade);
+	const char *name = (GAME_IS_REMORSE ? "T02" : "ANIM01");
+	return playMovie(name, fade, false);
 }
 
-
 ProcId RemorseGame::playEndgameMovie(bool fade) {
-	return playMovie("O01", fade);
+	return playMovie("O01", fade, false);
 }
 
 void RemorseGame::playCredits() {
@@ -181,44 +170,6 @@ void RemorseGame::playCredits() {
 }
 
 void RemorseGame::writeSaveInfo(Common::WriteStream *ws) {
-#if 0
-	MainActor *av = getMainActor();
-	int32 x, y, z;
-
-	const Std::string &avname = av->getName();
-	uint8 namelength = static_cast<uint8>(avname.size());
-	ws->writeByte(namelength);
-	for (unsigned int i = 0; i < namelength; ++i)
-		ws->writeByte(static_cast<uint8>(avname[i]));
-
-	av->getLocation(x, y, z);
-	ws->writeUint16LE(av->getMapNum());
-	ws->writeUint32LE(static_cast<uint32>(x));
-	ws->writeUint32LE(static_cast<uint32>(y));
-	ws->writeUint32LE(static_cast<uint32>(z));
-
-	ws->writeUint16LE(av->getStr());
-	ws->writeUint16LE(av->getInt());
-	ws->writeUint16LE(av->getDex());
-	ws->writeUint16LE(av->getHP());
-	ws->writeUint16LE(av->getMaxHP());
-	ws->writeUint16LE(av->getMana());
-	ws->writeUint16LE(av->getMaxMana());
-	ws->writeUint16LE(av->getArmourClass());
-	ws->writeUint16LE(av->getTotalWeight());
-
-	for (unsigned int i = 1; i <= 6; i++) {
-		const uint16 objid = av->getEquip(i);
-		const Item *item = getItem(objid);
-		if (item) {
-			ws->writeUint32LE(item->getShape());
-			ws->writeUint32LE(item->getFrame());
-		} else {
-			ws->writeUint32LE(0);
-			ws->writeUint32LE(0);
-		}
-	}
-#endif
 }
 
 } // End of namespace Ultima8

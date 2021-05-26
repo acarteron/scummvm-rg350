@@ -34,6 +34,8 @@ namespace TwinE {
 #define PLASMA_HEIGHT 50
 #define kQuitEngine 9998
 
+class SpriteData;
+
 class MenuSettings {
 private:
 	enum MenuSettingsType {
@@ -52,8 +54,8 @@ private:
 	int8 _activeButtonIdx = 0;
 
 public:
-	int16 getButtonTextId(int buttonIndex) const {
-		return _settings[MenuSettings_FirstButton + buttonIndex * 2];
+	TextId getButtonTextId(int buttonIndex) const {
+		return (TextId)_settings[MenuSettings_FirstButton + buttonIndex * 2];
 	}
 
 	void reset() {
@@ -75,16 +77,16 @@ public:
 		_settings[MenuSettings_CurrentLoadedButton] = buttonIdx;
 	}
 
-	void setActiveButtonTextId(int16 textIndex) {
+	void setActiveButtonTextId(TextId textIndex) {
 		setButtonTextId(getActiveButton(), textIndex);
 	}
 
-	void setButtonTextId(int16 buttonIdx, int16 textIndex) {
-		_settings[MenuSettings_FirstButton + buttonIdx * 2] = textIndex;
+	void setButtonTextId(int16 buttonIdx, TextId textIndex) {
+		_settings[MenuSettings_FirstButton + buttonIdx * 2] = (int16)textIndex;
 		_buttonTexts[buttonIdx].clear();
 	}
 
-	int16 getActiveButtonTextId() const {
+	TextId getActiveButtonTextId() const {
 		return getButtonTextId(getActiveButton());
 	}
 
@@ -110,14 +112,14 @@ public:
 		return _settings[MenuSettings_NumberOfButtons];
 	}
 
-	void setTextBankId(int16 textBankIndex) {
-		_settings[MenuSettings_HeaderEnd] = textBankIndex;
+	void setTextBankId(TextBankId textBankIndex) {
+		_settings[MenuSettings_HeaderEnd] = (int16)textBankIndex;
 	}
 
-	void addButton(int16 textId, int16 state = 0) {
+	void addButton(TextId textId, int16 state = 0) {
 		const int16 i = _settings[MenuSettings_NumberOfButtons];
 		_settings[i * 2 + MenuSettings_FirstButtonState] = state;
-		_settings[i * 2 + MenuSettings_FirstButton] = textId;
+		_settings[i * 2 + MenuSettings_FirstButton] = (int16)textId;
 		++_settings[MenuSettings_NumberOfButtons];
 	}
 
@@ -135,13 +137,13 @@ class Menu {
 private:
 	TwinEEngine *_engine;
 	/** Hero behaviour menu entity */
-	uint8 *behaviourEntity = 0;
+	BodyData *behaviourEntity = nullptr;
 	/** Behaviour menu anim state */
-	int16 behaviourAnimState[4]; // winTab
+	uint behaviourAnimState[4]; // winTab
 	/** Behaviour menu anim data pointer */
 	AnimTimerDataStruct behaviourAnimData[4];
 
-	int32 inventorySelectedColor = 0;
+	int32 inventorySelectedColor = COLOR_BLACK;
 	int32 inventorySelectedItem = 0; // currentSelectedObjectInInventory
 
 	/**
@@ -165,21 +167,13 @@ private:
 	/** Used to run the save game management menu */
 	int32 savemanageMenu();
 	void drawInfoMenu(int16 left, int16 top, int16 width);
-	Common::Rect calcBehaviourRect(HeroBehaviourType behaviour) const;
-	bool isBehaviourHovered(HeroBehaviourType behaviour) const;
-	void drawBehaviour(HeroBehaviourType behaviour, int32 angle, bool cantDrawBox, Common::Rect &dirtyRect);
-	void drawInventoryItems();
-	void prepareAndDrawBehaviour(int32 angle, HeroBehaviourType behaviour, Common::Rect &dirtyRect);
-	void drawBehaviourMenu(int32 angle);
-	void drawItem(int32 item, Common::Rect &dirtyRect);
-	/**
-	 * Draw the entire button box
-	 * @param left start width to draw the button
-	 * @param top start height to draw the button
-	 * @param right end width to draw the button
-	 * @param bottom end height to draw the button
-	 */
-	void drawMagicItemsBox(int32 left, int32 top, int32 right, int32 bottom, int32 color);
+	Common::Rect calcBehaviourRect(int32 left, int32 top, HeroBehaviourType behaviour) const;
+	bool isBehaviourHovered(int32 left, int32 top, HeroBehaviourType behaviour) const;
+	void drawBehaviour(int32 left, int32 top, HeroBehaviourType behaviour, int32 angle, bool cantDrawBox, Common::Rect &dirtyRect);
+	void drawInventoryItems(int32 left, int32 top);
+	void prepareAndDrawBehaviour(int32 left, int32 top, int32 angle, HeroBehaviourType behaviour, Common::Rect &dirtyRect);
+	void drawBehaviourMenu(int32 left, int32 top, int32 angle);
+	void drawItem(int32 left, int32 top, int32 item, Common::Rect &dirtyRect);
 
 	MenuSettings giveUpMenuWithSaveState;
 	MenuSettings volumeMenuState;
@@ -189,11 +183,13 @@ private:
 	MenuSettings advOptionsMenuState;
 	MenuSettings optionsMenuState;
 
+	void drawSpriteAndString(int32 left, int32 top, const SpriteData &spriteData, const Common::String &str, int32 color = COLOR_GOLD);
+
 public:
 	Menu(TwinEEngine *engine);
 	~Menu();
 
-	int16 itemAngle[255]; // objectRotation
+	int16 itemAngle[NUM_INVENTORY_ITEMS]; // objectRotation
 
 	/** Behaviour menu move pointer */
 	ActorMoveStruct moveMenu;
@@ -207,6 +203,12 @@ public:
 	 */
 	void processPlasmaEffect(const Common::Rect &rect, int32 color);
 
+	void drawHealthBar(int32 left, int32 right, int32 top, int32 barLeftPadding, int32 barHeight);
+	void drawCloverLeafs(int32 newBoxLeft, int32 boxRight, int32 top);
+	void drawMagicPointsBar(int32 left, int32 right, int32 top, int32 barLeftPadding, int32 barHeight);
+	void drawCoins(int32 left, int32 top);
+	void drawKeys(int32 left, int32 top);
+
 	/**
 	 * Draw the entire button box
 	 * @param left start width to draw the button
@@ -214,14 +216,14 @@ public:
 	 * @param right end width to draw the button
 	 * @param bottom end height to draw the button
 	 */
-	void drawBox(int32 left, int32 top, int32 right, int32 bottom);
-	void drawBox(const Common::Rect &rect);
+	void drawBox(int32 left, int32 top, int32 right, int32 bottom, int32 colorLeftTop = COLOR_79, int32 colorRightBottom = COLOR_73);
+	void drawBox(const Common::Rect &rect, int32 colorLeftTop = COLOR_79, int32 colorRightBottom = COLOR_73);
 	/**
 	 * Where the main menu options are processed
 	 * @param menuSettings menu settings array with the information to build the menu options
 	 * @return pressed menu button identification
 	 */
-	int32 processMenu(MenuSettings *menuSettings);
+	int32 processMenu(MenuSettings *menuSettings, bool showCredits = true);
 
 	bool init();
 

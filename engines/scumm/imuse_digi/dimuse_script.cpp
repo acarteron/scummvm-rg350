@@ -165,6 +165,9 @@ void IMuseDigital::flushTrack(Track *track) {
 	if (!_mixer->isSoundHandleActive(track->mixChanHandle)) {
 		track->reset();
 	}
+
+	if (_vm->_game.id == GID_CMI && track->trackId < MAX_DIGITAL_TRACKS)
+		_scheduledCrossfades[track->trackId].scheduled = false;
 }
 
 void IMuseDigital::flushTracks() {
@@ -174,6 +177,8 @@ void IMuseDigital::flushTracks() {
 		Track *track = _track[l];
 		if (track->used && track->toBeRemoved && !_mixer->isSoundHandleActive(track->mixChanHandle)) {
 			debug(5, "flushTracks() - trackId:%d, soundId:%d", track->trackId, track->soundId);
+			if (_vm->_game.id == GID_CMI && l < MAX_DIGITAL_TRACKS)
+				_scheduledCrossfades[track->trackId].scheduled = false;
 			track->reset();
 		}
 	}
@@ -189,7 +194,7 @@ void IMuseDigital::refreshScripts() {
 			fadeOutMusic(60);
 			return;
 		}
-		// small delay, it seems help for fix bug #1757010
+		// small delay, it seems help for fix bug #3325
 		if (_stopingSequence++ > 120) {
 			debug(5, "refreshScripts() Force restore music state");
 			parseScriptCmds(0x1001, 0, 0, 0, 0, 0, 0, 0);

@@ -53,16 +53,19 @@ void BodyData::loadBones(Common::SeekableReadStream &stream) {
 		boneframe.x = stream.readSint16LE();
 		boneframe.y = stream.readSint16LE();
 		boneframe.z = stream.readSint16LE();
-		const int32 numOfShades = stream.readSint32LE();
-		/*int32 field_14 =*/ stream.readSint32LE();
+		/*int16 unk1 =*/ stream.readSint16LE();
+		const int16 numOfShades = stream.readSint16LE();
+		/*int16 unk2 =*/ stream.readSint16LE();
 		/*int32 field_18 =*/ stream.readSint32LE();
 		/*int32 y =*/ stream.readSint32LE();
 		/*int32 field_20 =*/ stream.readSint32LE();
-		/*int16 field_24 =*/ stream.readSint16LE();
+		/*int32 field_24 =*/ stream.readSint32LE();
 
 		BodyBone bone;
 		bone.parent = baseElementOffset == -1 ? 0xffff : baseElementOffset / 38;
 		bone.vertex = basePoint;
+		bone.firstVertex = firstPoint;
+		bone.numVertices = numPoints;
 		bone.initalBoneState = boneframe;
 		bone.numOfShades = numOfShades;
 
@@ -72,6 +75,7 @@ void BodyData::loadBones(Common::SeekableReadStream &stream) {
 		}
 
 		_bones.push_back(bone);
+		_boneStates[i] = bone.initalBoneState;
 	}
 }
 
@@ -84,7 +88,7 @@ void BodyData::loadShades(Common::SeekableReadStream &stream) {
 		shape.col1 = stream.readSint16LE();
 		shape.col2 = stream.readSint16LE();
 		shape.col3 = stream.readSint16LE();
-		shape.unk4 = stream.readSint16LE();
+		shape.unk4 = stream.readUint16LE();
 		_shades.push_back(shape);
 	}
 }
@@ -95,19 +99,19 @@ void BodyData::loadPolygons(Common::SeekableReadStream &stream) {
 	_polygons.reserve(numPolygons);
 	for (uint16 i = 0; i < numPolygons; ++i) {
 		BodyPolygon poly;
-		poly.renderType = stream.readSByte();
-		const int8 numVertex = stream.readSByte();
+		poly.renderType = stream.readByte();
+		const uint8 numVertices = stream.readByte();
 
-		poly.color = stream.readUint16LE();
+		poly.color = stream.readSint16LE();
 		int16 intensity = -1;
-		if (poly.renderType >= 7 && poly.renderType < 9) {
+		if (poly.renderType == POLYGONTYPE_GOURAUD || poly.renderType == POLYGONTYPE_DITHER) {
 			intensity = stream.readSint16LE();
 		}
 
-		poly.indices.reserve(numVertex);
-		poly.intensities.reserve(numVertex);
-		for (int k = 0; k < numVertex; ++k) {
-			if (poly.renderType >= 9) {
+		poly.indices.reserve(numVertices);
+		poly.intensities.reserve(numVertices);
+		for (int k = 0; k < numVertices; ++k) {
+			if (poly.renderType >= POLYGONTYPE_UNKNOWN) {
 				intensity = stream.readSint16LE();
 			}
 			const uint16 vertexIndex = stream.readUint16LE() / 6;
@@ -125,8 +129,9 @@ void BodyData::loadLines(Common::SeekableReadStream &stream) {
 	_lines.reserve(numLines);
 	for (uint16 i = 0; i < numLines; ++i) {
 		BodyLine line;
-		line.unk1 = stream.readUint16LE();
-		line.color = stream.readUint16LE();
+		line.color = stream.readByte();
+		line.unk1 = stream.readByte();
+		line.unk2 = stream.readUint16LE();
 		line.vertex1 = stream.readUint16LE() / 6;
 		line.vertex2 = stream.readUint16LE() / 6;
 		_lines.push_back(line);
@@ -139,22 +144,23 @@ void BodyData::loadSpheres(Common::SeekableReadStream &stream) {
 	_spheres.reserve(numSpheres);
 	for (uint16 i = 0; i < numSpheres; ++i) {
 		BodySphere sphere;
+		sphere.unk1 = stream.readByte();
+		sphere.color = stream.readByte();
+		sphere.unk2 = stream.readUint16LE();
 		sphere.radius = stream.readUint16LE();
-		sphere.color = stream.readUint16LE();
-		sphere.size = stream.readUint16LE();
 		sphere.vertex = stream.readUint16LE() / 6;
 		_spheres.push_back(sphere);
 	}
 }
 
 bool BodyData::loadFromStream(Common::SeekableReadStream &stream) {
-	*(uint16 *)&bodyFlag = stream.readUint16LE();
-	minsx = stream.readSint16LE();
-	maxsx = stream.readSint16LE();
-	minsy = stream.readSint16LE();
-	maxsy = stream.readSint16LE();
-	minsz = stream.readSint16LE();
-	maxsz = stream.readSint16LE();
+	bodyFlag.value = stream.readUint16LE();
+	bbox.mins.x = stream.readSint16LE();
+	bbox.maxs.x = stream.readSint16LE();
+	bbox.mins.y = stream.readSint16LE();
+	bbox.maxs.y = stream.readSint16LE();
+	bbox.mins.z = stream.readSint16LE();
+	bbox.maxs.z = stream.readSint16LE();
 
 	stream.seek(0x1A);
 	loadVertices(stream);

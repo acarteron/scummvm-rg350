@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef TWINE_REDRAW_H
-#define TWINE_REDRAW_H
+#ifndef TWINE_RENDERER_REDRAW_H
+#define TWINE_RENDERER_REDRAW_H
 
 #include "common/scummsys.h"
 #include "common/rect.h"
@@ -54,6 +54,27 @@ struct OverlayListStruct {
 	int16 lifeTime = 0;
 };
 
+struct DrawListStruct {
+	int16 posValue = 0; // sorting value
+	uint32 type = 0;
+	uint16 actorIdx = 0;
+	uint16 x = 0;
+	uint16 y = 0;
+	uint16 z = 0;
+	uint16 offset = 0;
+	uint16 field_C = 0;
+	uint16 field_E = 0;
+	uint16 field_10 = 0;
+
+	inline bool operator==(const DrawListStruct& other) const {
+		return posValue == other.posValue;
+	}
+
+	inline bool operator<(const DrawListStruct& other) const {
+		return posValue < other.posValue;
+	}
+};
+
 class TwinEEngine;
 class Redraw {
 private:
@@ -64,26 +85,10 @@ private:
 		DrawShadows = 0xC00
 	};
 
-	struct DrawListStruct {
-		int16 posValue = 0;
-		uint32 type = 0;
-		uint16 actorIdx = 0;
-		uint16 x = 0;
-		uint16 y = 0;
-		uint16 z = 0;
-		uint16 offset = 0;
-		uint16 field_C = 0;
-		uint16 field_E = 0;
-		uint16 field_10 = 0;
-	};
+	Common::Rect _currentRedrawList[300];
+	Common::Rect _nextRedrawList[300];
 
-	/** Draw list array to grab the necessary */
-	DrawListStruct drawList[150];
-
-	Common::Rect currentRedrawList[300];
-	Common::Rect nextRedrawList[300];
-
-	int16 overlayRotation = 0;
+	int16 _overlayRotation = 0;
 	/**
 	 * Add a certain region to the current redraw list array
 	 * @param redrawArea redraw the region
@@ -91,12 +96,6 @@ private:
 	void addRedrawCurrentArea(const Common::Rect &redrawArea);
 	/** Move next regions to the current redraw list */
 	void moveNextAreas();
-	/**
-	 * Sort drawing list struct ordered as the first objects appear in the top left corner of the screen
-	 * @param list drawing list variable which contains information of the drawing objects
-	 * @param listSize number of drawing objects in the list
-	 */
-	void sortDrawingList(DrawListStruct *list, int32 listSize);
 	void updateOverlayTypePosition(int16 x1, int16 y1, int16 x2, int16 y2);
 
 	void processDrawListShadows(const DrawListStruct& drawCmd);
@@ -115,7 +114,7 @@ public:
 	/** Auxiliar object render position on screen */
 	Common::Rect renderRect { 0, 0, 0, 0 };
 
-	bool drawInGameTransBox = false;
+	bool inSceneryView = false;
 
 	/** Request background redraw */
 	bool reqBgRedraw = false;
@@ -161,7 +160,23 @@ public:
 	/** Draw dialogue sprite image */
 	void drawBubble(int32 actorIdx);
 
+	/**
+	 * Sort drawing list struct ordered as the first objects appear in the top left corner of the screen
+	 * @param list drawing list variable which contains information of the drawing objects
+	 * @param listSize number of drawing objects in the list
+	 */
+	void sortDrawingList(DrawListStruct *list, int32 listSize);
+
+	int _sceneryViewX = 0;
+	int _sceneryViewY = 0;
+
+	/**
+	 * Zooms the area around the scenery view focus positions
+	 */
 	void zoomScreenScale();
+
+	/** Draw list array to grab the necessary */
+	DrawListStruct drawList[150];
 };
 
 } // namespace TwinE

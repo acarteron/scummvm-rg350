@@ -34,16 +34,17 @@
 #include "graphics/pixelformat.h"
 #include "graphics/surface.h"
 
+#include "common/debug.h"
 #include "common/array.h"
 #include "common/stream.h"
 
 namespace Image {
 
 PNGDecoder::PNGDecoder() :
-        _outputSurface(0),
-        _palette(0),
-        _paletteColorCount(0),
-        _skipSignature(false),
+		_outputSurface(0),
+		_palette(0),
+		_paletteColorCount(0),
+		_skipSignature(false),
 		_keepTransparencyPaletted(false),
 		_transparentColor(-1) {
 }
@@ -73,11 +74,11 @@ Graphics::PixelFormat PNGDecoder::getByteOrderRgbaPixelFormat() const {
 #ifdef USE_PNG
 // libpng-error-handling:
 void pngError(png_structp pngptr, png_const_charp errorMsg) {
-	error("%s", errorMsg);
+	error("libpng: %s", errorMsg);
 }
 
 void pngWarning(png_structp pngptr, png_const_charp warningMsg) {
-	warning("%s", warningMsg);
+	debug(3, "libpng: %s", warningMsg);
 }
 
 // libpng-I/O-helpers:
@@ -298,7 +299,7 @@ bool PNGDecoder::loadStream(Common::SeekableReadStream &stream) {
 #endif
 }
 
-bool writePNG(Common::WriteStream &out, const Graphics::Surface &input) {
+bool writePNG(Common::WriteStream &out, const Graphics::Surface &input, const byte *palette) {
 #ifdef USE_PNG
 #ifdef SCUMM_LITTLE_ENDIAN
 	const Graphics::PixelFormat requiredFormat_3byte(3, 8, 8, 8, 0, 0, 8, 16, 0);
@@ -319,7 +320,7 @@ bool writePNG(Common::WriteStream &out, const Graphics::Surface &input) {
 		if (input.format == requiredFormat_4byte) {
 			surface = &input;
 		} else {
-			surface = tmp = input.convertTo(requiredFormat_4byte);
+			surface = tmp = input.convertTo(requiredFormat_4byte, palette);
 		}
 		colorType = PNG_COLOR_TYPE_RGB_ALPHA;
 	}

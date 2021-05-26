@@ -23,10 +23,17 @@
 #include "engines/advancedDetector.h"
 
 #include "prince/detection.h"
+#include "prince/prince.h"
 
 static const PlainGameDescriptor princeGames[] = {
 	{"prince", "The Prince and the Coward"},
 	{0, 0}
+};
+
+static const DebugChannelDef debugFlagList[] = {
+	{Prince::DebugChannel::kScript, "script", "Prince Script debug channel"},
+	{Prince::DebugChannel::kEngine, "engine", "Prince Engine debug channel"},
+	DEBUG_CHANNEL_END
 };
 
 namespace Prince {
@@ -79,18 +86,18 @@ static const PrinceGameDescription gameDescriptions[] = {
 		},
 		kPrinceDataDE
 	},
-    {
-        {
-            "prince",
-            "",
-            AD_ENTRY1s("databank.ptc", "eb702d16e88c8c41f963d449287c8023", 3730152),
-            Common::RU_RUS,
-            Common::kPlatformWindows,
-            GF_RUSPROJEDITION | ADGF_USEEXTRAASTITLE | ADGF_DROPPLATFORM,
-            GUIO1(GUIO_NONE)
-        },
-        kPrinceDataDE
-    },
+	{
+		{
+			"prince",
+			"",
+			AD_ENTRY1s("databank.ptc", "eb702d16e88c8c41f963d449287c8023", 3730152),
+			Common::RU_RUS,
+			Common::kPlatformWindows,
+			GF_RUSPROJEDITION | ADGF_USEEXTRAASTITLE | ADGF_DROPPLATFORM,
+			GUIO1(GUIO_NONE)
+		},
+		kPrinceDataDE
+	},
 	{
 		{
 			"prince",
@@ -144,6 +151,10 @@ public:
 
 	const char *getOriginalCopyright() const override {
 		return "The Prince and the Coward (C) 1996-97 Metropolis";
+	}
+
+	const DebugChannelDef *getDebugChannels() const override {
+		return debugFlagList;
 	}
 };
 

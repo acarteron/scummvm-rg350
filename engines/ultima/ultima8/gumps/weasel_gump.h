@@ -24,7 +24,7 @@
 #define ULTIMA8_GUMPS_REMORSEMENUGUMP_H
 
 #include "ultima/ultima8/gumps/modal_gump.h"
-#include "ultima/ultima8/misc/p_dynamic_cast.h"
+#include "ultima/ultima8/misc/classtype.h"
 
 namespace Ultima {
 namespace Ultima8 {
@@ -123,6 +123,15 @@ private:
 	/// Shape of current item
 	uint16 _curItemShape;
 
+	/**
+	 * Whether the first intro movie has been played. Remember this between
+	 * displays of the gump, but don't save.
+	 *
+	 * It only ever shows on level 1 so there is only a single way it can be re-shown
+	 * (save during the first time at the base and reload after restarting the game).
+	 *
+	 * TODO: test if original does this to be perfectly faithful
+	 */
 	static bool _playedIntroMovie;
 };
 

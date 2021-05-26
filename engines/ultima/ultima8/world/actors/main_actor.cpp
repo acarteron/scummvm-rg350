@@ -20,25 +20,20 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
 #include "ultima/ultima8/world/teleport_egg.h"
 #include "ultima/ultima8/world/current_map.h"
-#include "ultima/ultima8/kernel/process.h"
 #include "ultima/ultima8/kernel/kernel.h"
 #include "ultima/ultima8/world/actors/teleport_to_egg_process.h"
 #include "ultima/ultima8/world/target_reticle_process.h"
 #include "ultima/ultima8/world/camera_process.h"
-#include "ultima/ultima8/world/actors/animation.h"
+#include "ultima/ultima8/graphics/shape_info.h"
 #include "ultima/ultima8/ultima8.h"
 #include "ultima/ultima8/world/actors/avatar_death_process.h"
 #include "ultima/ultima8/kernel/delay_process.h"
-#include "ultima/ultima8/conf/setting_manager.h"
-#include "ultima/ultima8/kernel/core_app.h"
 #include "ultima/ultima8/games/game_data.h"
 #include "ultima/ultima8/graphics/anim_dat.h"
 #include "ultima/ultima8/graphics/wpn_ovlay_dat.h"
-#include "ultima/ultima8/graphics/shape_info.h"
 #include "ultima/ultima8/graphics/main_shape_archive.h"
 #include "ultima/ultima8/gumps/cru_pickup_area_gump.h"
 #include "ultima/ultima8/audio/audio_process.h"
@@ -50,14 +45,16 @@
 #include "ultima/ultima8/world/fire_type.h"
 #include "ultima/ultima8/world/sprite_process.h"
 #include "ultima/ultima8/world/actors/avatar_gravity_process.h"
+#include "ultima/ultima8/world/actors/actor_anim_process.h"
 #include "ultima/ultima8/audio/music_process.h"
 #include "ultima/ultima8/world/actors/anim_action.h"
 
 namespace Ultima {
 namespace Ultima8 {
 
-// p_dynamic_cast stuff
 DEFINE_RUNTIME_CLASSTYPE_CODE(MainActor)
+
+ShapeInfo *MainActor::_kneelingShapeInfo = nullptr;
 
 MainActor::MainActor() : _justTeleported(false), _accumStr(0), _accumDex(0),
 	_accumInt(0), _cruBatteryType(ChemicalBattery), _keycards(0),
@@ -65,6 +62,10 @@ MainActor::MainActor() : _justTeleported(false), _accumStr(0), _accumDex(0),
 }
 
 MainActor::~MainActor() {
+	if (_kneelingShapeInfo) {
+		delete _kneelingShapeInfo;
+		_kneelingShapeInfo = nullptr;
+	}
 }
 
 GravityProcess *MainActor::ensureGravityProcess() {
@@ -150,7 +151,7 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 			credits->setQuality(newq);
 			credits->callUsecodeEvent_combine();
 			if (showtoast)
-				pickupArea->addPickup(item);
+				pickupArea->addPickup(item, true);
 			item->destroy();
 		} else {
 			item->setFrame(0);
@@ -158,7 +159,7 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 			if (!_activeInvItem)
 				_activeInvItem = item->getObjId();
 			if (showtoast)
-				pickupArea->addPickup(item);
+				pickupArea->addPickup(item, true);
 		}
 		return 1;
 	}
@@ -174,15 +175,14 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 				item->setQuality(0);
 				item->callUsecodeEvent_combine();
 			} else {
-				warning("TODO: Get default count for ammo type %d", winfo->_ammoType);
-				item->setQuality(100);
+				item->setQuality(winfo->_clipSize);
 			}
 			item->setLocation(x, y, z);
 			item->moveToContainer(this);
 			if (!_activeWeapon)
 				_activeWeapon = item->getObjId();
 			if (showtoast)
-				pickupArea->addPickup(item);
+				pickupArea->addPickup(item, false);
 		}
 		break;
 	}
@@ -194,7 +194,7 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 			item->callUsecodeEvent_combine();
 			item->moveToContainer(this);
 			if (showtoast)
-				pickupArea->addPickup(item);
+				pickupArea->addPickup(item, true);
 			return 1;
 		} else {
 			// already have this, add some ammo.
@@ -203,7 +203,7 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 				ammo->setQuality(q + 1);
 				ammo->callUsecodeEvent_combine();
 				if (showtoast)
-					pickupArea->addPickup(item);
+					pickupArea->addPickup(item, true);
 				item->destroy();
 				return 1;
 			}
@@ -215,14 +215,14 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 		if (shapeno == 0x111) {
 			addKeycard(item->getQuality() & 0xff);
 			if (showtoast) {
-				pickupArea->addPickup(item);
+				pickupArea->addPickup(item, false);
 			}
 			item->destroy();
 			return 1;
 		} else if ((shapeno == 0x3a2) || (shapeno == 0x3a3) || (shapeno == 0x3a4)) {
 			// Batteries
 			if (showtoast)
-				pickupArea->addPickup(item);
+				pickupArea->addPickup(item, false);
 			item->destroy();
 			int plusenergy = 0;
 			CruBatteryType oldbattery = _cruBatteryType;
@@ -255,6 +255,7 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 		} else {
 			Item *existing = getFirstItemWithShape(shapeno, true);
 			if (!existing) {
+				// Shields. Note, these are the same in Remorse and Regret.
 				if ((shapeno == 0x52e) || (shapeno == 0x52f) || (shapeno == 0x530)) {
 					int shieldtype;
 					switch (shapeno) {
@@ -273,7 +274,7 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 						_shieldType = shieldtype;
 					}
 					if (showtoast)
-						pickupArea->addPickup(item);
+						pickupArea->addPickup(item, false);
 					item->destroy();
 					return 1;
 				} else {
@@ -282,7 +283,7 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 					item->callUsecodeEvent_combine();
 					item->moveToContainer(this);
 					if (showtoast)
-						pickupArea->addPickup(item);
+						pickupArea->addPickup(item, true);
 					if (!_activeInvItem)
 						_activeInvItem = item->getObjId();
 					return 1;
@@ -298,8 +299,9 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 					if (q < 0x14) {
 						existing->setQuality(q + 1);
 						existing->callUsecodeEvent_combine();
+						item->setQuality(1); // Count of picked up item is always 1
 						if (showtoast)
-							pickupArea->addPickup(item);
+							pickupArea->addPickup(item, true);
 						item->destroy();
 						return 1;
 					}
@@ -308,8 +310,9 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 					if (q < 10) {
 						existing->setQuality(q + 1);
 						existing->callUsecodeEvent_combine();
+						item->setQuality(1); // Count of picked up item is always 1
 						if (showtoast)
-							pickupArea->addPickup(item);
+							pickupArea->addPickup(item, true);
 						item->destroy();
 						return 1;
 					}
@@ -324,18 +327,40 @@ int16 MainActor::addItemCru(Item *item, bool showtoast) {
 	return 0;
 }
 
+const ShapeInfo *MainActor::getShapeInfoFromGameInstance() const {
+	const ShapeInfo *info = Item::getShapeInfoFromGameInstance();
+
+	if (!(_actorFlags & ACT_KNEELING) || GAME_IS_U8)
+		return info;
+
+	// When kneeling in Crusader, return a modified shape with a lower height.
+	if (!_kneelingShapeInfo) {
+		_kneelingShapeInfo = new ShapeInfo();
+		// Not great coupling here, we know most fields don't need filling out..
+		_kneelingShapeInfo->_flags = info->_flags;
+		_kneelingShapeInfo->_x = info->_x;
+		_kneelingShapeInfo->_y = info->_y;
+		_kneelingShapeInfo->_weight = info->_weight;
+		_kneelingShapeInfo->_volume = info->_volume;
+		_kneelingShapeInfo->_family = info->_family;
+		_kneelingShapeInfo->_z = info->_z - 4;
+	}
+
+	return _kneelingShapeInfo;
+}
+
 void MainActor::teleport(int mapNum, int32 x, int32 y, int32 z) {
 	World *world = World::get_instance();
 
 	// (attempt to) load the new map
 	if (!world->switchMap(mapNum)) {
-		perr << "MainActor::teleport(): switchMap() failed!" << Std::endl;
+		perr << "MainActor::teleport(): switchMap(" << mapNum << ") failed!" << Std::endl;
 		return;
 	}
 
 	Actor::teleport(mapNum, x, y, z);
 
-	if (GAME_IS_CRUSADER) {
+	if (GAME_IS_CRUSADER && (x || y)) {
 		// Keep the camera on the avatar (the snap process will update on next move)
 		CameraProcess::SetCameraProcess(new CameraProcess(x, y, z));
 	}
@@ -522,8 +547,8 @@ void MainActor::clearInCombat() {
 		MusicProcess::get_instance()->restoreMusic();
 }
 
-ProcId MainActor::die(uint16 damageType) {
-	ProcId animprocid = Actor::die(damageType);
+ProcId MainActor::die(uint16 damageType, uint16 damagePts, Direction srcDir) {
+	ProcId animprocid = Actor::die(damageType, damagePts, srcDir);
 
 	Ultima8Engine *app = Ultima8Engine::get_instance();
 	assert(app);
@@ -679,32 +704,24 @@ void MainActor::nextWeapon() {
 	Std::vector<Item *> weapons;
 	getItemsWithShapeFamily(weapons, ShapeInfo::SF_CRUWEAPON, true);
 	_activeWeapon = getIdOfNextItemInList(weapons, _activeWeapon);
+
+	// Update combat stance in case we switched big/small weapon.
+	if (_lastAnim == Animation::combatStand) {
+		if (isBusy()) {
+			// Corner case - need to stop active "stand"
+			// animation to correct it.
+			Kernel::get_instance()->killProcesses(_objId, ActorAnimProcess::ACTOR_ANIM_PROC_TYPE, true);
+		}
+		doAnim(Animation::combatStand, dir_current);
+	}
 }
 
 void MainActor::nextInvItem() {
 	Std::vector<Item *> items;
 	getItemsWithShapeFamily(items, ShapeInfo::SF_CRUINVITEM, true);
+	getItemsWithShapeFamily(items, ShapeInfo::SF_CRUBOMB, true);
 	_activeInvItem = getIdOfNextItemInList(items, _activeInvItem);
 }
-
-void MainActor::addFireAnimOffsets(int32 &x, int32 &y, int32 &z) {
-	assert(GAME_IS_CRUSADER);
-	Animation::Sequence fireanim = (hasActorFlags(ACT_KNEELING) ? Animation::kneelAndFire : Animation::attack);
-	uint32 actionno = AnimDat::getActionNumberForSequence(fireanim, this);
-	Direction dir = getDir();
-
-	const AnimAction *animaction = GameData::get_instance()->getMainShapes()->getAnim(getShape(), actionno);
-	for (unsigned int i = 0; i < animaction->getSize(); i++) {
-		const AnimFrame &frame = animaction->getFrame(dir, i);
-		if (frame.is_cruattack()) {
-			x += frame.cru_attackx();
-			y += frame.cru_attacky();
-			z += frame.cru_attackz();
-			return;
-		}
-	}
-}
-
 
 void MainActor::saveData(Common::WriteStream *ws) {
 	Actor::saveData(ws);
@@ -774,7 +791,7 @@ uint32 MainActor::I_teleportToEgg(const uint8 *args, unsigned int argsize) {
 }
 
 uint32 MainActor::I_accumulateStrength(const uint8 *args,
-                                       unsigned int /*argsize*/) {
+									   unsigned int /*argsize*/) {
 	ARG_SINT16(n);
 	MainActor *av = getMainActor();
 	av->accumulateStr(n);
@@ -783,7 +800,7 @@ uint32 MainActor::I_accumulateStrength(const uint8 *args,
 }
 
 uint32 MainActor::I_accumulateDexterity(const uint8 *args,
-                                        unsigned int /*argsize*/) {
+										unsigned int /*argsize*/) {
 	ARG_SINT16(n);
 	MainActor *av = getMainActor();
 	av->accumulateDex(n);
@@ -792,7 +809,7 @@ uint32 MainActor::I_accumulateDexterity(const uint8 *args,
 }
 
 uint32 MainActor::I_accumulateIntelligence(const uint8 *args,
-        unsigned int /*argsize*/) {
+		unsigned int /*argsize*/) {
 	ARG_SINT16(n);
 	MainActor *av = getMainActor();
 	av->accumulateInt(n);
@@ -801,7 +818,7 @@ uint32 MainActor::I_accumulateIntelligence(const uint8 *args,
 }
 
 uint32 MainActor::I_clrAvatarInCombat(const uint8 * /*args*/,
-                                      unsigned int /*argsize*/) {
+									  unsigned int /*argsize*/) {
 	MainActor *av = getMainActor();
 	av->clearInCombat();
 
@@ -809,7 +826,7 @@ uint32 MainActor::I_clrAvatarInCombat(const uint8 * /*args*/,
 }
 
 uint32 MainActor::I_setAvatarInCombat(const uint8 * /*args*/,
-                                      unsigned int /*argsize*/) {
+									  unsigned int /*argsize*/) {
 	MainActor *av = getMainActor();
 	// Note: only happens in U8, so activity num is not important.
 	av->setInCombat(0);
@@ -818,7 +835,7 @@ uint32 MainActor::I_setAvatarInCombat(const uint8 * /*args*/,
 }
 
 uint32 MainActor::I_isAvatarInCombat(const uint8 * /*args*/,
-                                     unsigned int /*argsize*/) {
+									 unsigned int /*argsize*/) {
 	MainActor *av = getMainActor();
 	if (av->isInCombat())
 		return 1;
@@ -870,12 +887,22 @@ uint32 MainActor::I_addItemCru(const uint8 *args,
 }
 
 uint32 MainActor::I_getNumberOfCredits(const uint8 *args,
-unsigned int /*argsize*/) {
+									   unsigned int /*argsize*/) {
 	MainActor *av = getMainActor();
 	if (av) {
 		Item *item = av->getFirstItemWithShape(0x4ed, true);
 		if (item)
 			return item->getQuality();
+	}
+	return 0;
+}
+
+uint32 MainActor::I_switchMap(const uint8 *args,
+									   unsigned int /*argsize*/) {
+	ARG_UINT16(mapnum);
+	MainActor *av = getMainActor();
+	if (av) {
+		av->teleport(mapnum, 0x1e); // CONSTANT
 	}
 	return 0;
 }
@@ -901,7 +928,7 @@ void MainActor::useInventoryItem(Item *item) {
 
 	// 0x4d4 = datalink, 0x52d = scanner, 0x52e = ionic,
 	// 0x52f = plasma, 0x530 = graviton
-	// TODO: check these for no regret
+	// Note: These are the same in Remorse and Regret.
 	if (GAME_IS_CRUSADER && (shapenum != 0x4d4 && shapenum != 0x52d &&
 							 shapenum != 0x530 && shapenum != 0x52f &&
 							 shapenum != 0x52e)) {
@@ -992,6 +1019,8 @@ void MainActor::detonateBomb() {
 							0x800, true, _x, _y);
 	for (unsigned int i = 0; i < uclist.getSize(); ++i) {
 		Item *founditem = getItem(uclist.getuint16(i));
+		if (founditem->hasFlags(FLG_CONTAINED))
+			continue;
 		founditem->callUsecodeEvent_use();
 	}
 	return;

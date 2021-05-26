@@ -81,12 +81,14 @@ void Screens::loadImage(int32 index, int32 paletteIndex, bool fadeIn) {
 	} else {
 		_engine->setPalette(pal);
 	}
+	_engine->flip();
 }
 
 bool Screens::loadImageDelay(int32 index, int32 paletteIndex, int32 seconds) {
 	loadImage(index, paletteIndex);
 	if (_engine->delaySkip(1000 * seconds)) {
 		adjustPalette(0, 0, 0, paletteRGBACustom, 100);
+		_engine->flip();
 		return true;
 	}
 	fadeOut(paletteRGBACustom);
@@ -101,6 +103,7 @@ void Screens::fadeIn(uint32 *pal) {
 	}
 
 	_engine->setPalette(pal);
+	_engine->flip();
 }
 
 void Screens::fadeOut(uint32 *pal) {
@@ -159,6 +162,7 @@ void Screens::adjustCrossPalette(const uint32 *pal1, const uint32 *pal2) {
 	const uint8 *pal2p = (const uint8 *)pal2;
 	uint8 *paletteOut = (uint8 *)pal;
 	do {
+		FrameMarker frame;
 		ScopedFPS scopedFps(50);
 		counter = 0;
 
@@ -182,6 +186,7 @@ void Screens::adjustCrossPalette(const uint32 *pal1, const uint32 *pal2) {
 		}
 
 		_engine->setPalette(pal);
+		_engine->flip();
 		intensity++;
 	} while (intensity <= 100);
 }
@@ -194,6 +199,7 @@ void Screens::fadeToBlack(const uint32 *pal) {
 	for (int32 i = 100; i >= 0; i -= 3) {
 		ScopedFPS scopedFps(50);
 		adjustPalette(0, 0, 0, pal, i);
+		_engine->flip();
 	}
 
 	palResetted = true;
@@ -201,11 +207,14 @@ void Screens::fadeToBlack(const uint32 *pal) {
 
 void Screens::fadeToPal(const uint32 *pal) {
 	for (int32 i = 0; i <= 100; i += 3) {
+		FrameMarker frame;
 		ScopedFPS scopedFps(50);
 		adjustPalette(0, 0, 0, pal, i);
+		_engine->flip();
 	}
 
 	_engine->setPalette(pal);
+	_engine->flip();
 
 	palResetted = false;
 }
@@ -217,6 +226,7 @@ void Screens::blackToWhite() {
 		memset(pal, i, sizeof(pal));
 
 		_engine->setPalette(pal);
+		_engine->flip();
 	}
 }
 
@@ -225,21 +235,26 @@ void Screens::setBackPal() {
 	memset(paletteRGBA, 0, sizeof(paletteRGBA));
 
 	_engine->setPalette(paletteRGBA);
+	_engine->flip();
 
 	palResetted = true;
 }
 
 void Screens::fadePalRed(const uint32 *pal) {
 	for (int32 i = 100; i >= 0; i -= 2) {
+		FrameMarker frame;
 		ScopedFPS scopedFps(50);
 		adjustPalette(0xFF, 0, 0, pal, i);
+		_engine->flip();
 	}
 }
 
 void Screens::fadeRedPal(const uint32 *pal) {
 	for (int32 i = 0; i <= 100; i += 2) {
+		FrameMarker frame;
 		ScopedFPS scopedFps(50);
 		adjustPalette(0xFF, 0, 0, pal, i);
+		_engine->flip();
 	}
 }
 

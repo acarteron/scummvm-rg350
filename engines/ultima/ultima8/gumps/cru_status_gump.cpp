@@ -20,7 +20,6 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/gumps/cru_status_gump.h"
 #include "ultima/ultima8/gumps/cru_weapon_gump.h"
 #include "ultima/ultima8/gumps/cru_ammo_gump.h"
@@ -32,9 +31,6 @@
 #include "ultima/ultima8/graphics/gump_shape_archive.h"
 #include "ultima/ultima8/graphics/shape.h"
 #include "ultima/ultima8/graphics/shape_frame.h"
-#include "ultima/ultima8/graphics/render_surface.h"
-#include "ultima/ultima8/kernel/mouse.h"
-#include "ultima/ultima8/world/get_object.h"
 
 namespace Ultima {
 namespace Ultima8 {
@@ -58,7 +54,7 @@ CruStatusGump::CruStatusGump(bool unused) : Gump(PX_FROM_LEFT, PX_FROM_BOTTOM, 5
 }
 
 CruStatusGump::~CruStatusGump() {
-	assert(_instance == this);
+	assert(!_instance || _instance == this);
 	_instance = nullptr;
 }
 
@@ -113,12 +109,14 @@ void CruStatusGump::saveData(Common::WriteStream *ws) {
 }
 
 bool CruStatusGump::loadData(Common::ReadStream *rs, uint32 version) {
-	if (Gump::loadData(rs, version)) {
-		createStatusItems();
-		return true;
-	} else {
+	if (!Gump::loadData(rs, version))
 		return false;
-	}
+
+	if (_instance && _instance != this)
+		delete _instance;
+	createStatusItems();
+	_instance = this;
+	return true;
 }
 
 uint32 CruStatusGump::I_hideStatusGump(const uint8 * /*args*/,
@@ -135,8 +133,9 @@ uint32 CruStatusGump::I_showStatusGump(const uint8 * /*args*/,
 	unsigned int /*argsize*/) {
 	CruStatusGump *instance = get_instance();
 	if (!instance) {
-		instance = new CruStatusGump();
+		instance = new CruStatusGump(true);
 		instance->InitGump(nullptr, false);
+		assert(_instance);
 	}
 	return 0;
 }

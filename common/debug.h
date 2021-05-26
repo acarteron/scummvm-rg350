@@ -25,6 +25,8 @@
 
 #include "common/scummsys.h"
 
+#include "engines/metaengine.h"
+
 #ifdef DISABLE_TEXT_CONSOLE
 
 inline void debug(const char *s, ...) {}
@@ -99,7 +101,7 @@ void debugC(int level, uint32 debugChannels, const char *s, ...) GCC_PRINTF(3, 4
  * @param level         Debug level that must be active for the message to be printed.
  * @param debugChannels Bitfield of channels to check against.
  * @param s             Message to print.
- * 
+ *
  */
 void debugCN(int level, uint32 debugChannels, const char *s, ...) GCC_PRINTF(3, 4);
 
@@ -160,7 +162,14 @@ extern bool gDebugChannelsOnly;
 
 /** Global constant for EventRecorder debug channel. */
 enum GlobalDebugLevels {
+	kDebugGlobalDetection = 1 << 29,
 	kDebugLevelEventRec = 1 << 30
+};
+
+static const DebugChannelDef globalDebugChannels[] = {
+	{kDebugLevelEventRec, "EventRec", "Event recorder debug level"},
+	{kDebugGlobalDetection, "Detection", "debug messages for advancedDetector"},
+	DEBUG_CHANNEL_END
 };
 
 /** @} */

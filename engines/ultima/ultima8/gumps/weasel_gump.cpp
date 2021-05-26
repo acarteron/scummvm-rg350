@@ -20,7 +20,6 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/gumps/weasel_gump.h"
 #include "ultima/ultima8/gumps/weasel_dat.h"
 #include "ultima/ultima8/games/game_data.h"
@@ -29,20 +28,15 @@
 #include "ultima/ultima8/graphics/shape.h"
 #include "ultima/ultima8/graphics/shape_frame.h"
 #include "ultima/ultima8/ultima8.h"
+#include "ultima/ultima8/kernel/mouse.h"
 #include "ultima/ultima8/gumps/widgets/button_widget.h"
 #include "ultima/ultima8/gumps/widgets/text_widget.h"
-#include "ultima/ultima8/gumps/gump_notify_process.h"
 #include "ultima/ultima8/gumps/movie_gump.h"
-#include "ultima/ultima8/games/game.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
-#include "ultima/ultima8/graphics/fonts/rendered_text.h"
-#include "ultima/ultima8/graphics/palette_manager.h"
 #include "ultima/ultima8/audio/audio_process.h"
 #include "ultima/ultima8/world/get_object.h"
 #include "ultima/ultima8/world/item_factory.h"
-#include "ultima/ultima8/meta_engine.h"
 #include "ultima/ultima8/filesys/file_system.h"
-#include "engines/dialogs.h"
 
 namespace Ultima {
 namespace Ultima8 {
@@ -107,9 +101,9 @@ static const char *_getRandomMovie(const char **movies, int nmovies) {
 bool WeaselGump::_playedIntroMovie = false;
 
 WeaselGump::WeaselGump(uint16 level)
-	: ModalGump(0, 0, 640, 480, 0, FLAG_DONT_SAVE), _credits(0),
-	  _level(level), _state(kWeaselStart), _curItem(0), _ammoMode(false),
-	  _curItemCost(1), _curItemShape(0), _ui(nullptr), _movie(nullptr) {
+	: ModalGump(0, 0, 640, 480), _credits(0), _level(level),
+	  _state(kWeaselStart), _curItem(0), _ammoMode(false), _curItemCost(1),
+	  _curItemShape(0), _ui(nullptr), _movie(nullptr), _weaselDat(nullptr) {
 	Mouse *mouse = Mouse::get_instance();
 	mouse->pushMouseCursor();
 	mouse->setMouseCursor(Mouse::MOUSE_HAND);
@@ -196,21 +190,17 @@ void WeaselGump::InitGump(Gump *newparent, bool take_focus) {
 	if (item)
 		_credits = item->getQuality();
 
-	// TODO: remove me (for testing)
-	_credits += 10000;
-
 	_weaselDat = GameData::get_instance()->getWeaselDat(_level);
 	if (!_weaselDat || _weaselDat->getNumItems() == 0)
 		Close();
 }
 
 Gump *WeaselGump::playMovie(const Std::string &filename) {
-	const Std::string path = Std::string::format("@game/flics/%s.avi", filename.c_str());
-	FileSystem *filesys = FileSystem::get_instance();
-	Common::SeekableReadStream *rs = filesys->ReadFile(path);
-	Gump *gump = new MovieGump(600, 450, rs, false);
-	gump->InitGump(this, true);
-	gump->setRelativePosition(CENTER);
+	MovieGump *gump = MovieGump::CruMovieViewer(filename, 600, 450, nullptr, this);
+	if (!gump) {
+		warning("Couldn't load flic %s", filename.c_str());
+		return nullptr;
+	}
 	gump->CreateNotifier();
 	return gump;
 }
@@ -226,7 +216,7 @@ void WeaselGump::run() {
 			_state = kWeaselShowIntro;
 			break;
 		case kWeaselShowIntro: {
-			if (_level == 1 && !_playedIntroMovie) {
+			if (_level == 2 && !_playedIntroMovie) {
 				_movie = playMovie(FIRST_INTRO_MOVIE);
 				_playedIntroMovie = true;
 			} else {
@@ -506,6 +496,7 @@ void WeaselGump::updateItemDisplay() {
 	const ShapeInfo *shapeinfo = GameData::get_instance()->getMainShapes()->getShapeInfo(_curItemShape);
 	if (!shapeinfo || !shapeinfo->_weaponInfo) {
 		warning("Weasel: no info for shape %d", _curItemShape);
+		return;
 	}
 	const Shape *shape = GameData::get_instance()->getGumps()->getShape(shapeinfo->_weaponInfo->_displayGumpShape);
 

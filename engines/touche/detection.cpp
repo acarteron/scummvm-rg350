@@ -23,10 +23,21 @@
 #include "engines/advancedDetector.h"
 
 #include "base/plugins.h"
+#include "touche/touche.h"
 
 static const PlainGameDescriptor toucheGames[] = {
 	{ "touche", "Touche: The Adventures of the Fifth Musketeer" },
 	{ 0, 0 }
+};
+
+static const DebugChannelDef debugFlagList[] = {
+	{Touche::kDebugEngine,   "Engine",   "Engine debug level"},
+	{Touche::kDebugGraphics, "Graphics", "Graphics debug level"},
+	{Touche::kDebugResource, "Resource", "Resource debug level"},
+	{Touche::kDebugOpcodes,  "Opcodes",  "Opcodes debug level"},
+	{Touche::kDebugMenu,     "Menu",     "Menu debug level"},
+	{Touche::kDebugCharset,  "Charset",   "Charset debug level"},
+	DEBUG_CHANNEL_END
 };
 
 namespace Touche {
@@ -41,7 +52,7 @@ static const ADGameDescription gameDescriptions[] = {
 		ADGF_NO_FLAGS,
 		GUIO0()
 	},
-	{ // retail version - tracker item #1601818
+	{ // retail version - tracker item #2923
 		"touche",
 		"",
 		AD_ENTRY1s("touche.dat", "95967f0b51d2e813e99ca00325098340", 26350190),
@@ -59,7 +70,7 @@ static const ADGameDescription gameDescriptions[] = {
 		ADGF_NO_FLAGS,
 		GUIO0()
 	},
-	{ // retail version - tracker item #1598643
+	{ // retail version - tracker item #2912
 		"touche",
 		"",
 		AD_ENTRY1s("touche.dat", "be2ae6454b3325e410946f2322547cd4", 26625537),
@@ -68,7 +79,7 @@ static const ADGameDescription gameDescriptions[] = {
 		ADGF_NO_FLAGS,
 		GUIO0()
 	},
-	{ // retail version - tracker item #1681643
+	{ // retail version - tracker item #3121
 		"touche",
 		"",
 		AD_ENTRY1s("touche.dat", "64e95ba1decf5a5a60f8fa1840f40c62", 26529523),
@@ -77,7 +88,7 @@ static const ADGameDescription gameDescriptions[] = {
 		ADGF_NO_FLAGS,
 		GUIO0()
 	},
-	{ // fan-made translation (http://www.iagtg.net/) - tracker item #1602360
+	{ // fan-made translation (http://www.iagtg.net/) - tracker item #2927
 		"touche",
 		"",
 		AD_ENTRY1s("touche.dat", "1f442331d4b327c3488a9f6ffe9bdd25", 26367792),
@@ -86,7 +97,7 @@ static const ADGameDescription gameDescriptions[] = {
 		ADGF_NO_FLAGS,
 		GUIO0()
 	},
-	{ // retail version - tracker item #1800500
+	{ // retail version - tracker item #3409
 		"touche",
 		"",
 		AD_ENTRY1s("touche.dat", "42d19a0bef65465109020440a9caa228", 26487370),
@@ -141,6 +152,10 @@ public:
 
 	const char *getOriginalCopyright() const override {
 		return "Touche: The Adventures of the Fifth Musketeer (C) Clipper Software";
+	}
+
+	const DebugChannelDef *getDebugChannels() const override {
+		return debugFlagList;
 	}
 };
 

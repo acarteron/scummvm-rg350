@@ -23,9 +23,8 @@
 #ifndef WORLD_ACTORS_U8AVATARMOVERPROCESS_H
 #define WORLD_ACTORS_U8AVATARMOVERPROCESS_H
 
-#include "ultima/ultima8/kernel/process.h"
-#include "ultima/ultima8/world/actors/animation.h"
 #include "ultima/ultima8/world/actors/avatar_mover_process.h"
+#include "ultima/ultima8/world/actors/animation.h"
 
 namespace Ultima {
 namespace Ultima8 {
@@ -40,19 +39,16 @@ public:
 	U8AvatarMoverProcess();
 	~U8AvatarMoverProcess();
 
-	// p_dynamic_cast stuff
 	ENABLE_RUNTIME_CLASSTYPE()
 
 	bool loadData(Common::ReadStream *rs, uint32 version);
 	void saveData(Common::WriteStream *ws) override;
 
-	void tryAttack() override;
-
 protected:
 	void handleHangingMode() override;
 	void handleCombatMode() override;
 	void handleNormalMode() override;
-	bool canAttack() override;
+	bool canAttack();
 
 	void step(Animation::Sequence action, Direction direction, bool adjusted = false);
 	void jump(Animation::Sequence action, Direction direction);

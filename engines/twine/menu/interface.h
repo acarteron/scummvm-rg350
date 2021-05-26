@@ -32,15 +32,6 @@ class ManagedSurface;
 
 namespace TwinE {
 
-/** Screen top limit to display the texts */
-#define SCREEN_TEXTLIMIT_TOP 0
-/** Screen left limit to display the texts */
-#define SCREEN_TEXTLIMIT_LEFT 0
-/** Screen right limit to display the texts */
-#define SCREEN_TEXTLIMIT_RIGHT (SCREEN_WIDTH - 1)
-/** Screen bottom limit to display the texts */
-#define SCREEN_TEXTLIMIT_BOTTOM (SCREEN_HEIGHT - 1)
-
 class TwinEEngine;
 
 class Interface {
@@ -61,7 +52,7 @@ public:
 	 * @param endHeight height value where the line ends
 	 * @param lineColor line color in the current palette
 	 */
-	void drawLine(int32 startWidth, int32 startHeight, int32 endWidth, int32 endHeight, uint8 lineColor);
+	bool drawLine(int32 startWidth, int32 startHeight, int32 endWidth, int32 endHeight, uint8 lineColor);
 
 	/**
 	 * Blit button box from working buffer to front buffer
@@ -75,7 +66,7 @@ public:
 	 */
 	void drawTransparentBox(const Common::Rect &rect, int32 colorAdj);
 
-	void drawSplittedBox(const Common::Rect &rect, uint8 colorIndex);
+	void drawFilledRect(const Common::Rect &rect, uint8 colorIndex);
 
 	void setClip(const Common::Rect &rect);
 	void saveClip(); // saveTextWindow

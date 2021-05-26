@@ -76,7 +76,7 @@ bool g_debug_track_mouse_clicks = false;
 static int parse_reg_t(EngineState *s, const char *str, reg_t *dest);
 
 Console::Console(SciEngine *engine) : GUI::Debugger(),
-	_engine(engine), _debugState(engine->_debugState) {
+	_engine(engine), _debugState(engine->_debugState), _videoFrameDelay(0) {
 
 	assert(_engine);
 	assert(_engine->_gamestate);
@@ -311,7 +311,6 @@ bool Console::cmdHelp(int argc, const char **argv) {
 	debugPrintf("gc_interval: Number of kernel calls in between garbage collections\n");
 	debugPrintf("simulated_key: Add a key with the specified scan code to the event list\n");
 	debugPrintf("track_mouse_clicks: Toggles mouse click tracking to the console\n");
-	debugPrintf("weak_validations: Turns some validation errors into warnings\n");
 	debugPrintf("script_abort_flag: Set to 1 to abort script execution. Set to 2 to force a replay afterwards\n");
 	debugPrintf("\n");
 	debugPrintf("Debug flags\n");
@@ -530,7 +529,7 @@ bool Console::cmdOpcodes(int argc, const char **argv) {
 		int type = r->getUint16LEAt(offset + 2);
 		// QFG3 has empty opcodes
 		Common::String name = len > 0 ? r->getStringAt(offset + 4, len) : "Dummy";
-		debugPrintf("%03x: %03x %20s | ", i, type, name.c_str());
+		debugPrintf("%03x: %03x %15s | ", i, type, name.c_str());
 		if ((i % 3) == 2)
 			debugPrintf("\n");
 	}
@@ -4053,7 +4052,7 @@ bool Console::cmdBreakpointAction(int argc, const char **argv) {
 		for (; bp != end; ++bp)
 			bp->_action = bpaction;
 		_debugState.updateActiveBreakpointTypes();
-		return true;	
+		return true;
 	}
 
 	const int idx = atoi(argv[1]);

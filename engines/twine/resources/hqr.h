@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef TWINE_HQR_H
-#define TWINE_HQR_H
+#ifndef TWINE_RESOURCES_HQR_H
+#define TWINE_RESOURCES_HQR_H
 
 #include "common/scummsys.h"
 #include "common/stream.h"
@@ -70,6 +70,11 @@ int32 numEntries(const char *filename);
  * @return entry real size
  */
 int32 getAllocEntry(uint8 **ptr, const char *filename, int32 index);
+
+/**
+ * @brief Helper method to dump the content of the given hqr index to a file
+ */
+bool dumpEntry(const char *filename, int32 index, const char *targetFileName);
 
 /**
  * Get a HQR entry pointer

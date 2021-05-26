@@ -1,5 +1,5 @@
 # ScummVM - Graphic Adventure Engine
-# Copyright (C) 2020 Stryzhniou Fiodar
+# Copyright (C) 2020 - 2021 Stryzhniou Fiodar
 
 # ScummVM is the legal property of its developers, whose names
 # are too numerous to list here. Please refer to the COPYRIGHT
@@ -143,7 +143,7 @@ TARGET          ScummVM%s.exe
 TARGETPATH      sys\\bin
 TARGETTYPE      exe
 OPTION			GCCE -Wno-multichar -Wno-reorder -Wno-unused -Wno-format -fsigned-char \
- -fno-asynchronous-unwind-tables -std=c++11 // -ffreestanding -fno-sized-deallocation //--verbose //-flto -fuse-linker-plugin //-Wl, -v  -fbuiltin 
+ -fno-asynchronous-unwind-tables -std=c++11 // -ffreestanding -fno-sized-deallocation //--verbose //-flto -fuse-linker-plugin //-Wl, -v  -fbuiltin
 // fixes error "section .data loaded at [...] overlaps section .text loaded at [...]"
 LINKEROPTION 	GCCE -Tdata 0xAA00000 // -v -flto -fuse-linker-plugin
 //--print-gc-sections --stats --gc-sections --strip-all// removes unused code
@@ -176,10 +176,6 @@ EPOCHEAPSIZE	5000000 64000000
 #include "ScummVM_common.mmh" // must be above engines.mmh
 
 #include "../mmp/engines.mmh"
-
-// implicitly compiled if links with engines kyra, sci, scumm and saga
-SOURCEPATH ..\\..\\..\\..\\graphics
-SOURCE sjis.cpp
 """
 # ---------------------------
 bld_inf_template = """
@@ -202,7 +198,7 @@ def SafeWriteFile(path, data, mode = 'w'):
             f.write(s + '\n')
       else:
          f.write(data)
- 
+
 def create_mmps(build, path = ''):
    uids = get_UIDs(build)
    bld_inf = os.path.join(path, "bld.inf")
@@ -210,6 +206,9 @@ def create_mmps(build, path = ''):
    for i in range(len(uids)):
       UID3 = uids[i]
       idx = i + 1
+      idx2 = i + 1
+      if build == 'full':
+         idx = "%s_test" %idx
       rss_name = "ScummVM%s.rss" %idx
       data = rss_template %(idx, idx)
       SafeWriteFile(os.path.join(path, rss_name), data)
@@ -219,8 +218,8 @@ def create_mmps(build, path = ''):
       data = reg_rss_template %(UID3, idx, idx)
       rss_reg_name = "ScummVM%s_reg.rss" %idx
       SafeWriteFile(os.path.join(path, rss_reg_name), data)
-      data = mmp_template %(idx, UID3, idx, idx, idx, idx)
-      mmp_name = "ScummVM%s.mmp" %idx
+      data = mmp_template %(idx, UID3, idx, idx, idx, idx2)
+      mmp_name = "ScummVM%s.mmp" %idx2
       SafeWriteFile(os.path.join(path, mmp_name), data)
       SafeWriteFile(bld_inf, mmp_name + "\n", mode = 'a')
 

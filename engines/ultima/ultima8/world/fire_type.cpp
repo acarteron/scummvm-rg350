@@ -20,11 +20,9 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 
 #include "ultima/ultima8/world/sprite_process.h"
 #include "ultima/ultima8/world/fire_type.h"
-#include "ultima/ultima8/world/item.h"
 #include "ultima/ultima8/world/current_map.h"
 #include "ultima/ultima8/world/loop_script.h"
 #include "ultima/ultima8/world/get_object.h"
@@ -32,20 +30,21 @@
 #include "ultima/ultima8/world/actors/actor.h"
 #include "ultima/ultima8/usecode/uc_list.h"
 #include "ultima/ultima8/kernel/kernel.h"
-#include "ultima/ultima8/misc/point3.h"
 #include "ultima/ultima8/audio/audio_process.h"
+#include "ultima/ultima8/ultima8.h"
 
 namespace Ultima {
 namespace Ultima8 {
 
 FireType::FireType(uint16 typeNo, uint16 minDamage, uint16 maxDamage, uint8 range,
-				 uint8 numShots, uint16 shieldCost, uint8 shieldMask, uint8 accurate,
-				 uint16 cellsPerRound, uint16 roundDuration, uint8 nearSprite) :
+				 uint8 numShots, uint16 shieldCost, uint8 shieldMask, bool accurate,
+				 uint16 cellsPerRound, uint16 roundDuration, bool nearSprite) :
 	_typeNo(typeNo), _minDamage(minDamage), _maxDamage(maxDamage),
 	_range(range), _numShots(numShots), _shieldCost(shieldCost),
 	_shieldMask(shieldMask), _accurate(accurate),
 	_cellsPerRound(cellsPerRound), _roundDuration(roundDuration),
 	_nearSprite(nearSprite) {
+	assert(maxDamage >= minDamage);
 }
 
 uint16 FireType::getRandomDamage() const {
@@ -71,6 +70,11 @@ void FireType::makeBulletSplashShapeAndPlaySound(int32 x, int32 y, int32 z) cons
 	int16 shape = 0;
 
 	// First randomize the sprite and sound
+	if (GAME_IS_REGRET) {
+		// there are some differences which we need to implement.
+		warning("TODO: update FireType::makeBulletSplashShapeAndPlaySound for No Regret");
+	}
+
 	switch (_typeNo) {
 		case 1:
 		case 0xb:
@@ -86,7 +90,7 @@ void FireType::makeBulletSplashShapeAndPlaySound(int32 x, int32 y, int32 z) cons
 			sfxno = RANDOM_ELEM(FIRESOUND_3);
 			break;
 		case 5:
-			shape = 0x573;
+			shape = 0x537;
 			break;
 		case 6:
 			shape = 0x578;
@@ -129,7 +133,7 @@ void FireType::makeBulletSplashShapeAndPlaySound(int32 x, int32 y, int32 z) cons
 		lastframe = 10;
 		break;
 	case 0x578:
-		firstframe = (getRandom() % 3) * 6;
+		firstframe = (getRandom() % 3) * 5;
 		lastframe = firstframe + 4;
 		break;
 	case 0x59b:
@@ -167,7 +171,8 @@ void FireType::makeBulletSplashShapeAndPlaySound(int32 x, int32 y, int32 z) cons
 	}
 }
 
-void FireType::applySplashDamageAround(const Point3 &pt, int damage, const Item *exclude, const Item *src) const {
+void FireType::applySplashDamageAround(const Point3 &pt, int damage, int rangediv, const Item *exclude, const Item *src) const {
+	assert(rangediv > 0);
 	if (!getRange())
 		return;
 	static const uint32 BULLET_SPLASH_SHAPE = 0x1d9;
@@ -181,7 +186,7 @@ void FireType::applySplashDamageAround(const Point3 &pt, int damage, const Item 
 	UCList uclist(2);
 	LOOPSCRIPT(script, LS_TOKEN_TRUE); // we want all items
 	currentmap->areaSearch(&uclist, script, sizeof(script), nullptr,
-						   getRange() * 32, true, pt.x, pt.y);
+						   getRange() * 32 / rangediv, true, pt.x, pt.y);
 	for (unsigned int i = 0; i < uclist.getSize(); ++i) {
 		Item *splashitem = getItem(uclist.getuint16(i));
 		if (!splashitem) {
@@ -201,10 +206,13 @@ void FireType::applySplashDamageAround(const Point3 &pt, int damage, const Item 
 			Point3 pt2;
 			splashitem->getLocation(pt2);
 			int splashrange = pt.maxDistXYZ(pt2);
-			splashrange = (splashrange / 32) / 3;
+			splashrange = (splashrange / 16) / 3;
 			if (splashrange)
 				splashitemdamage /= splashrange;
 		}
+		if (!splashitemdamage)
+			continue;
+
 		Direction splashdir = src->getDirToItemCentre(pt);
 		splashitem->receiveHit(0, splashdir, splashitemdamage, _typeNo);
 	}

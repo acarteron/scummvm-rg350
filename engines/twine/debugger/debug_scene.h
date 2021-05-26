@@ -25,28 +25,63 @@
 
 #include "common/rect.h"
 #include "common/scummsys.h"
+#include "twine/shared.h"
 
 namespace TwinE {
 
 class TwinEEngine;
-struct ScenePoint;
 
 class DebugScene {
 private:
 	TwinEEngine *_engine;
 
-	void drawBoundingBoxProjectPoints(ScenePoint *point3d, ScenePoint *point3dProjected);
-	int32 checkZoneType(int32 type);
+	void projectBoundingBoxPoints(IVec3 *point3d, IVec3 *point3dProjected);
+	bool checkZoneType(ZoneType type) const;
+	bool displayZones();
+	bool displayActors();
+	bool displayTracks();
+
+	struct ScenePositionsProjected {
+		IVec3 frontBottomLeftPoint;
+		IVec3 frontBottomRightPoint;
+
+		IVec3 frontTopLeftPoint;
+		IVec3 frontTopRightPoint;
+
+		IVec3 backBottomLeftPoint;
+		IVec3 backBottomRightPoint;
+
+		IVec3 backTopLeftPoint;
+		IVec3 backTopRightPoint;
+
+		IVec3 frontBottomLeftPoint2D;
+		IVec3 frontBottomRightPoint2D;
+
+		IVec3 frontTopLeftPoint2D;
+		IVec3 frontTopRightPoint2D;
+
+		IVec3 backBottomLeftPoint2D;
+		IVec3 backBottomRightPoint2D;
+
+		IVec3 backTopLeftPoint2D;
+		IVec3 backTopRightPoint2D;
+	};
+
+	ScenePositionsProjected calculateBoxPositions(const IVec3 &mins, const IVec3 &maxs);
+	bool drawBox(const ScenePositionsProjected &positions, uint8 color);
 public:
 	DebugScene(TwinEEngine *engine);
 	bool showingZones = false;
+	bool showingActors = false;
+	bool showingTracks = false;
 	bool showingClips = false;
+	bool useScenePatches = false;
 	int32 typeZones = 127; // all zones on as default
 	int16 onlyLoadActor = -1;
 
-	void displayZones();
+	void renderDebugView();
 
-	void drawClip(const Common::Rect& rect);
+	void drawClip(const Common::Rect &rect);
 };
 
 } // namespace TwinE

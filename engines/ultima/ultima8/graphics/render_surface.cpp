@@ -21,7 +21,6 @@
  */
 
 #include "ultima/ultima8/misc/pent_include.h"
-#include "ultima/ultima8/graphics/render_surface.h"
 #include "ultima/ultima8/graphics/soft_render_surface.h"
 #include "common/system.h"
 #include "engines/util.h"
@@ -68,8 +67,8 @@ RenderSurface *RenderSurface::SetVideoMode(uint32 width, uint32 height, int bpp)
 
 	// Initialize gamma correction tables
 	for (int i = 0; i < 256; i++) {
-		_gamma22toGamma10[i] = static_cast<uint8>(0.5 + (Std::pow(i / 255.0, 2.2 / 1.0) * 255.0));
-		_gamma10toGamma22[i] = static_cast<uint8>(0.5 + (Std::pow(i / 255.0, 1.0 / 2.2) * 255.0));
+		_gamma22toGamma10[i] = static_cast<uint8>(0.5 + (pow(i / 255.0, 2.2 / 1.0) * 255.0));
+		_gamma10toGamma22[i] = static_cast<uint8>(0.5 + (pow(i / 255.0, 1.0 / 2.2) * 255.0));
 	}
 
 	return surf;

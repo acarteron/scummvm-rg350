@@ -25,7 +25,6 @@
 
 #include "ultima/ultima8/graphics/fonts/rendered_text.h"
 #include "ultima/ultima8/graphics/fonts/font.h"
-#include "ultima/ultima8/misc/p_dynamic_cast.h"
 #include "graphics/managed_surface.h"
 
 namespace Ultima {
@@ -37,7 +36,7 @@ class Texture;
 class TTFRenderedText : public RenderedText {
 public:
 	TTFRenderedText(Graphics::ManagedSurface *texture, int width, int height, int vlead,
-	                TTFont *font);
+	                int baseline, bool antiAliased);
 	~TTFRenderedText() override;
 
 	void draw(RenderSurface *surface, int x, int y,
@@ -47,7 +46,8 @@ public:
 
 protected:
 	Graphics::ManagedSurface *_texture;
-	TTFont *_font;
+	int _baseline;
+	bool _antiAliased;
 };
 
 } // End of namespace Ultima8

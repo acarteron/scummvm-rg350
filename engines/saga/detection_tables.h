@@ -605,7 +605,8 @@ static const SAGAGameDescription gameDescriptions[] = {
 	{
 		{
 			"ite",
-			_s("Missing game code"),
+			// I18N: Inherit the Earth had a "trial" version which is a full game with a simple check
+			_s("Windows Trial version is not supported"),
 			{
 				{"ite.rsc",		GAME_RESOURCEFILE,	"a6433e34b97b15e64fe8214651012db9", 8927169},
 				{"scripts.rsc",	GAME_SCRIPTFILE,	"bbf929f1e6d6f2af30c41d078798f5c1", 335927},
@@ -648,6 +649,30 @@ static const SAGAGameDescription gameDescriptions[] = {
  		ITE_GameFonts,
  		NULL,
  	},
+
+	// Inherit the earth - Russian CD version (fan translation)
+	{
+		{
+			"ite",
+			"CD Version",
+			{
+				{ "ite.rsc",		GAME_RESOURCEFILE,	"fedbe4a01170f7a94e3426a2a9550be3", 9779482},
+				{ "scripts.rsc",	GAME_SCRIPTFILE,	"50a0d2d7003c926a3832d503c8534e90", 328255},
+				AD_LISTEND
+			},
+			Common::RU_RUS,
+			Common::kPlatformDOS,
+			ADGF_CD,
+			GUIO0()
+		},
+		GID_ITE,
+		0,
+		ITE_DEFAULT_SCENE,
+		&ITE_Resources,
+		ARRAYSIZE(ITE_GameFonts),
+		ITE_GameFonts,
+		ITEPatch_Files,
+	},
 
 	// ITE floppy versions ////////////////////////////////////////////////////////////////////////////////////
 
@@ -734,6 +759,30 @@ static const SAGAGameDescription gameDescriptions[] = {
 				AD_LISTEND
 			},
 			Common::ZH_CNA,
+			Common::kPlatformDOS,
+			ADGF_NO_FLAGS,
+			GUIO1(GUIO_NOSPEECH)
+		},
+		GID_ITE,
+		GF_ITE_FLOPPY,
+		ITE_DEFAULT_SCENE,
+		&ITE_Resources,
+		ARRAYSIZE(ITE_GameFonts),
+		ITE_GameFonts,
+		ITEPatch_Files,
+	},
+
+	// Inherit the earth - Russian Disk version (fan translation)
+	{
+		{
+			"ite",
+			"Floppy",
+			{
+				{"ite.rsc",		GAME_RESOURCEFILE,					"fedbe4a01170f7a94e3426a2a9550be3", 9150935},
+				{"scripts.rsc",	GAME_SCRIPTFILE,					"50a0d2d7003c926a3832d503c8534e90", 328194},
+				AD_LISTEND
+			},
+			Common::RU_RUS,
 			Common::kPlatformDOS,
 			ADGF_NO_FLAGS,
 			GUIO1(GUIO_NOSPEECH)
@@ -987,6 +1036,35 @@ static const SAGAGameDescription gameDescriptions[] = {
 		NULL,
 	},
 
+	// I Have No Mouth And I Must Scream - Chinese CD
+	// Bugreport #7894
+	{
+		{
+			"ihnm",
+			_s("Missing game code"), // Reason for being unsupported
+			{
+				{"musicfm.res",	GAME_MUSICFILE_FM,					"0439083e3dfdc51b486071d45872ae52", 302676},
+				{"musicgm.res",	GAME_MUSICFILE_GM,					"80f875a1fb384160d1f4b27166eef583", 314020},
+				{"scream.res",	GAME_RESOURCEFILE,					"4de402af490920e4e5fbb4307d734aec", 78792732},
+				{"patch.re_",	GAME_PATCHFILE | GAME_RESOURCEFILE,	"58b79e61594779513c7f2d35509fa89e", 5038599},
+				{"scripts.res",	GAME_SCRIPTFILE,					"aac64f4359183a8bed48800be259dcb2", 428943},
+				{"sfx.res",		GAME_SOUNDFILE,						"1c610d543f32ec8b525e3f652536f269", 22561056},
+				AD_LISTEND
+			},
+			Common::ZH_ANY,
+			Common::kPlatformDOS,
+			ADGF_UNSUPPORTED,
+			GUIO1(GUIO_NOASPECT)
+		},
+		GID_IHNM,
+		0,
+		IHNM_DEFAULT_SCENE,
+		&IHNM_Resources,
+		ARRAYSIZE(IHNMCD_GameFonts),
+		IHNMCD_GameFonts,
+		NULL,
+	},
+
 	// I Have No Mouth And I Must Scream - Italian fan CD translation
 	{
 		{
@@ -1073,6 +1151,7 @@ static const SAGAGameDescription gameDescriptions[] = {
 		NULL,
 	},
 
+#if 0
 	// Dinotopia Section //////////////////////////////////////////////////////////////////////////////////////
 	{
 		{
@@ -1130,6 +1209,7 @@ static const SAGAGameDescription gameDescriptions[] = {
 		NULL,	// font array
 		NULL,
 	},
+#endif
 
 	{ AD_TABLE_END_MARKER, 0, 0, 0, NULL, 0, NULL, NULL }
 };

@@ -26,8 +26,6 @@
 #include "ultima/ultima8/world/actors/main_actor.h"
 #include "ultima/ultima8/world/actors/cru_avatar_mover_process.h"
 #include "ultima/ultima8/world/crosshair_process.h"
-#include "ultima/ultima8/world/item.h"
-#include "ultima/ultima8/world/world.h"
 #include "ultima/ultima8/world/item_factory.h"
 #include "ultima/ultima8/world/get_object.h"
 #include "ultima/ultima8/ultima8.h"
@@ -37,7 +35,6 @@
 namespace Ultima {
 namespace Ultima8 {
 
-// p_dynamic_cast stuff
 DEFINE_RUNTIME_CLASSTYPE_CODE(CrosshairProcess)
 
 static const uint32 CROSSHAIR_SHAPE = 0x4CC;
@@ -50,14 +47,16 @@ CrosshairProcess::CrosshairProcess() : Process() {
 }
 
 void CrosshairProcess::run() {
-	MainActor *mainactor = getMainActor();
-	assert(mainactor);
-	if (mainactor->isInCombat()) {
+	Actor *actor = getControlledActor();
+	if (!actor)
+		return;
+
+	if (actor->isInCombat()) {
 		Kernel *kernel = Kernel::get_instance();
 		assert(kernel);
 		int32 ax, ay, az;
-		mainactor->getLocation(ax, ay, az);
-		mainactor->addFireAnimOffsets(ax, ay, az);
+		actor->getLocation(ax, ay, az);
+		actor->addFireAnimOffsets(ax, ay, az);
 
 		const CruAvatarMoverProcess *mover = dynamic_cast<CruAvatarMoverProcess *>(Ultima8Engine::get_instance()->getAvatarMoverProcess());
 		if (!mover) {
@@ -65,6 +64,10 @@ void CrosshairProcess::run() {
 			return;
 		}
 		double angle = mover->getAvatarAngleDegrees() + 90.0;
+		if (angle < 90.0) {
+			// -1 is used to record the avatar is not in combat, so shouldn't happen?
+			return;
+		}
 		// Convert angle to 0~2pi
 		double rads = Common::deg2rad(angle);
 		float xoff = CROSSHAIR_DIST * cos(rads);

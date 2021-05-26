@@ -84,6 +84,10 @@ bool Input::isHeroActionActive() const {
 	return isActionActive(TwinEActionType::ExecuteBehaviourAction) || isActionActive(TwinEActionType::SpecialAction);
 }
 
+bool Input::resetHeroActions() {
+	return toggleActionIfActive(TwinEActionType::ExecuteBehaviourAction) || toggleActionIfActive(TwinEActionType::SpecialAction);
+}
+
 bool Input::enableAdditionalKeyMap(const char *id, bool enable) {
 	Common::Keymapper *keymapper = g_system->getEventManager()->getKeymapper();
 	Common::Keymap *keymap = keymapper->getKeymap(id);
@@ -104,7 +108,7 @@ void Input::enableKeyMap(const char *id) {
 	const Common::KeymapArray &keymaps = keymapper->getKeymaps();
 	for (Common::Keymap *keymap : keymaps) {
 		const Common::String& keymapId = keymap->getId();
-		if (keymapId == mainKeyMapId || keymapId == uiKeyMapId || keymapId == cutsceneKeyMapId) {
+		if (keymapId == mainKeyMapId || keymapId == uiKeyMapId || keymapId == cutsceneKeyMapId || keymapId == holomapKeyMapId) {
 			keymap->setEnabled(keymapId == id);
 		}
 	}

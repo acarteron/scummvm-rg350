@@ -20,21 +20,11 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/world/actors/avatar_mover_process.h"
-#include "ultima/ultima8/world/actors/animation.h"
-#include "ultima/ultima8/ultima8.h"
-#include "ultima/ultima8/world/actors/main_actor.h"
-#include "ultima/ultima8/gumps/game_map_gump.h"
+#include "ultima/ultima8/world/actors/actor.h"
 #include "ultima/ultima8/kernel/kernel.h"
-#include "ultima/ultima8/world/actors/actor_anim_process.h"
 #include "ultima/ultima8/world/actors/targeted_anim_process.h"
-#include "ultima/ultima8/world/actors/avatar_gravity_process.h"
-#include "ultima/ultima8/graphics/shape_info.h"
-#include "ultima/ultima8/conf/setting_manager.h"
-#include "ultima/ultima8/audio/music_process.h"
 #include "ultima/ultima8/world/get_object.h"
-#include "ultima/ultima8/misc/direction.h"
 #include "ultima/ultima8/misc/direction_util.h"
 
 namespace Ultima {
@@ -50,16 +40,14 @@ AvatarMoverProcess::~AvatarMoverProcess() {
 }
 
 void AvatarMoverProcess::run() {
-	Kernel *kernel = Kernel::get_instance();
+	Actor *avatar = getControlledActor();
+	assert(avatar);
 
 	// busy, so don't move
-	if (kernel->getNumProcesses(1, ActorAnimProcess::ACTOR_ANIM_PROC_TYPE) > 0) {
+	if (avatar->isBusy()) {
 		_idleTime = 0;
 		return;
 	}
-
-	MainActor *avatar = getMainActor();
-	assert(avatar);
 
 	if (avatar->getLastAnim() == Animation::hang) {
 		handleHangingMode();
@@ -68,9 +56,20 @@ void AvatarMoverProcess::run() {
 
 	// falling, so don't move
 	if (avatar->getGravityPID() != 0) {
-		_idleTime = 0;
-		return;
+		Process *proc = Kernel::get_instance()->getProcess(avatar->getGravityPID());
+		if (!proc || !proc->is_active()) {
+			warning("FIXME: Removing stale gravity pid %d from Avatar.", avatar->getGravityPID());
+			avatar->setGravityPID(0);
+		} else {
+			_idleTime = 0;
+			return;
+		}
 	}
+
+	// not in fast area, don't move (can happen for some death sequences
+	// in Crusader)
+	if (!avatar->hasFlags(Item::FLG_FASTAREA))
+		return;
 
 	bool combatRun = avatar->hasActorFlags(Actor::ACT_COMBATRUN);
 	if (avatar->isInCombat() && !combatRun)
@@ -81,7 +80,7 @@ void AvatarMoverProcess::run() {
 
 
 bool AvatarMoverProcess::checkTurn(Direction direction, bool moving) {
-	MainActor *avatar = getMainActor();
+	Actor *avatar = getControlledActor();
 	Direction curdir = avatar->getDir();
 	bool combat = avatar->isInCombat() && !avatar->hasActorFlags(Actor::ACT_COMBATRUN);
 
@@ -92,7 +91,9 @@ bool AvatarMoverProcess::checkTurn(Direction direction, bool moving) {
 
 		if (moving &&
 				(lastanim == Animation::walk || lastanim == Animation::run ||
-				 lastanim == Animation::combatStand) &&
+				 lastanim == Animation::combatStand ||
+				 (GAME_IS_CRUSADER && (lastanim == Animation::startRunSmallWeapon ||
+				 lastanim == Animation::combatRunSmallWeapon))) &&
 				(ABS(direction - curdir) + 2) % 16 <= 4) {
 			// don't need to explicitly do a turn animation
 			return false;
@@ -112,32 +113,28 @@ bool AvatarMoverProcess::checkTurn(Direction direction, bool moving) {
 }
 
 void AvatarMoverProcess::turnToDirection(Direction direction) {
-	MainActor *avatar = getMainActor();
+	Actor *avatar = getControlledActor();
 	uint16 turnpid = avatar->turnTowardDir(direction);
 	if (turnpid)
 		waitFor(turnpid);
 }
 
 void AvatarMoverProcess::slowFromRun(Direction direction) {
-	MainActor *avatar = getMainActor();
+	Actor *avatar = getControlledActor();
 	ProcId walkpid = avatar->doAnim(Animation::walk, direction);
-	ProcId standpid = avatar->doAnim(Animation::stand, direction);
-	Process *standproc = Kernel::get_instance()->getProcess(standpid);
-	standproc->waitFor(walkpid);
+	ProcId standpid = avatar->doAnimAfter(Animation::stand, direction, walkpid);
 	waitFor(standpid);
 }
 
 void AvatarMoverProcess::putAwayWeapon(Direction direction) {
-	MainActor *avatar = getMainActor();
+	Actor *avatar = getControlledActor();
 	ProcId anim1 = avatar->doAnim(Animation::unreadyWeapon, direction);
-	ProcId anim2 = avatar->doAnim(Animation::stand, direction);
-	Process *anim2p = Kernel::get_instance()->getProcess(anim2);
-	anim2p->waitFor(anim1);
+	ProcId anim2 = avatar->doAnimAfter(Animation::stand, direction, anim1);
 	waitFor(anim2);
 }
 
 bool AvatarMoverProcess::standUpIfNeeded(Direction direction) {
-	MainActor *avatar = getMainActor();
+	Actor *avatar = getControlledActor();
 	Animation::Sequence lastanim = avatar->getLastAnim();
 	bool stasis = Ultima8Engine::get_instance()->isAvatarInStasis();
 

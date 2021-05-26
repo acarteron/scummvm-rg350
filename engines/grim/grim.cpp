@@ -186,15 +186,13 @@ GrimEngine::GrimEngine(OSystem *syst, uint32 gameFlags, GrimGameType gameType, C
 	SearchMan.addSubDirectoryMatching(gameDataDir, "credits");
 	SearchMan.addSubDirectoryMatching(gameDataDir, "widescreen");
 
-	Debug::registerDebugChannels();
-
 
 	//Remastered:
 	if (getGameFlags() & ADGF_REMASTERED) {
-		for (int i = 0; i < kNumCutscenes; i++) {
+		for (uint32 i = 0; i < kNumCutscenes; i++) {
 			_cutsceneEnabled[i] = false;
 		}
-		for (int i = 0; i < kNumConcepts; i++) {
+		for (uint32 i = 0; i < kNumConcepts; i++) {
 			_conceptEnabled[i] = false;
 		}
 

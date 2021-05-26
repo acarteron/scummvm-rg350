@@ -21,17 +21,13 @@
  */
 
 #include "graphics/cursorman.h"
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/kernel/mouse.h"
-#include "ultima/ultima8/ultima8.h"
-#include "ultima/ultima8/filesys/file_system.h"
+#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/games/game_data.h"
 #include "ultima/ultima8/graphics/render_surface.h"
 #include "ultima/ultima8/gumps/gump.h"
 #include "ultima/ultima8/kernel/kernel.h"
-#include "ultima/ultima8/misc/direction.h"
 #include "ultima/ultima8/misc/direction_util.h"
-#include "ultima/ultima8/misc/rect.h"
 #include "ultima/ultima8/world/get_object.h"
 #include "ultima/ultima8/world/actors/main_actor.h"
 
@@ -207,8 +203,11 @@ int Mouse::getMouseFrame() {
 
 	switch (cursor) {
 	case MOUSE_NORMAL: {
+		if (GAME_IS_CRUSADER)
+			return -1;
+
 		bool combat = false;
-		MainActor *av = getMainActor();
+		const MainActor *av = getMainActor();
 		if (av) {
 			combat = av->isInCombat();
 		}
@@ -521,7 +520,7 @@ void Mouse::handleDelayedEvents() {
 				Gump *parent = gump->GetParent();
 				if (parent)
 					parent->ScreenSpaceToGump(mx, my);
-				
+
 				gump->onMouseClick(button, mx, my);
 			}
 

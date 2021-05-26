@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef TWINE_MOVEMENTS_H
-#define TWINE_MOVEMENTS_H
+#ifndef TWINE_SCENE_MOVEMENTS_H
+#define TWINE_SCENE_MOVEMENTS_H
 
 #include "common/scummsys.h"
 #include "twine/scene/actor.h"
@@ -60,11 +60,11 @@ private:
 	};
 
 	// enter, space, ...
-	int16 heroActionKey = 0;
-	int32 previousLoopActionKey = 0;
+	int16 _heroActionKey = 0;
+	int32 _previousLoopActionKey = 0;
 	// cursor keys
-	ChangedCursorKeys changedCursorKeys;
-	ChangedCursorKeys previousChangedCursorKeys;
+	ChangedCursorKeys _changedCursorKeys;
+	ChangedCursorKeys _previousChangedCursorKeys;
 
 	/**
 	 * The Actor is controlled by the player. This works well only for the Hero Actor in general.
@@ -109,18 +109,10 @@ private:
 	 */
 	bool processBehaviourExecution(int actorIdx);
 	bool processAttackExecution(int actorIdx);
-	void processMovementExecution(int actorIdx);
-	void processRotationExecution(int actorIdx);
+	void processManualMovementExecution(int actorIdx);
+	void processManualRotationExecution(int actorIdx);
 
 	bool heroAction = false;
-
-	/**
-	 * @brief This is a bitmask of 4 bits that is changed whenever a cursor key has changed. A set bit
-	 * does not mean that the cursor is pressed - but that a change has happened in this particular frame
-	 *
-	 * @note This value is reset with every single call to @c readKeys()
-	 */
-	uint8 cursorKeyMask = 0;
 
 public:
 	Movements(TwinEEngine *engine);
@@ -132,32 +124,23 @@ public:
 	 */
 	bool shouldTriggerZoneAction() const;
 
-	/** Hero moved */
-	bool heroMoved = false; // twinsenMove
+	bool heroMoved = false;
 
-	/** Process actor.x coordinate */
-	int16 processActorX = 0;
-	/** Process actor.y coordinate */
-	int16 processActorY = 0;
-	/** Process actor.z coordinate */
-	int16 processActorZ = 0;
+	/** Process actor coordinate */
+	IVec3 processActor;
 
-	/** Previous process actor.x coordinate */
-	int16 previousActorX = 0; // processActorVar2
-	/** Previous process actor.y coordinate */
-	int16 previousActorY = 0; // processActorVar3
-	/** Previous process actor.z coordinate */
-	int16 previousActorZ = 0; // processActorVar4
+	/** Previous process actor coordinate */
+	IVec3 previousActor;
 
-	int32 targetActorDistance = 0; // DoTrackVar1
+	int32 targetActorDistance = 0;
 
 	/**
 	 * Get shadow position
-	 * @param X Shadow X coordinate
-	 * @param Y Shadow Y coordinate
-	 * @param Z Shadow Z coordinate
+	 * @param x Shadow X coordinate
+	 * @param y Shadow Y coordinate
+	 * @param z Shadow Z coordinate
 	 */
-	void getShadowPosition(int32 X, int32 Y, int32 Z);
+	void getShadowPosition(int32 x, int32 y, int32 z);
 
 	/**
 	 * Set actor safe angle
@@ -192,6 +175,10 @@ public:
 	 */
 	int32 getAngleAndSetTargetActorDistance(int32 x1, int32 z1, int32 x2, int32 z2);
 
+	inline int32 getAngleAndSetTargetActorDistance(const IVec3& v1, const IVec3 &v2) {
+		return getAngleAndSetTargetActorDistance(v1.x, v1.z, v2.x, v2.z);
+	}
+
 	/**
 	 * Rotate actor with a given angle
 	 * @param x Actor current X coordinate
@@ -207,7 +194,8 @@ public:
 	 * @param x2 Actor 2 X coordinate
 	 * @param z2 Actor 2 Z coordinate
 	 */
-	int32 getDistance2D(int32 x1, int32 z1, int32 x2, int32 z2);
+	int32 getDistance2D(int32 x1, int32 z1, int32 x2, int32 z2) const;
+	int32 getDistance2D(const IVec3 &v1, const IVec3 &v2) const;
 
 	/**
 	 * Get distance value in 3D
@@ -218,7 +206,8 @@ public:
 	 * @param y2 Actor 2 Y coordinate
 	 * @param z2 Actor 2 Z coordinate
 	 */
-	int32 getDistance3D(int32 x1, int32 y1, int32 z1, int32 x2, int32 y2, int32 z2);
+	int32 getDistance3D(int32 x1, int32 y1, int32 z1, int32 x2, int32 y2, int32 z2) const;
+	int32 getDistance3D(const IVec3 &v1, const IVec3 &v2) const;
 
 	/**
 	 * Move actor around the scene
@@ -227,7 +216,7 @@ public:
 	 * @param speed Rotate speed
 	 * @param movePtr Pointer to process movements
 	 */
-	void moveActor(int32 angleFrom, int32 angleTo, int32 speed, ActorMoveStruct *movePtr);
+	void moveActor(int32 angleFrom, int32 angleTo, int32 speed, ActorMoveStruct *movePtr) const;
 
 	void processActorMovements(int32 actorIdx);
 };

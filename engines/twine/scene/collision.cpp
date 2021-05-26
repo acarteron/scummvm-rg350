@@ -40,71 +40,58 @@ namespace TwinE {
 Collision::Collision(TwinEEngine *engine) : _engine(engine) {
 }
 
-bool Collision::standingOnActor(int32 actorIdx1, int32 actorIdx2) {
+bool Collision::standingOnActor(int32 actorIdx1, int32 actorIdx2) const {
 	const ActorStruct *actor1 = _engine->_scene->getActor(actorIdx1);
 	const ActorStruct *actor2 = _engine->_scene->getActor(actorIdx2);
 
-	// Current actor (actor 1)
-	const int32 x1Left = _engine->_movements->processActorX + actor1->boudingBox.x.bottomLeft;
-	const int32 x1Right = _engine->_movements->processActorX + actor1->boudingBox.x.topRight;
+	const IVec3 &processActor = _engine->_movements->processActor;
+	const IVec3 &mins1 = processActor + actor1->boudingBox.mins;
+	const IVec3 &maxs1 = processActor + actor1->boudingBox.maxs;
 
-	const int32 y1Left = _engine->_movements->processActorY + actor1->boudingBox.y.bottomLeft;
-	const int32 y1Right = _engine->_movements->processActorY + actor1->boudingBox.y.topRight;
+	const IVec3 &mins2 = actor2->pos + actor2->boudingBox.mins;
+	const IVec3 &maxs2 = actor2->pos + actor2->boudingBox.maxs;
 
-	const int32 z1Left = _engine->_movements->processActorZ + actor1->boudingBox.z.bottomLeft;
-	const int32 z1Right = _engine->_movements->processActorZ + actor1->boudingBox.z.topRight;
-
-	// Actor 2
-	const int32 x2Left = actor2->x + actor2->boudingBox.x.bottomLeft;
-	const int32 x2Right = actor2->x + actor2->boudingBox.x.topRight;
-
-	const int32 y2Left = actor2->y + actor2->boudingBox.y.bottomLeft;
-	const int32 y2Right = actor2->y + actor2->boudingBox.y.topRight;
-
-	const int32 z2Left = actor2->z + actor2->boudingBox.z.bottomLeft;
-	const int32 z2Right = actor2->z + actor2->boudingBox.z.topRight;
-
-	if (x1Left >= x2Right) {
-		return false; // not standing
-	}
-
-	if (x1Right <= x2Left) {
+	if (mins1.x >= maxs2.x) {
 		return false;
 	}
 
-	if (y1Left > (y2Right + 1)) {
+	if (maxs1.x <= mins2.x) {
 		return false;
 	}
 
-	if (y1Left <= (y2Right - 0x100)) {
+	if (mins1.y > (maxs2.y + 1)) {
 		return false;
 	}
 
-	if (y1Right <= y2Left) {
+	if (mins1.y <= (maxs2.y - BRICK_HEIGHT)) {
 		return false;
 	}
 
-	if (z1Left >= z2Right) {
+	if (maxs1.y <= mins2.y) {
 		return false;
 	}
 
-	if (z1Right <= z2Left) {
+	if (mins1.z >= maxs2.z) {
 		return false;
 	}
 
-	return true; // standing
+	if (maxs1.z <= mins2.z) {
+		return false;
+	}
+
+	return true;
 }
 
-int32 Collision::getAverageValue(int32 var0, int32 var1, int32 var2, int32 var3) {
-	if (var3 <= 0) {
-		return var0;
+int32 Collision::getAverageValue(int32 start, int32 end, int32 maxDelay, int32 delay) const {
+	if (delay <= 0) {
+		return start;
 	}
 
-	if (var3 >= var2) {
-		return var1;
+	if (delay >= maxDelay) {
+		return end;
 	}
 
-	return (((var1 - var0) * var3) / var2) + var0;
+	return (((end - start) * delay) / maxDelay) + start;
 }
 
 void Collision::reajustActorPosition(ShapeType brickShape) {
@@ -112,64 +99,66 @@ void Collision::reajustActorPosition(ShapeType brickShape) {
 		return;
 	}
 
-	const int32 brkX = (collisionX * BRICK_SIZE) - BRICK_HEIGHT;
-	const int32 brkY = collisionY * BRICK_HEIGHT;
-	const int32 brkZ = (collisionZ * BRICK_SIZE) - BRICK_HEIGHT;
+	const int32 brkX = (collision.x * BRICK_SIZE) - BRICK_HEIGHT;
+	const int32 brkY = collision.y * BRICK_HEIGHT;
+	const int32 brkZ = (collision.z * BRICK_SIZE) - BRICK_HEIGHT;
+
+	IVec3 &processActor = _engine->_movements->processActor;
 
 	// double-side stairs
 	if (brickShape >= ShapeType::kDoubleSideStairsTop1 && brickShape <= ShapeType::kDoubleSideStairsRight2) {
 		switch (brickShape) {
 		case ShapeType::kDoubleSideStairsTop1:
-			if (_engine->_movements->processActorZ - collisionZ <= _engine->_movements->processActorX - collisionX) {
+			if (processActor.z - collision.z <= processActor.x - collision.x) {
 				brickShape = ShapeType::kStairsTopLeft;
 			} else {
 				brickShape = ShapeType::kStairsTopRight;
 			}
 			break;
 		case ShapeType::kDoubleSideStairsBottom1:
-			if (_engine->_movements->processActorZ - collisionZ <= _engine->_movements->processActorX - collisionX) {
+			if (processActor.z - collision.z <= processActor.x - collision.x) {
 				brickShape = ShapeType::kStairsBottomLeft;
 			} else {
 				brickShape = ShapeType::kStairsBottomRight;
 			}
 			break;
 		case ShapeType::kDoubleSideStairsLeft1:
-			if (512 - _engine->_movements->processActorX - collisionX <= _engine->_movements->processActorZ - collisionZ) {
+			if (512 - processActor.x - collision.x <= processActor.z - collision.z) {
 				brickShape = ShapeType::kStairsTopLeft;
 			} else {
 				brickShape = ShapeType::kStairsBottomLeft;
 			}
 			break;
 		case ShapeType::kDoubleSideStairsRight1:
-			if (512 - _engine->_movements->processActorX - collisionX <= _engine->_movements->processActorZ - collisionZ) {
+			if (512 - processActor.x - collision.x <= processActor.z - collision.z) {
 				brickShape = ShapeType::kStairsTopRight;
 			} else {
 				brickShape = ShapeType::kStairsBottomRight;
 			}
 			break;
 		case ShapeType::kDoubleSideStairsTop2:
-			if (_engine->_movements->processActorX - collisionX >= _engine->_movements->processActorZ - collisionZ) {
+			if (processActor.x - collision.x >= processActor.z - collision.z) {
 				brickShape = ShapeType::kStairsTopRight;
 			} else {
 				brickShape = ShapeType::kStairsTopLeft;
 			}
 			break;
 		case ShapeType::kDoubleSideStairsBottom2:
-			if (_engine->_movements->processActorZ - collisionZ <= _engine->_movements->processActorX - collisionX) {
+			if (processActor.z - collision.z <= processActor.x - collision.x) {
 				brickShape = ShapeType::kStairsBottomRight;
 			} else {
 				brickShape = ShapeType::kStairsBottomLeft;
 			}
 			break;
 		case ShapeType::kDoubleSideStairsLeft2:
-			if (512 - _engine->_movements->processActorX - collisionX <= _engine->_movements->processActorZ - collisionZ) {
+			if (512 - processActor.x - collision.x <= processActor.z - collision.z) {
 				brickShape = ShapeType::kStairsBottomLeft;
 			} else {
 				brickShape = ShapeType::kStairsTopLeft;
 			}
 			break;
 		case ShapeType::kDoubleSideStairsRight2:
-			if (512 - _engine->_movements->processActorX - collisionX <= _engine->_movements->processActorZ - collisionZ) {
+			if (512 - processActor.x - collision.x <= processActor.z - collision.z) {
 				brickShape = ShapeType::kStairsBottomRight;
 			} else {
 				brickShape = ShapeType::kStairsTopRight;
@@ -186,16 +175,16 @@ void Collision::reajustActorPosition(ShapeType brickShape) {
 	if (brickShape >= ShapeType::kStairsTopLeft && brickShape <= ShapeType::kStairsBottomRight) {
 		switch (brickShape) {
 		case ShapeType::kStairsTopLeft:
-			_engine->_movements->processActorY = brkY + getAverageValue(0, BRICK_HEIGHT, BRICK_SIZE, _engine->_movements->processActorX - brkX);
+			processActor.y = brkY + getAverageValue(0, BRICK_HEIGHT, BRICK_SIZE, processActor.x - brkX);
 			break;
 		case ShapeType::kStairsTopRight:
-			_engine->_movements->processActorY = brkY + getAverageValue(0, BRICK_HEIGHT, BRICK_SIZE, _engine->_movements->processActorZ - brkZ);
+			processActor.y = brkY + getAverageValue(0, BRICK_HEIGHT, BRICK_SIZE, processActor.z - brkZ);
 			break;
 		case ShapeType::kStairsBottomLeft:
-			_engine->_movements->processActorY = brkY + getAverageValue(BRICK_HEIGHT, 0, BRICK_SIZE, _engine->_movements->processActorZ - brkZ);
+			processActor.y = brkY + getAverageValue(BRICK_HEIGHT, 0, BRICK_SIZE, processActor.z - brkZ);
 			break;
 		case ShapeType::kStairsBottomRight:
-			_engine->_movements->processActorY = brkY + getAverageValue(BRICK_HEIGHT, 0, BRICK_SIZE, _engine->_movements->processActorX - brkX);
+			processActor.y = brkY + getAverageValue(BRICK_HEIGHT, 0, BRICK_SIZE, processActor.x - brkX);
 			break;
 		default:
 			break;
@@ -206,14 +195,9 @@ void Collision::reajustActorPosition(ShapeType brickShape) {
 int32 Collision::checkCollisionWithActors(int32 actorIdx) {
 	ActorStruct *actor = _engine->_scene->getActor(actorIdx);
 
-	int32 xLeft = _engine->_movements->processActorX + actor->boudingBox.x.bottomLeft;
-	int32 xRight = _engine->_movements->processActorX + actor->boudingBox.x.topRight;
-
-	int32 yLeft = _engine->_movements->processActorY + actor->boudingBox.y.bottomLeft;
-	int32 yRight = _engine->_movements->processActorY + actor->boudingBox.y.topRight;
-
-	int32 zLeft = _engine->_movements->processActorZ + actor->boudingBox.z.bottomLeft;
-	int32 zRight = _engine->_movements->processActorZ + actor->boudingBox.z.topRight;
+	IVec3 &processActor = _engine->_movements->processActor;
+	IVec3 mins = processActor + actor->boudingBox.mins;
+	IVec3 maxs = processActor + actor->boudingBox.maxs;
 
 	actor->collision = -1;
 
@@ -222,70 +206,62 @@ int32 Collision::checkCollisionWithActors(int32 actorIdx) {
 
 		// aviod current processed actor
 		if (a != actorIdx && actorTest->entity != -1 && !actor->staticFlags.bComputeLowCollision && actorTest->standOn != actorIdx) {
-			const int32 xLeftTest = actorTest->x + actorTest->boudingBox.x.bottomLeft;
-			const int32 xRightTest = actorTest->x + actorTest->boudingBox.x.topRight;
+			const IVec3 &minsTest = actorTest->pos + actorTest->boudingBox.mins;
+			const IVec3 &maxsTest = actorTest->pos + actorTest->boudingBox.maxs;
 
-			const int32 yLeftTest = actorTest->y + actorTest->boudingBox.y.bottomLeft;
-			const int32 yRightTest = actorTest->y + actorTest->boudingBox.y.topRight;
-
-			const int32 zLeftTest = actorTest->z + actorTest->boudingBox.z.bottomLeft;
-			const int32 zRightTest = actorTest->z + actorTest->boudingBox.z.topRight;
-
-			if (xLeft < xRightTest && xRight > xLeftTest && yLeft < yRightTest && yRight > yLeftTest && zLeft < zRightTest && zRight > zLeftTest) {
+			if (mins.x < maxsTest.x && maxs.x > minsTest.x && mins.y < maxsTest.y && maxs.y > minsTest.y && mins.z < maxsTest.z && maxs.z > minsTest.z) {
 				actor->collision = a; // mark as collision with actor a
 
 				if (actorTest->staticFlags.bIsCarrierActor) {
 					if (actor->dynamicFlags.bIsFalling) {
-						_engine->_movements->processActorY = yRightTest - actor->boudingBox.y.bottomLeft + 1;
+						processActor.y = maxsTest.y - actor->boudingBox.mins.y + 1;
 						actor->standOn = a;
 					} else {
 						if (standingOnActor(actorIdx, a)) {
-							_engine->_movements->processActorY = yRightTest - actor->boudingBox.y.bottomLeft + 1;
+							processActor.y = maxsTest.y - actor->boudingBox.mins.y + 1;
 							actor->standOn = a;
 						} else {
-							int32 newAngle = _engine->_movements->getAngleAndSetTargetActorDistance(_engine->_movements->processActorX, _engine->_movements->processActorZ, actorTest->x, actorTest->z);
+							const int32 newAngle = _engine->_movements->getAngleAndSetTargetActorDistance(processActor, actorTest->pos);
 
 							if (actorTest->staticFlags.bCanBePushed && !actor->staticFlags.bCanBePushed) {
-								actorTest->lastY = 0;
+								actorTest->lastPos.y = 0;
 
 								if (actorTest->staticFlags.bUseMiniZv) {
 									if (newAngle >= ANGLE_45 && newAngle < ANGLE_135 && actor->angle > ANGLE_45 && actor->angle < ANGLE_135) {
-										actorTest->lastX = 192;
+										actorTest->lastPos.x = 192;
 									}
 									if (newAngle >= ANGLE_135 && newAngle < ANGLE_225 && actor->angle > ANGLE_135 && actor->angle < ANGLE_225) {
-										actorTest->lastZ = -64;
+										actorTest->lastPos.z = -64;
 									}
 									if (newAngle >= ANGLE_225 && newAngle < ANGLE_315 && actor->angle > ANGLE_225 && actor->angle < ANGLE_315) {
-										actorTest->lastX = -64;
+										actorTest->lastPos.x = -64;
 									}
 									if ((newAngle >= ANGLE_315 || newAngle < ANGLE_45) && (actor->angle > ANGLE_315 || actor->angle < ANGLE_45)) {
-										actorTest->lastX = 192;
+										actorTest->lastPos.x = 192;
 									}
 								} else {
-									actorTest->lastX = _engine->_movements->processActorX - actor->collisionX;
-									actorTest->lastZ = _engine->_movements->processActorZ - actor->collisionZ;
+									actorTest->lastPos.x = processActor.x - actor->collisionPos.x;
+									actorTest->lastPos.z = processActor.z - actor->collisionPos.z;
 								}
 							}
 
-							if ((actorTest->boudingBox.x.topRight - actorTest->boudingBox.x.bottomLeft == actorTest->boudingBox.z.topRight - actorTest->boudingBox.z.bottomLeft) &&
-							    (actor->boudingBox.x.topRight - actor->boudingBox.x.bottomLeft == actor->boudingBox.z.topRight - actor->boudingBox.z.bottomLeft)) {
+							if ((actorTest->boudingBox.maxs.x - actorTest->boudingBox.mins.x == actorTest->boudingBox.maxs.z - actorTest->boudingBox.mins.z) &&
+								(actor->boudingBox.maxs.x - actor->boudingBox.mins.x == actor->boudingBox.maxs.z - actor->boudingBox.mins.z)) {
 								if (newAngle < ANGLE_135) {
-									_engine->_movements->processActorX = xLeftTest - actor->boudingBox.x.topRight;
+									processActor.x = minsTest.x - actor->boudingBox.maxs.x;
 								}
 								if (newAngle >= ANGLE_135 && newAngle < ANGLE_225) {
-									_engine->_movements->processActorZ = zRightTest - actor->boudingBox.z.bottomLeft;
+									processActor.z = maxsTest.z - actor->boudingBox.mins.z;
 								}
 								if (newAngle >= ANGLE_225 && newAngle < ANGLE_315) {
-									_engine->_movements->processActorX = xRightTest - actor->boudingBox.x.bottomLeft;
+									processActor.x = maxsTest.x - actor->boudingBox.mins.x;
 								}
 								if (newAngle >= ANGLE_315 || (newAngle < ANGLE_315 && newAngle < ANGLE_45)) {
-									_engine->_movements->processActorZ = zLeftTest - actor->boudingBox.z.topRight;
+									processActor.z = minsTest.z - actor->boudingBox.maxs.z;
 								}
 							} else {
 								if (!actor->dynamicFlags.bIsFalling) {
-									_engine->_movements->processActorX = _engine->_movements->previousActorX;
-									_engine->_movements->processActorY = _engine->_movements->previousActorY;
-									_engine->_movements->processActorZ = _engine->_movements->previousActorZ;
+									processActor = _engine->_movements->previousActor;
 								}
 							}
 						}
@@ -295,49 +271,47 @@ int32 Collision::checkCollisionWithActors(int32 actorIdx) {
 						_engine->_actor->hitActor(actorIdx, a, 1, -1);
 					}
 
-					int32 newAngle = _engine->_movements->getAngleAndSetTargetActorDistance(_engine->_movements->processActorX, _engine->_movements->processActorZ, actorTest->x, actorTest->z);
+					int32 newAngle = _engine->_movements->getAngleAndSetTargetActorDistance(processActor, actorTest->pos);
 
 					if (actorTest->staticFlags.bCanBePushed && !actor->staticFlags.bCanBePushed) {
-						actorTest->lastY = 0;
+						actorTest->lastPos.y = 0;
 
 						if (actorTest->staticFlags.bUseMiniZv) {
 							if (newAngle >= ANGLE_45 && newAngle < ANGLE_135 && actor->angle > ANGLE_45 && actor->angle < ANGLE_135) {
-								actorTest->lastX = 192;
+								actorTest->lastPos.x = 192;
 							}
 							if (newAngle >= ANGLE_135 && newAngle < ANGLE_225 && actor->angle > ANGLE_135 && actor->angle < ANGLE_225) {
-								actorTest->lastZ = -64;
+								actorTest->lastPos.z = -64;
 							}
 							if (newAngle >= ANGLE_225 && newAngle < ANGLE_315 && actor->angle > ANGLE_225 && actor->angle < ANGLE_315) {
-								actorTest->lastX = -64;
+								actorTest->lastPos.x = -64;
 							}
 							if ((newAngle >= ANGLE_315 || newAngle < ANGLE_45) && (actor->angle > ANGLE_315 || actor->angle < ANGLE_45)) {
-								actorTest->lastX = 192;
+								actorTest->lastPos.x = 192;
 							}
 						} else {
-							actorTest->lastX = _engine->_movements->processActorX - actor->collisionX;
-							actorTest->lastZ = _engine->_movements->processActorZ - actor->collisionZ;
+							actorTest->lastPos.x = processActor.x - actor->collisionPos.x;
+							actorTest->lastPos.z = processActor.z - actor->collisionPos.z;
 						}
 					}
 
-					if ((actorTest->boudingBox.x.topRight - actorTest->boudingBox.x.bottomLeft == actorTest->boudingBox.z.topRight - actorTest->boudingBox.z.bottomLeft) &&
-					    (actor->boudingBox.x.topRight - actor->boudingBox.x.bottomLeft == actor->boudingBox.z.topRight - actor->boudingBox.z.bottomLeft)) {
+					if ((actorTest->boudingBox.maxs.x - actorTest->boudingBox.mins.x == actorTest->boudingBox.maxs.z - actorTest->boudingBox.mins.z) &&
+						(actor->boudingBox.maxs.x - actor->boudingBox.mins.x == actor->boudingBox.maxs.z - actor->boudingBox.mins.z)) {
 						if (newAngle < ANGLE_135) {
-							_engine->_movements->processActorX = xLeftTest - actor->boudingBox.x.topRight;
+							processActor.x = minsTest.x - actor->boudingBox.maxs.x;
 						}
 						if (newAngle >= ANGLE_135 && newAngle < ANGLE_225) {
-							_engine->_movements->processActorZ = zRightTest - actor->boudingBox.z.bottomLeft;
+							processActor.z = maxsTest.z - actor->boudingBox.mins.z;
 						}
 						if (newAngle >= ANGLE_225 && newAngle < ANGLE_315) {
-							_engine->_movements->processActorX = xRightTest - actor->boudingBox.x.bottomLeft;
+							processActor.x = maxsTest.x - actor->boudingBox.mins.x;
 						}
 						if (newAngle >= ANGLE_315 || (newAngle < ANGLE_315 && newAngle < ANGLE_45)) {
-							_engine->_movements->processActorZ = zLeftTest - actor->boudingBox.z.topRight;
+							processActor.z = minsTest.z - actor->boudingBox.maxs.z;
 						}
 					} else {
 						if (!actor->dynamicFlags.bIsFalling) {
-							_engine->_movements->processActorX = _engine->_movements->previousActorX;
-							_engine->_movements->processActorY = _engine->_movements->previousActorY;
-							_engine->_movements->processActorZ = _engine->_movements->previousActorZ;
+							processActor = _engine->_movements->previousActor;
 						}
 					}
 				}
@@ -348,31 +322,23 @@ int32 Collision::checkCollisionWithActors(int32 actorIdx) {
 	if (actor->dynamicFlags.bIsHitting) {
 		_engine->_movements->rotateActor(0, 200, actor->angle);
 
-		xLeft = _engine->_renderer->destX + _engine->_movements->processActorX + actor->boudingBox.x.bottomLeft;
-		xRight = _engine->_renderer->destX + _engine->_movements->processActorX + actor->boudingBox.x.topRight;
+		mins.x = _engine->_renderer->destPos.x + processActor.x + actor->boudingBox.mins.x;
+		mins.y = processActor.y + actor->boudingBox.mins.y;
+		mins.z = _engine->_renderer->destPos.z + processActor.z + actor->boudingBox.mins.z;
 
-		yLeft = _engine->_movements->processActorY + actor->boudingBox.y.bottomLeft;
-		yRight = _engine->_movements->processActorY + actor->boudingBox.y.topRight;
-
-		zLeft = _engine->_renderer->destZ + _engine->_movements->processActorZ + actor->boudingBox.z.bottomLeft;
-		zRight = _engine->_renderer->destZ + _engine->_movements->processActorZ + actor->boudingBox.z.topRight;
+		maxs.x = _engine->_renderer->destPos.x + processActor.x + actor->boudingBox.maxs.x;
+		maxs.y = processActor.y + actor->boudingBox.maxs.y;
+		maxs.z = _engine->_renderer->destPos.z + processActor.z + actor->boudingBox.maxs.z;
 
 		for (int32 a = 0; a < _engine->_scene->sceneNumActors; a++) {
 			const ActorStruct *actorTest = _engine->_scene->getActor(a);
 
 			// aviod current processed actor
 			if (a != actorIdx && actorTest->entity != -1 && !actorTest->staticFlags.bIsHidden && actorTest->standOn != actorIdx) {
-				const int32 xLeftTest = actorTest->x + actorTest->boudingBox.x.bottomLeft;
-				const int32 xRightTest = actorTest->x + actorTest->boudingBox.x.topRight;
-
-				const int32 yLeftTest = actorTest->y + actorTest->boudingBox.y.bottomLeft;
-				const int32 yRightTest = actorTest->y + actorTest->boudingBox.y.topRight;
-
-				const int32 zLeftTest = actorTest->z + actorTest->boudingBox.z.bottomLeft;
-				const int32 zRightTest = actorTest->z + actorTest->boudingBox.z.topRight;
-
-				if (xLeft < xRightTest && xRight > xLeftTest && yLeft < yRightTest && yRight > yLeftTest && zLeft < zRightTest && zRight > zLeftTest) {
-					_engine->_actor->hitActor(actorIdx, a, actor->strengthOfHit, actor->angle + ANGLE_90);
+				const IVec3 minsTest = actorTest->pos + actorTest->boudingBox.mins;
+				const IVec3 maxsTest = actorTest->pos + actorTest->boudingBox.maxs;
+				if (mins.x < maxsTest.x && maxs.x > minsTest.x && mins.y < maxsTest.y && maxs.y > minsTest.y && mins.z < maxsTest.z && maxs.z > minsTest.z) {
+					_engine->_actor->hitActor(actorIdx, a, actor->strengthOfHit, actor->angle + ANGLE_180);
 					actor->dynamicFlags.bIsHitting = 0;
 				}
 			}
@@ -383,86 +349,92 @@ int32 Collision::checkCollisionWithActors(int32 actorIdx) {
 }
 
 void Collision::checkHeroCollisionWithBricks(int32 x, int32 y, int32 z, int32 damageMask) {
-	ShapeType brickShape = _engine->_grid->getBrickShape(_engine->_movements->processActorX, _engine->_movements->processActorY, _engine->_movements->processActorZ);
+	IVec3 &processActor = _engine->_movements->processActor;
+	IVec3 &previousActor = _engine->_movements->previousActor;
+	ShapeType brickShape = _engine->_grid->getBrickShape(processActor);
 
-	_engine->_movements->processActorX += x;
-	_engine->_movements->processActorY += y;
-	_engine->_movements->processActorZ += z;
+	processActor.x += x;
+	processActor.y += y;
+	processActor.z += z;
 
-	if (_engine->_movements->processActorX >= 0 && _engine->_movements->processActorZ >= 0 && _engine->_movements->processActorX <= 0x7E00 && _engine->_movements->processActorZ <= 0x7E00) {
+	if (processActor.x >= 0 && processActor.z >= 0 && processActor.x <= 0x7E00 && processActor.z <= 0x7E00) {
+		const BoundingBox &bbox = _engine->_actor->processActorPtr->boudingBox;
 		reajustActorPosition(brickShape);
-		brickShape = _engine->_grid->getBrickShapeFull(_engine->_movements->processActorX, _engine->_movements->processActorY, _engine->_movements->processActorZ, _engine->_actor->processActorPtr->boudingBox.y.topRight);
+		brickShape = _engine->_grid->getBrickShapeFull(processActor, bbox.maxs.y);
 
 		if (brickShape == ShapeType::kSolid) {
 			causeActorDamage |= damageMask;
-			brickShape = _engine->_grid->getBrickShapeFull(_engine->_movements->processActorX, _engine->_movements->processActorY, _engine->_movements->previousActorZ + z, _engine->_actor->processActorPtr->boudingBox.y.topRight);
+			brickShape = _engine->_grid->getBrickShapeFull(processActor.x, processActor.y, previousActor.z + z, bbox.maxs.y);
 
 			if (brickShape == ShapeType::kSolid) {
-				brickShape = _engine->_grid->getBrickShapeFull(x + _engine->_movements->previousActorX, _engine->_movements->processActorY, _engine->_movements->processActorZ, _engine->_actor->processActorPtr->boudingBox.y.topRight);
+				brickShape = _engine->_grid->getBrickShapeFull(x + previousActor.x, processActor.y, processActor.z, bbox.maxs.y);
 
 				if (brickShape != ShapeType::kSolid) {
-					processCollisionX = _engine->_movements->previousActorX;
+					processCollision.x = previousActor.x;
 				}
 			} else {
-				processCollisionZ = _engine->_movements->previousActorZ;
+				processCollision.z = previousActor.z;
 			}
 		}
 	}
 
-	_engine->_movements->processActorX = processCollisionX;
-	_engine->_movements->processActorY = processCollisionY;
-	_engine->_movements->processActorZ = processCollisionZ;
+	processActor = processCollision;
 }
 
 void Collision::checkActorCollisionWithBricks(int32 x, int32 y, int32 z, int32 damageMask) {
-	ShapeType brickShape = _engine->_grid->getBrickShape(_engine->_movements->processActorX, _engine->_movements->processActorY, _engine->_movements->processActorZ);
+	IVec3 &processActor = _engine->_movements->processActor;
+	IVec3 &previousActor = _engine->_movements->previousActor;
+	ShapeType brickShape = _engine->_grid->getBrickShape(processActor);
 
-	_engine->_movements->processActorX += x;
-	_engine->_movements->processActorY += y;
-	_engine->_movements->processActorZ += z;
+	processActor.x += x;
+	processActor.y += y;
+	processActor.z += z;
 
-	if (_engine->_movements->processActorX >= 0 && _engine->_movements->processActorZ >= 0 && _engine->_movements->processActorX <= 0x7E00 && _engine->_movements->processActorZ <= 0x7E00) {
+	if (processActor.x >= 0 && processActor.z >= 0 && processActor.x <= 0x7E00 && processActor.z <= 0x7E00) {
 		reajustActorPosition(brickShape);
-		brickShape = _engine->_grid->getBrickShape(_engine->_movements->processActorX, _engine->_movements->processActorY, _engine->_movements->processActorZ);
+		brickShape = _engine->_grid->getBrickShape(processActor);
 
 		if (brickShape == ShapeType::kSolid) {
 			causeActorDamage |= damageMask;
-			brickShape = _engine->_grid->getBrickShape(_engine->_movements->processActorX, _engine->_movements->processActorY, _engine->_movements->previousActorZ + z);
+			brickShape = _engine->_grid->getBrickShape(processActor.x, processActor.y, previousActor.z + z);
 
 			if (brickShape == ShapeType::kSolid) {
-				brickShape = _engine->_grid->getBrickShape(x + _engine->_movements->previousActorX, _engine->_movements->processActorY, _engine->_movements->processActorZ);
+				brickShape = _engine->_grid->getBrickShape(x + previousActor.x, processActor.y, processActor.z);
 
 				if (brickShape != ShapeType::kSolid) {
-					processCollisionX = _engine->_movements->previousActorX;
+					processCollision.x = previousActor.x;
 				}
 			} else {
-				processCollisionZ = _engine->_movements->previousActorZ;
+				processCollision.z = previousActor.z;
 			}
 		}
 	}
 
-	_engine->_movements->processActorX = processCollisionX;
-	_engine->_movements->processActorY = processCollisionY;
-	_engine->_movements->processActorZ = processCollisionZ;
+	processActor = processCollision;
 }
 
 void Collision::stopFalling() { // ReceptionObj()
 	if (IS_HERO(_engine->_animations->currentlyProcessedActorIdx)) {
-		const int32 fall = _engine->_scene->heroYBeforeFall - _engine->_movements->processActorY;
+		const IVec3 &processActor = _engine->_movements->processActor;
+		const int32 fall = _engine->_scene->heroYBeforeFall - processActor.y;
 
 		if (fall >= BRICK_HEIGHT * 8) {
-			_engine->_extra->addExtraSpecial(_engine->_actor->processActorPtr->x, _engine->_actor->processActorPtr->y + 1000, _engine->_actor->processActorPtr->z, ExtraSpecialType::kHitStars);
-			_engine->_actor->processActorPtr->life--;
-			_engine->_animations->initAnim(AnimationTypes::kLandingHit, 2, AnimationTypes::kStanding, _engine->_animations->currentlyProcessedActorIdx);
+			_engine->_extra->addExtraSpecial(_engine->_actor->processActorPtr->pos.x, _engine->_actor->processActorPtr->pos.y + 1000, _engine->_actor->processActorPtr->pos.z, ExtraSpecialType::kHitStars);
+			if (fall >= BRICK_HEIGHT * 16) {
+				_engine->_actor->processActorPtr->setLife(0);
+			} else {
+				_engine->_actor->processActorPtr->addLife(-1);
+			}
+			_engine->_animations->initAnim(AnimationTypes::kLandingHit, AnimType::kAnimationType_2, AnimationTypes::kStanding, _engine->_animations->currentlyProcessedActorIdx);
 		} else if (fall > 10) {
-			_engine->_animations->initAnim(AnimationTypes::kLanding, 2, AnimationTypes::kStanding, _engine->_animations->currentlyProcessedActorIdx);
+			_engine->_animations->initAnim(AnimationTypes::kLanding, AnimType::kAnimationType_2, AnimationTypes::kStanding, _engine->_animations->currentlyProcessedActorIdx);
 		} else {
-			_engine->_animations->initAnim(AnimationTypes::kStanding, 0, AnimationTypes::kStanding, _engine->_animations->currentlyProcessedActorIdx);
+			_engine->_animations->initAnim(AnimationTypes::kStanding, AnimType::kAnimationTypeLoop, AnimationTypes::kStanding, _engine->_animations->currentlyProcessedActorIdx);
 		}
 
 		_engine->_scene->heroYBeforeFall = 0;
 	} else {
-		_engine->_animations->initAnim(AnimationTypes::kLanding, 2, _engine->_actor->processActorPtr->animExtra, _engine->_animations->currentlyProcessedActorIdx);
+		_engine->_animations->initAnim(AnimationTypes::kLanding, AnimType::kAnimationType_2, _engine->_actor->processActorPtr->animExtra, _engine->_animations->currentlyProcessedActorIdx);
 	}
 
 	_engine->_actor->processActorPtr->dynamicFlags.bIsFalling = 0;
@@ -470,25 +442,17 @@ void Collision::stopFalling() { // ReceptionObj()
 
 int32 Collision::checkExtraCollisionWithActors(ExtraListStruct *extra, int32 actorIdx) {
 	const BoundingBox *bbox = _engine->_resources->spriteBoundingBox.bbox(extra->info0);
-	const int32 xLeft = bbox->mins.x + extra->x;
-	const int32 xRight = bbox->maxs.x + extra->x;
-	const int32 yLeft = bbox->mins.y + extra->y;
-	const int32 yRight = bbox->maxs.y + extra->y;
-	const int32 zLeft = bbox->mins.z + extra->z;
-	const int32 zRight = bbox->maxs.z + extra->z;
+	const IVec3 mins = bbox->mins + extra->pos;
+	const IVec3 maxs = bbox->maxs + extra->pos;
 
 	for (int32 a = 0; a < _engine->_scene->sceneNumActors; a++) {
 		const ActorStruct *actorTest = _engine->_scene->getActor(a);
 
 		if (a != actorIdx && actorTest->entity != -1) {
-			const int32 xLeftTest = actorTest->x + actorTest->boudingBox.x.bottomLeft;
-			const int32 xRightTest = actorTest->x + actorTest->boudingBox.x.topRight;
-			const int32 yLeftTest = actorTest->y + actorTest->boudingBox.y.bottomLeft;
-			const int32 yRightTest = actorTest->y + actorTest->boudingBox.y.topRight;
-			const int32 zLeftTest = actorTest->z + actorTest->boudingBox.z.bottomLeft;
-			const int32 zRightTest = actorTest->z + actorTest->boudingBox.z.topRight;
+			const IVec3 minsTest = actorTest->pos + actorTest->boudingBox.mins;
+			const IVec3 maxsTest = actorTest->pos + actorTest->boudingBox.maxs;
 
-			if (xLeft < xRightTest && xRight > xLeftTest && yLeft < yRightTest && yRight > yLeftTest && zLeft < zRightTest && zRight > zLeftTest) {
+			if (mins.x < maxsTest.x && maxs.x > minsTest.x && mins.y < maxsTest.y && maxs.y > minsTest.y && mins.z < maxsTest.z && maxs.z > minsTest.z) {
 				if (extra->strengthOfHit != 0) {
 					_engine->_actor->hitActor(actorIdx, a, extra->strengthOfHit, -1);
 				}
@@ -528,29 +492,22 @@ bool Collision::checkExtraCollisionWithBricks(int32 x, int32 y, int32 z, int32 o
 int32 Collision::checkExtraCollisionWithExtra(ExtraListStruct *extra, int32 extraIdx) const {
 	int32 index = extra->info0;
 	const BoundingBox *bbox = _engine->_resources->spriteBoundingBox.bbox(index);
-	const int32 xLeft = bbox->mins.x + extra->x;
-	const int32 xRight = bbox->maxs.x + extra->x;
-	const int32 yLeft = bbox->mins.y + extra->y;
-	const int32 yRight = bbox->maxs.y + extra->y;
-	const int32 zLeft = bbox->mins.z + extra->z;
-	const int32 zRight = bbox->maxs.z + extra->z;
+	const IVec3 mins = bbox->mins + extra->pos;
+	const IVec3 maxs = bbox->maxs + extra->pos;
 
 	for (int32 i = 0; i < EXTRA_MAX_ENTRIES; i++) {
 		const ExtraListStruct *extraTest = &_engine->_extra->extraList[i];
 		if (i != extraIdx && extraTest->info0 != -1) {
 			// TODO: shouldn't this be extraTest->info0 as index?
 			const BoundingBox *testbbox = _engine->_resources->spriteBoundingBox.bbox(++index);
-			const int32 xLeftTest = testbbox->mins.x + extraTest->x;
-			const int32 xRightTest = testbbox->maxs.x + extraTest->x;
-			const int32 yLeftTest = testbbox->mins.y + extraTest->y;
-			const int32 yRightTest = testbbox->maxs.y + extraTest->y;
-			const int32 zLeftTest = testbbox->mins.z + extraTest->z;
-			const int32 zRightTest = testbbox->maxs.z + extraTest->z;
+			const IVec3 minsTest = testbbox->mins + extraTest->pos;
+			const IVec3 maxsTest = testbbox->maxs + extraTest->pos;
 
-			if (xLeft < xLeftTest) {
-				if (xLeft < xRightTest && xRight > xLeftTest && yLeft < yRightTest && yRight > yLeftTest && zLeft < zRightTest && zRight > zLeftTest) {
-					return i;
-				}
+			if (mins.x >= minsTest.x) {
+				continue;
+			}
+			if (mins.x < maxsTest.x && maxs.x > minsTest.x && mins.y < maxsTest.y && maxs.y > minsTest.y && mins.z < maxsTest.z && maxs.z > minsTest.z) {
+				return i;
 			}
 		}
 	}

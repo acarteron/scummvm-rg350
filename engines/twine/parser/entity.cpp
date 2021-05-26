@@ -34,12 +34,12 @@ bool EntityData::loadBody(Common::SeekableReadStream &stream) {
 	body.actorBoundingBox.hasBoundingBox = stream.readByte();
 	if (body.actorBoundingBox.hasBoundingBox) {
 		if (stream.readByte() == ActionType::ACTION_ZV) {
-			body.actorBoundingBox.bottomLeftX = stream.readUint16LE();
-			body.actorBoundingBox.bottomLeftY = stream.readUint16LE();
-			body.actorBoundingBox.bottomLeftZ = stream.readUint16LE();
-			body.actorBoundingBox.topRightX = stream.readUint16LE();
-			body.actorBoundingBox.topRightY = stream.readUint16LE();
-			body.actorBoundingBox.topRightZ = stream.readUint16LE();
+			body.actorBoundingBox.bbox.mins.x = stream.readSint16LE();
+			body.actorBoundingBox.bbox.mins.y = stream.readSint16LE();
+			body.actorBoundingBox.bbox.mins.z = stream.readSint16LE();
+			body.actorBoundingBox.bbox.maxs.x = stream.readSint16LE();
+			body.actorBoundingBox.bbox.maxs.y = stream.readSint16LE();
+			body.actorBoundingBox.bbox.maxs.z = stream.readSint16LE();
 		}
 	}
 	_bodies.push_back(body);
@@ -135,6 +135,15 @@ bool EntityData::loadAnim(Common::SeekableReadStream &stream) {
 			action.finalAngle = ToAngle(stream.readSint16LE());
 			action.strength = stream.readByte();
 			break;
+		case ACTION_UNKNOWN_21:
+			action.animFrame = stream.readByte();
+			action.distanceX = stream.readSint16LE();
+			action.distanceY = stream.readSint16LE();
+			action.distanceZ = stream.readSint16LE();
+			action.xAngle = stream.readSint16LE();
+			action.yAngle = stream.readSint16LE();
+			action.finalAngle = stream.readByte();
+			break;
 		case ActionType::ACTION_ZV:
 		default:
 			break;
@@ -147,6 +156,8 @@ bool EntityData::loadAnim(Common::SeekableReadStream &stream) {
 }
 
 bool EntityData::loadFromStream(Common::SeekableReadStream &stream) {
+	_animations.clear();
+	_bodies.clear();
 	do {
 		const uint8 opcode = stream.readByte();
 		if (opcode == 1) {

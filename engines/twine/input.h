@@ -90,6 +90,8 @@ enum TwinEActionType {
 	HolomapRight,
 	HolomapUp,
 	HolomapDown,
+	HolomapNext,
+	HolomapPrev,
 
 	Max
 };
@@ -148,6 +150,7 @@ public:
 	bool isQuickBehaviourActionActive() const;
 	bool isMoveOrTurnActionActive() const;
 	bool isHeroActionActive() const;
+	bool resetHeroActions();
 
 	/**
 	 * Gets mouse positions

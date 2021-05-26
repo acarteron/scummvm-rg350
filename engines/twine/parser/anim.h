@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef TWINE_ANIM_H
-#define TWINE_ANIM_H
+#ifndef TWINE_PARSER_ANIM_H
+#define TWINE_PARSER_ANIM_H
 
 #include "common/array.h"
 #include "common/stream.h"
@@ -31,6 +31,11 @@
 namespace TwinE {
 
 struct BoneFrame {
+	/**
+	 * 0 = allow global rotate
+	 * 1 = disallow global rotate
+	 * 2 = disallow global rotate and hide
+	 */
 	uint16 type = 0;
 	int16 x = 0;
 	int16 y = 0;
@@ -61,9 +66,14 @@ public:
 
 	const KeyFrame* getKeyframe(uint index) const;
 	const Common::Array<KeyFrame>& getKeyframes() const;
+	uint getNumKeyframes() const;
 	uint16 getLoopFrame() const;
 	uint16 getNumBoneframes() const;
 };
+
+inline uint AnimData::getNumKeyframes() const {
+	return getKeyframes().size();
+}
 
 } // End of namespace TwinE
 

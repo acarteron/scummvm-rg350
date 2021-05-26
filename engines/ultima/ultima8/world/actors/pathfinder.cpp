@@ -20,16 +20,15 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
-#include "ultima/ultima8/misc/direction.h"
+#include "common/system.h"
 #include "ultima/ultima8/misc/direction_util.h"
-#include "ultima/ultima8/world/actors/pathfinder.h"
 #include "ultima/ultima8/world/actors/actor.h"
 #include "ultima/ultima8/world/actors/animation_tracker.h"
+
+#ifdef DEBUG
 #include "ultima/ultima8/graphics/render_surface.h"
 #include "ultima/ultima8/gumps/game_map_gump.h"
-#include "ultima/ultima8/ultima8.h"
-#include "common/system.h"
+#endif
 
 namespace Ultima {
 namespace Ultima8 {
@@ -61,7 +60,7 @@ void PathfindingState::load(const Actor *_actor) {
 }
 
 bool PathfindingState::checkPoint(int32 x, int32 y, int32 z,
-                                  int sqr_range) const {
+								  int sqr_range) const {
 	int distance = (_x - x) * (_x - x) + (_y - y) * (_y - y) + (_z - z) * (_z - z);
 	return distance < sqr_range;
 }
@@ -92,7 +91,7 @@ bool PathfindingState::checkItem(const Item *item, int xyRange, int zRange) cons
 	return (range <= xyRange);
 }
 
-bool PathfindingState::checkHit(const Actor *_actor, const Actor *target) const {
+bool PathfindingState::checkHit(const Actor *_actor, const Item *target) const {
 	assert(target);
 #if 0
 	pout << "Trying hit in _direction " << _actor->getDirToItemCentre(*target) << Std::endl;
@@ -203,8 +202,7 @@ bool Pathfinder::checkTarget(const PathNode *node) const {
 	// but otherwise it won't work properly yet -wjp
 	if (_targetItem) {
 		if (_hitMode) {
-			return node->state.checkHit(_actor,
-			                            dynamic_cast<Actor *>(_targetItem));
+			return node->state.checkHit(_actor, _targetItem);
 		} else {
 			return node->state.checkItem(_targetItem, 32, 8);
 		}
@@ -224,7 +222,7 @@ unsigned int Pathfinder::costHeuristic(PathNode *node) const {
 	sqrddist += (_targetY - node->state._y + _actorYd / 2) *
 	            (_targetY - node->state._y + _actorYd / 2);
 
-	unsigned int dist = static_cast<unsigned int>(Std::sqrt(sqrddist));
+	unsigned int dist = static_cast<unsigned int>(sqrt(sqrddist));
 #else
 	// This calculates the distance to the target using only lines in
 	// the 8 available directions (instead of the straight line above)
@@ -364,7 +362,7 @@ static void drawpath(PathNode *to, uint32 rgb, bool done) {
 #endif
 
 void Pathfinder::newNode(PathNode *oldnode, PathfindingState &state,
-                         unsigned int steps) {
+						 unsigned int steps) {
 	PathNode *newnode = new PathNode();
 	newnode->state = state;
 	newnode->parent = oldnode;
@@ -381,7 +379,7 @@ void Pathfinder::newNode(PathNode *oldnode, PathfindingState &state,
 	             (newnode->state._z - oldnode->state._z));
 
 	unsigned int dist;
-	dist = static_cast<unsigned int>(Std::sqrt(sqrddist));
+	dist = static_cast<unsigned int>(sqrt(sqrddist));
 
 	int turn = 0;
 

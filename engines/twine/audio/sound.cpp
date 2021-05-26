@@ -25,8 +25,10 @@
 #include "audio/decoders/voc.h"
 #include "common/memstream.h"
 #include "common/system.h"
+#include "common/text-to-speech.h"
 #include "common/types.h"
 #include "common/util.h"
+#include "twine/parser/text.h"
 #include "twine/scene/collision.h"
 #include "twine/flamovies.h"
 #include "twine/scene/grid.h"
@@ -49,9 +51,9 @@ void Sound::setSamplePosition(int32 channelIdx, int32 x, int32 y, int32 z) {
 	if (channelIdx < 0 || channelIdx >= NUM_CHANNELS) {
 		return;
 	}
-	const int32 camX = _engine->_grid->newCameraX * BRICK_SIZE;
-	const int32 camY = _engine->_grid->newCameraY * BRICK_HEIGHT;
-	const int32 camZ = _engine->_grid->newCameraZ * BRICK_SIZE;
+	const int32 camX = _engine->_grid->newCamera.x * BRICK_SIZE;
+	const int32 camY = _engine->_grid->newCamera.y * BRICK_HEIGHT;
+	const int32 camZ = _engine->_grid->newCamera.z * BRICK_SIZE;
 	int32 distance = _engine->_movements->getDistance3D(camX, camY, camZ, x, y, z);
 	distance = _engine->_collision->getAverageValue(0, distance, 10000, 255);
 	const byte targetVolume = CLIP<byte>(255 - distance, 0, 255);
@@ -108,22 +110,31 @@ void Sound::playSample(int32 index, int32 repeat, int32 x, int32 y, int32 z, int
 	playSample(channelIdx, index, sampPtr, sampSize, repeat, Resources::HQR_SAMPLES_FILE, Audio::Mixer::kSFXSoundType, DisposeAfterUse::NO);
 }
 
-void Sound::playVoxSample(int32 index) {
-	if (!_engine->cfgfile.Sound) {
-		return;
+bool Sound::playVoxSample(const TextEntry *text) {
+	if (!_engine->cfgfile.Sound || text == nullptr) {
+		return false;
+	}
+
+	uint8 *sampPtr = nullptr;
+	int32 sampSize = HQR::getAllocVoxEntry(&sampPtr, _engine->_text->currentVoxBankFile.c_str(), text->index, _engine->_text->voxHiddenIndex);
+	if (sampSize == 0) {
+		if (ConfMan.hasKey("tts_narrator") && ConfMan.getBool("tts_narrator")) {
+			Common::TextToSpeechManager *ttsMan = g_system->getTextToSpeechManager();
+			if (ttsMan != nullptr) {
+				ttsMan->stop();
+				return ttsMan->say(text->string);
+			}
+		} else {
+			debug(4, "TTS disabled");
+		}
+		warning("Failed to get vox sample for index: %i", text->index);
+		return false;
 	}
 
 	int channelIdx = getFreeSampleChannelIndex();
 	if (channelIdx == -1) {
-		warning("Failed to play vox sample for index: %i - no free channel", index);
-		return;
-	}
-
-	uint8 *sampPtr = nullptr;
-	int32 sampSize = HQR::getAllocVoxEntry(&sampPtr, _engine->_text->currentVoxBankFile.c_str(), index, _engine->_text->voxHiddenIndex);
-	if (sampSize == 0) {
-		warning("Failed to get vox sample for index: %i", index);
-		return;
+		warning("Failed to play vox sample for index: %i - no free channel", text->index);
+		return false;
 	}
 
 	// Fix incorrect sample files first byte
@@ -133,7 +144,7 @@ void Sound::playVoxSample(int32 index) {
 		*sampPtr = 'C';
 	}
 
-	playSample(channelIdx, index, sampPtr, sampSize, 1, _engine->_text->currentVoxBankFile.c_str(), Audio::Mixer::kSpeechSoundType);
+	return playSample(channelIdx, text->index, sampPtr, sampSize, 1, _engine->_text->currentVoxBankFile.c_str(), Audio::Mixer::kSpeechSoundType);
 }
 
 bool Sound::playSample(int channelIdx, int index, uint8 *sampPtr, int32 sampSize, int32 loop, const char *name, Audio::Mixer::SoundType soundType, DisposeAfterUse::Flag disposeFlag) {

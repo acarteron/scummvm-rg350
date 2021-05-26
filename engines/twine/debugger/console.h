@@ -34,25 +34,45 @@ class TwinEConsole : public GUI::Debugger {
 private:
 	TwinEEngine *_engine;
 
+	bool doToggleSceneryView(int argc, const char **argv);
+	bool doPlayVideo(int argc, const char **argv);
 	bool doPrintGameFlag(int argc, const char **argv);
+	bool doPrintInventoryFlag(int argc, const char **argv);
+	bool doPrintHolomapFlag(int argc, const char **argv);
 	bool doSetHeroPosition(int argc, const char **argv);
+	bool doGiveItem(int argc, const char **argv);
+	bool doSetLife(int argc, const char **argv);
 	bool doGiveAllItems(int argc, const char **argv);
 	bool doChangeScene(int argc, const char **argv);
 	bool doListMenuText(int argc, const char **argv);
 	bool doToggleDebug(int argc, const char **argv);
+	bool doToggleAutoAggressive(int argc, const char **argv);
 	bool doGiveKey(int argc, const char **argv);
+	bool doGiveGas(int argc, const char **argv);
+	bool doGiveKashes(int argc, const char **argv);
 	bool doToggleZoneRendering(int argc, const char **argv);
 	bool doToggleClipRendering(int argc, const char **argv);
+	bool doToggleActorRendering(int argc, const char **argv);
+	bool doToggleTrackRendering(int argc, const char **argv);
+	bool doToggleScenePatches(int argc, const char **argv);
 	bool doToggleFreeCamera(int argc, const char **argv);
 	bool doToggleSceneChanges(int argc, const char **argv);
 	bool doSkipSceneActorsBut(int argc, const char **argv);
 	bool doSetGameFlag(int argc, const char **argv);
 	bool doSetInventoryFlag(int argc, const char **argv);
+	bool doSetHolomapFlag(int argc, const char **argv);
 	bool doAddMagicPoints(int argc, const char **argv);
+	bool doDumpFile(int argc, const char **argv);
+	bool doSetHolomapTrajectory(int argc, const char **argv);
+
 public:
 	TwinEConsole(TwinEEngine *engine);
 	~TwinEConsole() override;
 
+	bool exec(const char *file) {
+		const char *argv[] = {"", file};
+		return cmdExecFile(2, argv);
+	}
 };
 
 } // End of namespace TwinE

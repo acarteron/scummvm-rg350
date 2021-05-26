@@ -20,12 +20,9 @@
  *
  */
 
-#include "ultima/ultima8/misc/pent_include.h"
 #include "ultima/ultima8/gumps/cru_pickup_area_gump.h"
 #include "ultima/ultima8/gumps/cru_pickup_gump.h"
 
-#include "ultima/ultima8/kernel/kernel.h"
-#include "ultima/ultima8/world/get_object.h"
 #include "ultima/ultima8/world/item.h"
 
 namespace Ultima {
@@ -53,32 +50,34 @@ void CruPickupAreaGump::InitGump(Gump *newparent, bool take_focus) {
 	_instance = this;
 }
 
-void CruPickupAreaGump::addPickup(const Item *item) {
+void CruPickupAreaGump::addPickup(const Item *item, bool showCount) {
 	if (!item)
 		return;
 
 	uint32 shapeno = item->getShape();
 
+	// Find the location to draw the gump for the new item,
+	// or an existing gump to recycle if we have one already
+	// for that shape
+	int32 maxy = PICKUP_GUMP_GAP;
 	Std::list<Gump *>::iterator it;
-
 	for (it = _children.begin(); it != _children.end(); it++) {
 		CruPickupGump *pug = dynamic_cast<CruPickupGump *>(*it);
 		if (!pug)
-			return;
+			continue;
 		if (pug->getShapeNo() == shapeno) {
 			// Already a notification for this object, update it
-			pug->updateForNewItem(item);
-			break;
+			pug->updateForNewItem(item, showCount);
+			return;
 		}
+		int32 x, y;
+		pug->getLocation(x, y);
+		maxy = MAX(maxy, y + PICKUP_GUMP_GAP + PICKUP_GUMP_HEIGHT);
 	}
-	if (it == _children.end()) {
-		int32 yoff = PICKUP_GUMP_GAP;
-		if (_children.size() > 0)
-			yoff += PICKUP_GUMP_HEIGHT;
 
-		Gump *newgump = new CruPickupGump(item, yoff);
-		newgump->InitGump(this, false);
-	}
+	// didn't find one, create a new one at the bottom.
+	Gump *newgump = new CruPickupGump(item, maxy, showCount);
+	newgump->InitGump(this, false);
 }
 
 void CruPickupAreaGump::saveData(Common::WriteStream *ws) {

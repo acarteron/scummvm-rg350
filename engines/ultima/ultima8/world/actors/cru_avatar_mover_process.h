@@ -23,9 +23,8 @@
 #ifndef WORLD_ACTORS_CRUAVATARMOVERPROCESS_H
 #define WORLD_ACTORS_CRUAVATARMOVERPROCESS_H
 
-#include "ultima/ultima8/kernel/process.h"
-#include "ultima/ultima8/world/actors/animation.h"
 #include "ultima/ultima8/world/actors/avatar_mover_process.h"
+#include "ultima/ultima8/world/actors/animation.h"
 
 namespace Ultima {
 namespace Ultima8 {
@@ -40,7 +39,6 @@ public:
 	CruAvatarMoverProcess();
 	~CruAvatarMoverProcess() override;
 
-	// p_dynamic_cast stuff
 	ENABLE_RUNTIME_CLASSTYPE()
 
 	void run() override;
@@ -48,13 +46,13 @@ public:
 	bool loadData(Common::ReadStream *rs, uint32 version);
 	void saveData(Common::WriteStream *ws) override;
 
-	void tryAttack() override;
-
 	double getAvatarAngleDegrees() const {
 		return static_cast<double>(_avatarAngle) / 100.0;
 	}
 
 private:
+	/** Try readying or firing weapon. */
+	void tryAttack();
 
 	/**
 	* Angle of avatar in centidegrees (1/100deg).  The original game runs the keyboard
@@ -64,10 +62,19 @@ private:
 	*/
 	int32 _avatarAngle;
 
+	/**
+	 * Whether we've reloaded the SGA1 yet (it needs to happen every shot)
+	 */
+	bool _SGA1Loaded;
+
+	/**
+	 * Next tick the avatar can fire a weapon again.
+	 */
+	uint32 _nextFireTick;
+
 	void handleHangingMode() override;
 	void handleCombatMode() override;
 	void handleNormalMode() override;
-	bool canAttack() override;
 
 	void step(Animation::Sequence action, Direction direction, bool adjusted = false);
 

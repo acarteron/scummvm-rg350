@@ -37,7 +37,7 @@ namespace TwinE {
 
 void Debug::debugFillButton(int32 x, int32 y, int32 width, int32 height, int8 color) {
 	uint8 *ptr = (uint8 *)_engine->frontVideoBuffer.getBasePtr(x, y);
-	const int32 offset = SCREEN_WIDTH - width;
+	const int32 offset = _engine->width() - width;
 
 	for (int32 i = 0; i < height; i++) {
 		for (int32 j = 0; j < width; j++) {
@@ -47,10 +47,10 @@ void Debug::debugFillButton(int32 x, int32 y, int32 width, int32 height, int8 co
 	}
 }
 
-void Debug::debugDrawButton(const Common::Rect &rect, const char *text, int32 textLeft, int32 textRight, int32 isActive, int8 color) {
+void Debug::debugDrawButton(const Common::Rect &rect, const char *text, int32 textLeft, int32 textTop, int32 isActive, int8 color) {
 	debugFillButton(rect.left + 1, rect.top + 1, rect.right - rect.left - 1, rect.bottom - rect.top - 1, color);
 	_engine->_menu->drawBox(rect);
-	_engine->drawText(textLeft, textRight, text, 0);
+	_engine->drawText(textLeft, textTop, text, 0);
 	_engine->copyBlockPhys(rect);
 }
 
@@ -406,8 +406,8 @@ void Debug::debugPlasmaWindow(const char *text, int32 color) {
 		_engine->_menu->plasmaEffectPtr[_engine->getRandomNumber() % PLASMA_WIDTH * 10 + 6400] = 255;
 	}
 	const int32 textSize = _engine->_text->getTextSize(text);
-	_engine->_text->drawText((SCREEN_WIDTH / 2) - (textSize / 2), 10, text);
-	const Common::Rect rect(5, 5, 634, 50);
+	_engine->_text->drawText((_engine->width() / 2) - (textSize / 2), 10, text);
+	const Common::Rect rect(5, 5, _engine->width() - 5, 50);
 	_engine->_menu->drawBox(rect);
 	_engine->copyBlockPhys(rect);
 }
@@ -420,6 +420,7 @@ void Debug::debugProcessWindow() {
 	int32 colorIdx = 4;
 	int32 count = 0;
 
+	ScopedCursor cursor(_engine);
 	_engine->_screens->copyScreen(_engine->frontVideoBuffer, _engine->workVideoBuffer);
 
 	debugResetButtonsState();
@@ -429,6 +430,7 @@ void Debug::debugProcessWindow() {
 	debugDrawWindows();
 
 	for (;;) {
+		FrameMarker frame;
 		ScopedFPS scopedFps(25);
 		_engine->readKeys();
 		if (_engine->shouldQuit()) {

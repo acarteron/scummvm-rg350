@@ -46,7 +46,7 @@ enum {
 
 struct Track {
 	int trackId;		     // used to identify track by value (0-15)
-						     
+
 	int8 pan;			     // panning value of sound
 	int32 vol;			     // volume level (values 0-127 * 1000)
 	int32 volFadeDest;	     // volume level which fading target (values 0-127 * 1000)
@@ -92,10 +92,10 @@ struct Track {
 		volFadeDelay = 0;
 		volFadeUsed = false;
 		gainReduction = 0;
-		gainRedFadeDest = 127 * 290; // About 4 dB of gain reduction
+		gainRedFadeDest = 0;
 		gainRedFadeUsed = false;
 		alreadyCrossfading = false;
-		loopShiftType = 0; 
+		loopShiftType = 0;
 		soundId = 0;
 		memset(soundName, 0, sizeof(soundName));
 		used = false;
