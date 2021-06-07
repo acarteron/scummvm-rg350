@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ScummVM 1.6.0git\n"
 "Report-Msgid-Bugs-To: scummvm-devel@lists.scummvm.org\n"
-"POT-Creation-Date: 2021-06-05 05:25+0000\n"
-"PO-Revision-Date: 2021-06-01 19:36+0000\n"
-"Last-Translator: jepael <kermespersialainen@gmail.com>\n"
+"POT-Creation-Date: 2021-06-05 13:17+0000\n"
+"PO-Revision-Date: 2021-06-06 22:25+0000\n"
+"Last-Translator: Timo Mikkolainen <tmikkola@gmail.com>\n"
 "Language-Team: Finnish <https://translations.scummvm.org/projects/scummvm/"
 "scummvm/fi/>\n"
 "Language: fi_FI\n"
@@ -2747,16 +2747,20 @@ msgid "Pixel-perfect scaling"
 msgstr "Pikselintarkka skaalaus"
 
 #: backends/graphics/opengl/opengl-graphics.cpp:244
+msgid "Even pixels scaling"
+msgstr "Tasapikseliskaalaus"
+
+#: backends/graphics/opengl/opengl-graphics.cpp:245
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:73
 msgid "Fit to window"
 msgstr "Sovita ikkunaan"
 
-#: backends/graphics/opengl/opengl-graphics.cpp:245
+#: backends/graphics/opengl/opengl-graphics.cpp:246
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:74
 msgid "Stretch to window"
 msgstr "Venytä ikkunaan"
 
-#: backends/graphics/opengl/opengl-graphics.cpp:246
+#: backends/graphics/opengl/opengl-graphics.cpp:247
 #: backends/graphics/surfacesdl/surfacesdl-graphics.cpp:75
 msgid "Fit to window (4:3)"
 msgstr "Sovita ikkunaan (4:3)"

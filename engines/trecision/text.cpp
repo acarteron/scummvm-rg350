@@ -384,7 +384,7 @@ void TextManager::addText(Common::Point pos, const char *text, uint16 textCol, u
 	t._textCol = textCol;
 	t._shadowCol = shadowCol;
 	t._clear = false;
-	strcpy(t._text, text);
+	t._text = text;
 
 	_textStack.push_back(t);
 }
@@ -401,27 +401,27 @@ void TextManager::clearLastText() {
 	}
 }
 
-void TextManager::drawText(StackText text) {
-	_curString._rect.left = text._x;
-	_curString._rect.top = text._y;
-	_curString._rect.setWidth(_vm->textLength(text._text));
+void TextManager::drawText(StackText *text) {
+	_curString._rect.left = text->_x;
+	_curString._rect.top = text->_y;
+	_curString._rect.setWidth(_vm->textLength(text->_text));
 	int16 w = _curString._rect.width();
 
-	if (text._y == MAXY - CARHEI && w > 600)
+	if (text->_y == MAXY - CARHEI && w > 600)
 		w = w * 3 / 5;
-	else if (text._y != MAXY - CARHEI && w > 960)
+	else if (text->_y != MAXY - CARHEI && w > 960)
 		w = w * 2 / 5;
-	else if (text._y != MAXY - CARHEI && w > 320)
+	else if (text->_y != MAXY - CARHEI && w > 320)
 		w = w * 3 / 5;
 
 	_curString._rect.setWidth(w);
 
-	_curString._text = text._text;
+	_curString._text = text->_text;
 	uint16 height = _curString.calcHeight(_vm);
 	_curString._subtitleRect = Common::Rect(_curString._rect.width(), height);
 	_curString._rect.setHeight(height);
-	_curString._textCol = text._textCol;
-	_curString._shadowCol = text._shadowCol;
+	_curString._textCol = text->_textCol;
+	_curString._shadowCol = text->_shadowCol;
 
 	if (_curString._rect.top <= height)
 		_curString._rect.top += height;
@@ -436,7 +436,7 @@ void TextManager::drawText(StackText text) {
 
 void TextManager::clearText() {
 	if (_oldString._text.empty() && !_curString._text.empty()) {
-		_oldString.set(_curString);
+		_oldString.set(&_curString);
 		_curString._text.clear();
 
 		_vm->_textStatus |= TEXT_DEL;
@@ -448,7 +448,7 @@ void TextManager::drawTexts() {
 		if (i->_clear)
 			clearText();
 		else
-			drawText(*i);
+			drawText(&*i);
 	}
 }
 

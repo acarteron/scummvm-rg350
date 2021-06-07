@@ -37,7 +37,7 @@ struct StackText {
 	uint16 _x;
 	uint16 _y;
 	uint16 _textCol, _shadowCol;
-	char _text[256];
+	Common::String _text;
 	bool _clear;
 };
 
@@ -81,7 +81,7 @@ public:
 
 	void addText(Common::Point pos, const char *text, uint16 textCol, uint16 shadowCol);
 	void clearLastText();
-	void drawText(StackText text);
+	void drawText(StackText *text);
 	void clearText();
 	void drawTexts();
 	void redrawString();
